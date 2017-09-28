@@ -13,15 +13,56 @@ public abstract class IDBase {
     /**
      * @param id
      *  Die ID ist eine engültige (final) Identifikationsnummer für jedes Objekt.
+     * @since 1.0
      */
     protected final String id;
+    
+    static int idCounter = 1;
 
+    /**
+     * Leerer Konstrukter erzeugt eine ID aus Basis des idCounter und erhöht 
+     * idCounter um eins
+     * 
+     * @param temp  Hilfsvariable um int -> String zu konvertieren.
+     * 
+     * @since 1.0
+     */
+    public IDBase () {
+        Integer temp = getIdCounter();
+        this.id = temp.toString();
+        idCounter++;
+    }
+     /**
+     * Konstrukter mit vorhander ID, erhöht anschließend idCounter um eins
+     * 
+     * @since 1.0
+     * 
+     */
     public IDBase(String id) {
         this.id = id;
+        idCounter++;
     }
 
+    /**
+     * Method gibt die ID des Objektes als String zurück
+     * 
+     * @return String   ID des Objektes
+     * 
+     * @since 1.0
+     */
     public String getId() {
         return id;
+    }
+    
+    /**
+     * STATISCHE-Method gibt den IdCounter zurück
+     * 
+     * @return int   IdCounter der Struktur
+     * 
+     * @since 1.0
+     */
+    public static int getIdCounter() {
+        return idCounter;
     }
     
 }

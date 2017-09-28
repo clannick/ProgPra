@@ -26,12 +26,12 @@ public final class PNMLWriter {
      * dazu der Pfad der zu erstellenden PNML Datei angegeben 
      * werden.
      * 
-     * @param args
-     *      Die Konsolen Parameter, mit denen das Programm aufgerufen wird.
+     * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
+     *      
      */
-    public PNMLWriter(final String[] args) {
-        if (args.length > 0) {
-            File pnmlDatei = new File(args[0]);
+    public PNMLWriter(final String fileName, final ArrayListSearchID ausgabeListe) {
+        if (fileName != null) {
+            File pnmlDatei = new File(fileName);
             PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);
             pnmlWriter.startXMLDocument();
 

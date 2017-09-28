@@ -10,8 +10,11 @@ package de.BenediktKurth.model;
  */
 public class Transition extends GeruestLabel{
     
-
-    Transition(String id){
+    public Transition(){
+        super();
+    }
+    
+    public Transition(String id){
         super(id, "", "", "");
     }
     

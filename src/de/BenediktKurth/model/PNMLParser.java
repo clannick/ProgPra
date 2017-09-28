@@ -24,7 +24,7 @@ import javax.xml.stream.events.XMLEvent;
  * 
  * @version 1.0
  */
-public class PNMLParser {
+public final class PNMLParser {
 
     /**
      * Dies ist eine Referenz zum Java Datei Objekt.

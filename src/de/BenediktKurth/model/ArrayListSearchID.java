@@ -42,4 +42,32 @@ public class ArrayListSearchID<T extends IDBase> extends ArrayList {
         // Sollte gesuchtes Objekt nicht gefunden werden wird null zurückgegeben.
         return rueckgabeWert;
     }
+    
+    public boolean idExist(String id){
+        T temp = searchID(id);
+        if (temp != null){
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Methode lässt nur ungleiche ID´s der Objekte zu.
+     * Erweiterung zur Superklasse
+     * 
+     * @param eingabeObjekt Enthält die einzufügende Datei
+     * 
+     * @return  true, wenn ID einmalig
+     *          false, wenn ID vorhanden
+     */
+    @Override
+    public boolean add(Object eingabeObjekt){
+       
+        if (!idExist(((T)eingabeObjekt).getId())){
+            super.add(eingabeObjekt);
+            return true;
+        }
+        return false;
+    }
 }

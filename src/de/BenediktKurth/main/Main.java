@@ -3,6 +3,7 @@ package de.BenediktKurth.main;
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
+import de.BenediktKurth.model.Transition;
 /** 
  *
  * @author Benedikt Kurth
@@ -28,9 +29,18 @@ public class Main {
                  while (i < halla.size()){
         System.out.println(halla.get(i).toString());
         i++;
+        
+
         }
-                   
-        //TEst       
+                Transition temp = new Transition();
+        halla.add(temp);
+        int y = halla.size();
+        System.out.println(y);
+        halla.add(temp);
+        int z = halla.size();
+        System.out.println(z);
+        System.out.println(halla.get(z-1).toString());
+        System.out.println(halla.get(z-2).toString());
         }
 
 }

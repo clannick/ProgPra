@@ -1,7 +1,6 @@
 package de.BenediktKurth.model;
 
 /**
- *
  * @author Benedikt Kurth
  * 
  * @since 1.0
@@ -21,14 +20,49 @@ public abstract class GeruestLabel extends IDBase {
      * @param yPosition
      *  yPosition gibt die räumliche Lage des Objektes in der Vertikalen an. Es wird der am weitesten oben liegende Punkt genutzt.
     */ 
-    
+   
+   /**
+    *  Label enthält den angezeigten Bezeichner des Objektes
+    */
    private String label;
+   
+    /**
+    *  xPosition enthält die horizontale Position des Objektes (oberste Seite)
+    */
    private String xPosition;
+   
+    /**
+    *  yPosition enthält die vertikale Position des Objektes (linke Seite)
+    */
    private String yPosition;
    
+   /**
+    * Leerer Konstruktor - Erzeugt ein leeres Objekt mit klarer ID
+    * Einträge ohne Wert werden mit String "null" belegt.
+    * 
+    * @since 1.0
+    */
+   GeruestLabel (){
+       // Ruft Konstruktor von IDBase auf -> klare ID 
+       super();
+       
+       this.label = "null";
+       this.xPosition = "null";
+       this.yPosition = "null";
+   }
    
    /**
     * Konstruktor erwarter vier Strings 
+    * 
+    * @param id     
+    * 
+    * @param label
+    * 
+    * @param xPosition
+    * 
+    * @param yPosition
+    * 
+    * @since 1.0
     */
    GeruestLabel (String id, String label, String xPosition, String yPosition){
        super(id);
