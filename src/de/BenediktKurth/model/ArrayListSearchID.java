@@ -43,11 +43,12 @@ public class ArrayListSearchID<T extends IDBase> extends ArrayList {
         return rueckgabeWert;
     }
     
-    public boolean idExist(String id){
+    public boolean idExist(String id) {
         T temp = searchID(id);
         if (temp != null){
             return true;
         }
+        
         return false;
     }
     

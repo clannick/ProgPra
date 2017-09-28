@@ -2,8 +2,12 @@ package de.BenediktKurth.main;
 
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.IDBase;
+import de.BenediktKurth.model.NoSaveFileException;
 import de.BenediktKurth.model.PNMLParser;
+import de.BenediktKurth.model.PNMLWriter;
 import de.BenediktKurth.model.Transition;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /** 
  *
  * @author Benedikt Kurth
@@ -16,9 +20,9 @@ import de.BenediktKurth.model.Transition;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
                 String[] stringTemp = new String[1];
-                stringTemp[0] = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-01.pnml";
+                stringTemp[0] = "D:\\Desktop\\ProPra\\Beispiele\\Test.pnml";
                //PNMLParser temp = new PNMLParser(stringTemp);
                ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp[0]);
                 
@@ -41,6 +45,12 @@ public class Main {
         System.out.println(z);
         System.out.println(halla.get(z-1).toString());
         System.out.println(halla.get(z-2).toString());
+        
+            try {
+                PNMLWriter.saveFile("D:\\Desktop\\ProPra\\Beispiele\\Test.pnml", halla);
+            } catch (NoSaveFileException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
 }

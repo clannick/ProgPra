@@ -21,36 +21,39 @@ import javax.xml.stream.XMLStreamWriter;
 public final class PNMLWriter {
 
     /**
-     * Mit dieser Main Methode kann der PNMLWriter zum Testen
-     * aufgerufen werden. Als erster und einziger Paramter muss
-     * dazu der Pfad der zu erstellenden PNML Datei angegeben 
-     * werden.
+     * Diese Methode erzeugt eine Datei am angegebenen Pfad
      * 
      * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
+     * 
+     * @param ausgabeListe  
      *      
      */
-    public PNMLWriter(final String fileName, final ArrayListSearchID ausgabeListe) {
+    public static void saveFile(final String fileName, ArrayListSearchID ausgabeListe) throws NoSaveFileException{
         if (fileName != null) {
             File pnmlDatei = new File(fileName);
             PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);
             pnmlWriter.startXMLDocument();
 
-            pnmlWriter
-                    .addTransition("transition1", "Transition A", "200", "200");
-            pnmlWriter
-                    .addTransition("transition2", "Transition B", "200", "400");
-
-            pnmlWriter.addPlace("place1", "Stelle 1", "100", "300", "1");
-            pnmlWriter.addPlace("place2", "Stelle 2", "300", "300", "0");
-
-            pnmlWriter.addArc("arc1", "transition1", "place1");
-            pnmlWriter.addArc("arc2", "place1", "transition2");
-            pnmlWriter.addArc("arc3", "transition2", "place2");
-            pnmlWriter.addArc("arc4", "place2", "transition1");
+            int i = 0;
+            
+            while (i < ausgabeListe.size()-1){
+                if (ausgabeListe.get(i) instanceof Transition){
+                    pnmlWriter.addTransition((Transition)ausgabeListe.get(i));
+                    i++;
+                } 
+                else if (ausgabeListe.get(i) instanceof Stellen){
+                    pnmlWriter.addStellen((Stellen)ausgabeListe.get(i));
+                    i++;
+                }
+                else if (ausgabeListe.get(i) instanceof Arc){
+                    pnmlWriter.addArc((Arc)ausgabeListe.get(i));
+                    i++;
+                }
+            }
 
             pnmlWriter.finishXMLDocument();
         } else {
-            System.out.println("Bitte eine Datei als Parameter angeben!");
+            throw new NoSaveFileException("Bitte eine Datei auswählen");
         }
     }
 
@@ -124,39 +127,32 @@ public final class PNMLWriter {
      * Diese Methode fügt eine neue Transition zum XML Dokument hinzu. Vor dieser Methode muss
      * startXMLDocument() aufgerufen worden sein.
      * 
-     * @param id
-     *      Indentifikationstext der Transition
-     * @param label
-     *      Beschriftung der Transition
-     * @param xPosition
-     *      x Position der Transition
-     * @param yPosition
-     *      y Position der Transition
+     * @param transition
+     * 
      */
-    public void addTransition(final String id, final String label,
-            final String xPosition, final String yPosition) {
+    public void addTransition(Transition transition) {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "transition", "");
-                writer.writeAttribute("id", id);
+                writer.writeAttribute("id", transition.getId());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(label);
+                writer.writeCharacters(transition.getLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "graphics", "");
                 writer.writeStartElement("", "position", "");
-                writer.writeAttribute("x", xPosition);
-                writer.writeAttribute("y", yPosition);
+                writer.writeAttribute("x", transition.getxPosition());
+                writer.writeAttribute("y", transition.getyPosition());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
                 System.err
-                        .println("Transition " + id
+                        .println("Transition " + transition.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
                 e.printStackTrace();
@@ -182,39 +178,37 @@ public final class PNMLWriter {
      * @param initialMarking
      *      Anfangsmarkierung der Stelle
      */
-    public void addPlace(final String id, final String label,
-            final String xPosition, final String yPosition,
-            final String initialMarking) {
+    public void addStellen(Stellen stelle) {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "place", "");
-                writer.writeAttribute("id", id);
+                writer.writeAttribute("id", stelle.getId());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(label);
+                writer.writeCharacters(stelle.getLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "initialMarking", "");
                 writer.writeStartElement("", "token", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(initialMarking);
+                writer.writeCharacters(stelle.getInitialMarking());
                 writer.writeEndElement();
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "graphics", "");
                 writer.writeStartElement("", "position", "");
-                writer.writeAttribute("x", xPosition);
-                writer.writeAttribute("y", yPosition);
+                writer.writeAttribute("x", stelle.getxPosition());
+                writer.writeAttribute("y", stelle.getyPosition());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
                 System.err
-                        .println("Stelle " + id
+                        .println("Stelle " + stelle.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
                 e.printStackTrace();
@@ -236,17 +230,17 @@ public final class PNMLWriter {
      * @param target
      *      Indentifikationstext der Endelements der Kante
      */
-    public void addArc(final String id, final String source, final String target) {
+    public void addArc(Arc arc) {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
-                writer.writeAttribute("id", id);
-                writer.writeAttribute("source", source);
-                writer.writeAttribute("target", target);
+                writer.writeAttribute("id", arc.getId());
+                writer.writeAttribute("source", arc.getSource());
+                writer.writeAttribute("target", arc.getTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
                 System.err
-                        .println("Kante " + id
+                        .println("Kante " + arc.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
                 e.printStackTrace();
