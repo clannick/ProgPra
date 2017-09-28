@@ -11,8 +11,7 @@ package de.BenediktKurth.model;
 public abstract class IDBase {
     
     /**
-     * @param id
-     *  Die ID ist eine engültige (final) Identifikationsnummer für jedes Objekt.
+     * 
      * @since 1.0
      */
     protected final String id;
@@ -22,9 +21,7 @@ public abstract class IDBase {
     /**
      * Leerer Konstrukter erzeugt eine ID aus Basis des idCounter und erhöht 
      * idCounter um eins
-     * 
-     * @param temp  Hilfsvariable um int -> String zu konvertieren.
-     * 
+
      * @since 1.0
      */
     public IDBase () {
@@ -34,6 +31,8 @@ public abstract class IDBase {
     }
      /**
      * Konstrukter mit vorhander ID, erhöht anschließend idCounter um eins
+     * 
+     * @param id
      * 
      * @since 1.0
      * 

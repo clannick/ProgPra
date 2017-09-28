@@ -26,6 +26,8 @@ public final class PNMLWriter {
      * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
      * 
      * @param ausgabeListe  
+     * 
+     * @throws de.BenediktKurth.model.NoSaveFileException  
      *      
      */
     public static void saveFile(final String fileName, ArrayListSearchID ausgabeListe) throws NoSaveFileException{
