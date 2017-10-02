@@ -3,8 +3,11 @@ package de.BenediktKurth.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -87,16 +90,21 @@ public final class PNMLParser {
             XMLInputFactory factory = XMLInputFactory.newInstance();
             try {
                 xmlParser = factory.createXMLEventReader(dateiEingabeStrom);
+                //dateiEingabeStrom.close();
 
             } catch (XMLStreamException e) {
                 System.err
                         .println("XML Verarbeitungsfehler: " + e.getMessage());
                 e.printStackTrace();
+           // } catch (IOException ex) {
+           //     Logger.getLogger(PNMLParser.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (FileNotFoundException e) {
             System.err.println("Die Datei wurde nicht gefunden! "
                     + e.getMessage());
+            
         }
+       
     }
 
     /**

@@ -11,8 +11,17 @@ package de.BenediktKurth.model;
 public class Stellen extends GeruestLabel{
 
     private String initialMarking;
+    private int size;
     
-    Stellen(String id){
+    
+    public Stellen(){
+        super();
+        this.initialMarking = "null";
+        this.size = 50;
+    }
+    
+    
+    public Stellen(String id){
         super(id, "null", "null","null");
         this.initialMarking = "null";
         
@@ -22,10 +31,19 @@ public class Stellen extends GeruestLabel{
         this.initialMarking = initialMarking;
     }
 
-
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
     public String getInitialMarking() {
         return initialMarking;
     }
+
+    public int getSize() {
+        return size;
+    }
+    
+    
     
     @Override
     public String toString(){
