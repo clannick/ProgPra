@@ -306,7 +306,7 @@ public final class PNMLParser {
      *      Identifikationstext der Transition
      */
     private void newTransition(final String id) {
-        System.out.println("Transition mit id " + id + " wurde gefunden.");
+        //System.out.println("Transition mit id " + id + " wurde gefunden.");
         
         
         //Erstellt neue Transition mit der übergebenen ID und ansonsten Null Werten.
@@ -321,7 +321,7 @@ public final class PNMLParser {
      *      Identifikationstext der Stelle
      */
     private void newPlace(final String id) {
-        System.out.println("Stelle mit id " + id + " wurde gefunden.");
+        //System.out.println("Stelle mit id " + id + " wurde gefunden.");
         
         //Erstellt neue Stelle mit der übergebenen ID und ansonsten Null Werten.
         Stellen tempStellen = new Stellen (id);
@@ -339,12 +339,26 @@ public final class PNMLParser {
      *      Identifikationstext des Endelements der Kante     
      */
     private void newArc(final String id, final String source, final String target) {
-        System.out.println("Kante mit id " + id + " von " + source + " nach "
-                + target + " wurde gefunden.");
-
+        //System.out.println("Kante mit id " + id + " von " + source + " nach "
+        //        + target + " wurde gefunden.");
+        
+        Boolean vonSnachT = ((tempListe.searchID(source) instanceof Stellen) &&
+                            (tempListe.searchID(target) instanceof Transition));
+        Boolean vonTnachS = ((tempListe.searchID(source) instanceof Transition) &&
+                            (tempListe.searchID(target) instanceof Stellen));
+        
+        if (vonSnachT || vonTnachS){
         //Erstellt neue Kante (Arc) mit der übergebenen ID, Source und Target Werten.
-        Arc tempArc = new Arc(id,source,target);
-        tempListe.add(tempArc);
+            Arc tempArc = new Arc(id,source,target);
+            tempListe.add(tempArc);
+            
+        }
+        /*
+        else {
+            throw new ArcErrorException("Kante mit id " + id + " von " + source + " nach "
+                + target + " konnte nicht eingefügt werden.");
+        }
+        */
     }
 
     /**
@@ -368,9 +382,9 @@ public final class PNMLParser {
         
         // Wenn das gefunden Objekt eine Instanze von GeruestLabel ist und damit 
         // x und y Positionswerte hat, so setze diese, ansonsten tue nichts
-        if (gesuchtesObjekt instanceof GeruestLabel){
-            GeruestLabel temp;
-            temp = (GeruestLabel)gesuchtesObjekt;
+        if (gesuchtesObjekt instanceof PosNameBase){
+            PosNameBase temp;
+            temp = (PosNameBase)gesuchtesObjekt;
             temp.setPosition(x, y);
      
         }
@@ -395,9 +409,9 @@ public final class PNMLParser {
         
         // Wenn das gefunden Objekt eine Instanze von GeruestLabel ist und damit 
         // einen Label (Namen) hat, so setze diesen, ansonsten tue nichts
-        if (gesuchtesObjekt instanceof GeruestLabel){
-            GeruestLabel temp;
-            temp = (GeruestLabel)gesuchtesObjekt;
+        if (gesuchtesObjekt instanceof PosNameBase){
+            PosNameBase temp;
+            temp = (PosNameBase)gesuchtesObjekt;
             temp.setLabel(name);
             
         }

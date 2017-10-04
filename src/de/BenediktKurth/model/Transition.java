@@ -8,7 +8,7 @@ package de.BenediktKurth.model;
  * 
  * @version 1.0
  */
-public class Transition extends GeruestLabel{
+public class Transition extends PosNameBase{
     
     public Transition(){
         super();

@@ -27,10 +27,10 @@ public final class PNMLWriter {
      * 
      * @param ausgabeListe  
      * 
-     * @throws de.BenediktKurth.model.NoSaveFileException  
+     *  
      *      
      */
-    public static void saveFile(final String fileName, ArrayListSearchID ausgabeListe) throws NoSaveFileException{
+    public static void saveFile(final String fileName, ArrayListSearchID ausgabeListe) {
         if (fileName != null) {
             File pnmlDatei = new File(fileName);
             PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);
@@ -55,7 +55,7 @@ public final class PNMLWriter {
 
             pnmlWriter.finishXMLDocument();
         } else {
-            throw new NoSaveFileException("Bitte eine Datei auswählen");
+            System.out.println("Bitte eine Datei auswählen");
         }
     }
 
@@ -195,7 +195,7 @@ public final class PNMLWriter {
                 writer.writeStartElement("", "initialMarking", "");
                 writer.writeStartElement("", "token", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(stelle.getInitialMarking());
+                writer.writeCharacters(stelle.getMarkierungString());
                 writer.writeEndElement();
                 writer.writeEndElement();
                 writer.writeEndElement();

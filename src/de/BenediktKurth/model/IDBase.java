@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author Benedikt Kurth
@@ -15,8 +17,11 @@ public abstract class IDBase {
      * @since 1.0
      */
     protected final String id;
+    protected final int idInt;
     
-    static int idCounter = 1;
+    protected JPanel darstellung;
+        
+    static int idCounter = 0;
 
     /**
      * Leerer Konstrukter erzeugt eine ID aus Basis des idCounter und erhöht 
@@ -25,9 +30,10 @@ public abstract class IDBase {
      * @since 1.0
      */
     public IDBase () {
-        Integer temp = getIdCounter();
+        Integer temp = IDBase.idCounter;
         this.id = temp.toString();
-        idCounter++;
+        this.darstellung = null;
+        this.idInt = idCounter++;
     }
      /**
      * Konstrukter mit vorhander ID, erhöht anschließend idCounter um eins
@@ -39,7 +45,8 @@ public abstract class IDBase {
      */
     public IDBase(String id) {
         this.id = id;
-        idCounter++;
+        this.darstellung = null;
+        this.idInt = idCounter++;
     }
 
     /**
@@ -54,14 +61,30 @@ public abstract class IDBase {
     }
     
     /**
-     * STATISCHE-Method gibt den IdCounter zurück
+     * Method gibt die ID des Objektes als int zurück
+     * 
+     * @return int   ID des Objektes als int
+     * 
+     * @since 1.0
+     */    
+    public int getID(){
+        int tempInt = Integer.parseInt(this.id);
+        return tempInt;
+    }
+    
+    public int getInterneID(){
+        return this.idInt;
+    }
+    
+    /**
+     * Diese Method gibt den IdCounter der Klasse (Static) zurück
      * 
      * @return int   IdCounter der Struktur
      * 
      * @since 1.0
      */
-    public static int getIdCounter() {
-        return idCounter;
+    public int getIdCounter() {
+        return IDBase.idCounter;
     }
     
 }

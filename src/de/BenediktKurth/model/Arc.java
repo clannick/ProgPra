@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author Benedikt Kurth
@@ -16,6 +18,7 @@ public class Arc extends IDBase {
         this.source = source;
         this.target = target;
         Arc.topSize = "3";
+        this.darstellung = new JPanel ();
         
     }
     

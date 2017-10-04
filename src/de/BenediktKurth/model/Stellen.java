@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Benedikt Kurth
@@ -8,35 +10,52 @@ package de.BenediktKurth.model;
  * 
  * @version 1.0
  */
-public class Stellen extends GeruestLabel{
+public class Stellen extends PosNameBase{
 
-    private String initialMarking;
+    private String markierung;
     private int size;
+   
     
     
     public Stellen(){
         super();
-        this.initialMarking = "null";
+        this.markierung = "null";
         this.size = 50;
+        
     }
-    
     
     public Stellen(String id){
         super(id, "null", "null","null");
-        this.initialMarking = "null";
+        this.markierung = "null";
+        
+    }
+    
+    
+    public Stellen(String id, String x, String y){
+        super(id, "null", x, y );
+        this.markierung = "null";
         
     }
 
     public void setInitialMarking(String initialMarking) {
-        this.initialMarking = initialMarking;
+        this.markierung = initialMarking;
     }
 
     public void setSize(int size) {
         this.size = size;
     }
     
-    public String getInitialMarking() {
-        return initialMarking;
+    public String getMarkierungString() {
+        return markierung;
+    }
+    
+    public int getMarkierung() {
+        if (markierung.equals("null")){
+            return 0;
+        } else {
+            Integer temp = Integer.parseInt(markierung);
+            return temp;
+        }
     }
 
     public int getSize() {
@@ -47,7 +66,7 @@ public class Stellen extends GeruestLabel{
     
     @Override
     public String toString(){
-        return super.toString() + ", " + initialMarking;
+        return super.toString() + ", " + markierung;
     }
     
 }

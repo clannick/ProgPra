@@ -71,4 +71,23 @@ public class ArrayListSearchID<T extends IDBase> extends ArrayList {
         }
         return false;
     }
+    
+    public T getWithInternID(int id){
+        
+        T rueckgabeWert = null;
+        int i = 0;
+        
+        // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
+        while (i < this.size()){
+            T temp = (T)this.get(i);
+           
+            if (temp.getInterneID() == id) {
+                return temp;
+            }
+            i++;
+        }
+        
+        // Sollte gesuchtes Objekt nicht gefunden werden wird null zurückgegeben.
+        return rueckgabeWert;       
+    }
 }

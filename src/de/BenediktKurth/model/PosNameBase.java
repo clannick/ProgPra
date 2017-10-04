@@ -7,7 +7,7 @@ package de.BenediktKurth.model;
  * 
  * @version 1.0
  */
-public abstract class GeruestLabel extends IDBase {
+public abstract class PosNameBase extends IDBase {
   
    /**
      *
@@ -36,19 +36,22 @@ public abstract class GeruestLabel extends IDBase {
     */
    private String yPosition;
    
+  
+   
    /**
     * Leerer Konstruktor - Erzeugt ein leeres Objekt mit klarer ID
     * Einträge ohne Wert werden mit String "null" belegt.
     * 
     * @since 1.0
     */
-   GeruestLabel (){
+   PosNameBase (){
        // Ruft Konstruktor von IDBase auf -> klare ID 
        super();
        
        this.label = "null";
        this.xPosition = "null";
        this.yPosition = "null";
+       
    }
    
    /**
@@ -64,7 +67,7 @@ public abstract class GeruestLabel extends IDBase {
     * 
     * @since 1.0
     */
-   GeruestLabel (String id, String label, String xPosition, String yPosition){
+   PosNameBase (String id, String label, String xPosition, String yPosition) {
        super(id);
        this.label = label;
        this.xPosition = xPosition;
@@ -84,10 +87,6 @@ public abstract class GeruestLabel extends IDBase {
         return yPosition;
     }
 
-    public void setName(String label) {
-        this.label = label;
-    }
-
     public void setPosition(String xPosition, String yPosition) {
         this.xPosition = xPosition; 
         this.yPosition = yPosition;
@@ -96,6 +95,17 @@ public abstract class GeruestLabel extends IDBase {
     public void setLabel(String label) {
         this.label = label;
     }
+    
+    public int getXint (){
+        int x = Integer.parseInt(xPosition);
+        return x;
+    }
+    
+    public int getYint (){
+        int y = Integer.parseInt(yPosition);
+        return y;
+    }
+
     
    @Override
     public String toString(){
