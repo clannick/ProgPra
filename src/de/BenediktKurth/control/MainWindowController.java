@@ -5,6 +5,7 @@
  */
 package de.BenediktKurth.control;
 
+import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.PosNameBase;
@@ -15,9 +16,6 @@ import de.BenediktKurth.model.Transition;
 import de.BenediktKurth.view.MainWindow;
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -31,17 +29,21 @@ public class MainWindowController {
     MainWindow window;
     ArrayListSearchID speicherArray;
     private int idCounter = 0;
-    
-    public void setComponents(MainWindow window, ArrayListSearchID speicherArray) {
-        this.window = window;
-        this.speicherArray = speicherArray;
-    }
+    private Adjazenzmatrix matrix;
     
     public MainWindowController(){
         super();
     }
     
-    public Stellen makeStellen (){
+    public void setComponents(MainWindow window, ArrayListSearchID speicherArray) {
+        this.window = window;
+        this.speicherArray = speicherArray;
+        this.matrix = new Adjazenzmatrix(speicherArray);
+    }
+    
+
+    
+    public Stellen newStellen (){
         Integer tempInt = idCounter++;
         String idString = "StellenID" + tempInt.toString();
         Stellen neueStelle = new Stellen(idString,"0","0");
@@ -50,16 +52,31 @@ public class MainWindowController {
               
         return neueStelle;
     }
-
- 
     
-    
-    
-    public ArrayListSearchID getArray(){
-        return this.speicherArray;
+    public Transition newTransition(){
+        Transition ruckgabeWert = new Transition();
+        
+        
+        return ruckgabeWert;
     }
     
-    public void paintComponents (JPanel zeichenflaeche){
+    public Arc newArc(){
+        Arc ruckgabeWert = new Arc();
+        
+        
+        return ruckgabeWert;
+    }
+
+ 
+    public boolean testeWorkflownetz(){
+        matrix.aktualisieren(speicherArray);
+        return matrix.pruefeWorkflownetz();
+    }
+    
+    
+ 
+    
+    public void paintComponents (JScrollPane zeichenflaeche){
                 
                 int i = 0;
                 while (i < speicherArray.size()){
@@ -117,13 +134,14 @@ public class MainWindowController {
                         Graphics g = zeichenflaeche.getGraphics();
                         g.setColor(Color.black);
                         g.drawLine(xSource, ySource, xTarget, yTarget);
+                        g.drawOval(xTarget, yTarget, 10, 10);
                         //Oberhalb
     
                         
                         
                         
                         g.dispose();
-                        i++;;
+                        i++;
                     }
         }
         

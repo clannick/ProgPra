@@ -12,7 +12,14 @@ import javax.swing.JPanel;
  */
 public class Arc extends IDBase {
     
-
+    public Arc(){
+        super();
+        this.source = "null";
+        this.target = "null";
+        Arc.topSize = "3";
+        this.darstellung = new JPanel ();
+    }
+    
     Arc(String id, String source, String target){
         super(id);
         this.source = source;

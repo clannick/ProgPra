@@ -461,7 +461,7 @@ public final class PNMLParser {
      * @since 1.0
      */
     public static ArrayListSearchID loadAndGet(String Dateiname){
-            PNMLParser pnmlParser =null;
+            PNMLParser pnmlParser = null;
             
             if (Dateiname != null) {
             File pnmlDatei = new File(Dateiname);

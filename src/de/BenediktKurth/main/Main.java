@@ -5,47 +5,55 @@ import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
-import de.BenediktKurth.model.Stellen;
 import de.BenediktKurth.view.MainWindow;
-/** 
+
+/**
  *
  * @author Benedikt Kurth
- * 
+ *
  * @since 1.0
- * 
+ *
  * @version 1.0
  */
-
 public class Main {
 
-	public static void main(String[] args) {
-                
-                String[] stringTemp = new String[1];
-                stringTemp[0] = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-02.pnml";
-               //PNMLParser temp = new PNMLParser(stringTemp);
-               ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp[0]);
+    public static void main(String[] args) {
+        long currentTime = System.currentTimeMillis();
+        
+        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-03.pnml";
+        ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp);
 
-               /*
-               MainWindowController testController = new MainWindowController();
-               MainWindow test = new MainWindow(testController);
-               testController.setComponents(test, halla);
-               test.setVisible(true);
-               */
-               long currentTime = System.currentTimeMillis();
-               Adjazenzmatrix matrix = new Adjazenzmatrix(halla);
-               matrix.printMatrix();
-               long time = System.currentTimeMillis();
-               long dTime = (time - currentTime);
-               System.out.println(dTime);
-               
-               System.out.println(matrix.getAnfang().toString()); 
-               System.out.println(matrix.getEnde().toString());
-               System.out.println(matrix.pruefeWorkflownetz());
+        MainWindowController testController = new MainWindowController();
+        
+        MainWindow testWindow = new MainWindow(testController);
+        testController.setComponents(testWindow, halla);
+        testWindow.setVisible(true);
+        
 
+        
+        
+
+        //System.out.println(matrix.getAnfang().toString());
+        //System.out.println(matrix.getEnde().toString());
+        
+
+        /*
+        int[][] intArray = new int[2][2];
+        intArray[0][0] = 1;
+        intArray[0][1] = 2;
+        intArray[1][0] = 3;
+        intArray[1][1] = 4;
+
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                System.out.print(intArray[i][j] + " ");
+            }
+            System.out.println();
+        }
+         */
+        long time = System.currentTimeMillis();
+        long dTime = (time - currentTime);
+        System.out.println(dTime);
     }
+
 }
-                
-               
-               
-
-

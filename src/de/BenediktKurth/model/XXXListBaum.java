@@ -11,14 +11,14 @@ import java.util.ArrayList;
  *
  * @author clannick
  */
-public class ListBaum {
+public class XXXListBaum {
     
-    private ListBaum parents;
+    private XXXListBaum parents;
     private IDBase value;
     private ArrayList children;
     
 
-    public ListBaum(IDBase value){
+    public XXXListBaum(IDBase value){
         this.parents = null;
         this.value = value;
         this.children = null;
@@ -26,8 +26,8 @@ public class ListBaum {
     
     }
 
-    public ListBaum addChild(IDBase value){
-        ListBaum neuesKind = new ListBaum(value);
+    public XXXListBaum addChild(IDBase value){
+        XXXListBaum neuesKind = new XXXListBaum(value);
         neuesKind.parents = this;
         neuesKind.children = null;
         children.add(neuesKind);
@@ -42,16 +42,16 @@ public class ListBaum {
     public void removeChild(IDBase value){
         int counter = 0;
         
-        ListBaum temp = (ListBaum)children.get(counter);
+        XXXListBaum temp = (XXXListBaum)children.get(counter);
         while (!temp.getValue().equals(value)){
             
-            temp = (ListBaum)children.get(++counter);
+            temp = (XXXListBaum)children.get(++counter);
         }
         
     }
     
-    public ListBaum getRoot(){
-        ListBaum temp = this;
+    public XXXListBaum getRoot(){
+        XXXListBaum temp = this;
         while (temp.parents != null) {
             temp = temp.parents;
         }
