@@ -1,7 +1,7 @@
 package de.BenediktKurth.main;
 
 import de.BenediktKurth.control.MainWindowController;
-import de.BenediktKurth.model.Adjazenzmatrix;
+
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
         long currentTime = System.currentTimeMillis();
         
-        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-03.pnml";
+        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-04.pnml";
         ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp);
 
         MainWindowController testController = new MainWindowController();

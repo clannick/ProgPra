@@ -1,28 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.BenediktKurth.control;
 
 import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.ArrayListSearchID;
+import de.BenediktKurth.Exceptions.KeineAnfangsstelleException;
+import de.BenediktKurth.Exceptions.KeineEndstelleException;
 import de.BenediktKurth.model.PosNameBase;
+import de.BenediktKurth.Exceptions.SackgasseException;
 
 import de.BenediktKurth.model.Stellen;
 import de.BenediktKurth.model.Transition;
+import de.BenediktKurth.Exceptions.ZuVieleAnfangsstellenException;
+import de.BenediktKurth.Exceptions.ZuVieleEndstellenException;
 
 import de.BenediktKurth.view.MainWindow;
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 
 /**
  *
- * @author clannick
+ * @author Benedikt Kurth
  */
 public class MainWindowController {
     
@@ -67,10 +69,27 @@ public class MainWindowController {
         return ruckgabeWert;
     }
 
- 
+    public void setSize(int faktor){
+        PosNameBase.setSize(faktor);
+        
+    }
+    
     public boolean testeWorkflownetz(){
         matrix.aktualisieren(speicherArray);
-        return matrix.pruefeWorkflownetz();
+        try {
+            return matrix.pruefeWorkflownetz();
+        } catch (KeineAnfangsstelleException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ZuVieleAnfangsstellenException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (KeineEndstelleException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ZuVieleEndstellenException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SackgasseException ex) {
+            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
     
@@ -82,26 +101,31 @@ public class MainWindowController {
                 while (i < speicherArray.size()){
                     
                     if ((speicherArray.get(i) instanceof Transition) ){
-                        PosNameBase temp = (PosNameBase)speicherArray.get(i);
+                        Transition temp = (Transition)speicherArray.get(i);
                         int x = temp.getXint();
                         int y = temp.getYint();
                         
                         Graphics g = zeichenflaeche.getGraphics();
                         g.setColor(Color.black);
-                        g.drawRect(x, y, 50, 50);
+                        g.drawRect(x, y, PosNameBase.getSize(), PosNameBase.getSize());
                         g.dispose();
                         
          
        
                         i++;
                     } else if (speicherArray.get(i) instanceof Stellen) {
-                        PosNameBase temp = (PosNameBase)speicherArray.get(i);
+                        Stellen temp = (Stellen)speicherArray.get(i);
                         int x = temp.getXint();
                         int y = temp.getYint();
+                        JLabel darstellung = temp.getDarstellung();
+                        darstellung.setLocation(x, y);
+                        darstellung.setVisible(true);
                         
+                        zeichenflaeche.add(darstellung);
                         Graphics g = zeichenflaeche.getGraphics();
+                       
                         g.setColor(Color.black);
-                        g.drawOval(x, y, 50, 50);
+                        g.drawOval(x, y, PosNameBase.getSize(), PosNameBase.getSize());
                         g.dispose();
                         
                         i++; 

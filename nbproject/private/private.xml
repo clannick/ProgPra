@@ -5,11 +5,12 @@
         <group>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/main/Main.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/IDBase.java</file>
-            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ListBaum.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Transition.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/XXXListBaum.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PNMLParser.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/MainWindow.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/control/MainWindowController.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ArrayListCheckAdd.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Adjazenzmatrix.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PosNameBase.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ArrayListSearchID.java</file>

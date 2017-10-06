@@ -1,31 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.BenediktKurth.model;
 
 import java.util.ArrayList;
 
 /**
+ * Diese Klasse ist eine reine Hilfsklasse. Die Funktionalität einer ArrayListe
+ * wird durch eine Funktion erweitert.
  *
- * @author clannick
+ * Plannung: - Exceptions
+ *
+ * @author Benedikt Kurth
+ *
+ * @since 1.0
+ *
+ * @version 1.0
  */
 public class ArrayListCheckAdd extends ArrayList<Integer>{
 
-    public boolean addCheck(int newValue){
-        Integer temp = newValue;
+    /**
+     * Die Methode nimmt einen int-Wert entgegen und prüft Liste ob der int-Wert
+     * bereits enthalten ist oder nicht. Wenn der Wert bereits enthalt wird die
+     * Methode abgebrochen und false zurück geben. Wenn int-Wert nicht enthalten 
+     * super.add() und es wird true zurückgegeben.
+     * 
+     * @param neuerWert  Einzufügender int-Wert
+     * 
+     * @return boolean  True -> erfolgreich hinzugefügt
+     *                  False -> Wert bereits enthalten
+     */
+    public boolean addCheck(int neuerWert){
+        //Hilfsvariable
+        Integer temp = neuerWert;
         
         int i = 0;
         
-        
+        // Durchsuche Liste ob neuerWert enthalten ist
         while (i < this.size()){
             if (this.get(i).equals(temp)){
-                
+                //Abbruch der Methode und Rüchgabe
                 return false;
             }
         }
+        
+        //Aufruf der Methode der Superklasse
         this.add(temp);
+        
         return true;
     }
 }

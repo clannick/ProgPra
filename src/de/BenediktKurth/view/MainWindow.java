@@ -6,6 +6,7 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
+import de.BenediktKurth.model.PosNameBase;
 import java.awt.Color;
 
 /**
@@ -21,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow(MainWindowController controller) {
         this.controller = controller;
         initComponents();
+        zeichenflaeche.setLayout(null);
         
     }
 
@@ -67,6 +69,11 @@ public class MainWindow extends javax.swing.JFrame {
         jSlider1.setMaximumSize(new java.awt.Dimension(79, 30));
         jSlider1.setMinimumSize(new java.awt.Dimension(79, 30));
         jSlider1.setPreferredSize(new java.awt.Dimension(79, 30));
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
 
         jLabel1.setText("jLabel1");
 
@@ -185,10 +192,18 @@ public class MainWindow extends javax.swing.JFrame {
     private void speichernButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernButtonActionPerformed
         if (controller.testeWorkflownetz()){
             jLabel1.setText("Ist ein Workflownetz");
+            
         } else {
             jLabel1.setText("Ist kein Workflownetz");
         }
     }//GEN-LAST:event_speichernButtonActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        controller.setSize(jSlider1.getValue());
+        zeichenflaeche.getGraphics().clearRect(0, 0, zeichenflaeche.getWidth(), zeichenflaeche.getHeight());
+        controller.paintComponents(zeichenflaeche);
+        System.out.println(PosNameBase.getSize());
+    }//GEN-LAST:event_jSlider1StateChanged
 
 
 

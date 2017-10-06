@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
@@ -13,20 +15,23 @@ import javax.swing.JLabel;
 public class Stellen extends PosNameBase{
 
     private String markierung;
-    private int size;
-   
+
     
+    private final static Icon viereck = new ImageIcon("/ressource/viereck.png");
+   
     
     public Stellen(){
         super();
         this.markierung = "null";
-        this.size = 50;
         
+        this.darstellung = new JLabel("neu", viereck,0);      
     }
     
     public Stellen(String id){
         super(id, "null", "null","null");
         this.markierung = "null";
+        
+        this.darstellung = new JLabel("neu", viereck,0); 
         
     }
     
@@ -35,15 +40,15 @@ public class Stellen extends PosNameBase{
         super(id, "null", x, y );
         this.markierung = "null";
         
+        this.darstellung = new JLabel("neu", viereck,0); 
+        
     }
 
     public void setInitialMarking(String initialMarking) {
         this.markierung = initialMarking;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
+
     
     public String getMarkierungString() {
         return markierung;
@@ -58,10 +63,7 @@ public class Stellen extends PosNameBase{
         }
     }
 
-    public int getSize() {
-        return size;
-    }
-    
+
     
     
     @Override

@@ -1,5 +1,6 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -19,7 +20,7 @@ public abstract class IDBase {
     protected final String id;
     protected final int idInt;
     
-    protected JPanel darstellung;
+    protected JLabel darstellung;
         
     static int idCounter = 0;
 

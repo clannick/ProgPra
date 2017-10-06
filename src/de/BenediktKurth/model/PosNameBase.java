@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JLabel;
+
 /**
  * @author Benedikt Kurth
  * 
@@ -36,7 +38,7 @@ public abstract class PosNameBase extends IDBase {
     */
    private String yPosition;
    
-  
+   private static int size = 50;  
    
    /**
     * Leerer Konstruktor - Erzeugt ein leeres Objekt mit klarer ID
@@ -51,6 +53,7 @@ public abstract class PosNameBase extends IDBase {
        this.label = "null";
        this.xPosition = "null";
        this.yPosition = "null";
+       
        
    }
    
@@ -96,6 +99,15 @@ public abstract class PosNameBase extends IDBase {
         this.label = label;
     }
     
+    public static void setSize(int faktor){
+        float temp = faktor/100.0f;
+        PosNameBase.size = (int)(50 * temp);
+    }
+    
+    public static int getSize(){
+        return PosNameBase.size;
+    }
+    
     public int getXint (){
         int x = Integer.parseInt(xPosition);
         return x;
@@ -104,6 +116,10 @@ public abstract class PosNameBase extends IDBase {
     public int getYint (){
         int y = Integer.parseInt(yPosition);
         return y;
+    }
+    
+    public JLabel getDarstellung(){
+        return this.darstellung;
     }
 
     
