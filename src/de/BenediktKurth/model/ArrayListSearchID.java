@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @param <T> Ermöglicht den Typsicherenzugriff auf getId() der Klasse IDBase
  */
-public class ArrayListSearchID<T extends IDBase> extends ArrayList {
+public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
     
     
     /**

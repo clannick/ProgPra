@@ -3,22 +3,17 @@ package de.BenediktKurth.control;
 import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.ArrayListSearchID;
-import de.BenediktKurth.Exceptions.KeineAnfangsstelleException;
-import de.BenediktKurth.Exceptions.KeineEndstelleException;
 import de.BenediktKurth.model.PosNameBase;
-import de.BenediktKurth.Exceptions.SackgasseException;
-
 import de.BenediktKurth.model.Stellen;
 import de.BenediktKurth.model.Transition;
-import de.BenediktKurth.Exceptions.ZuVieleAnfangsstellenException;
-import de.BenediktKurth.Exceptions.ZuVieleEndstellenException;
-
-import de.BenediktKurth.view.MainWindow;
+import de.BenediktKurth.Exceptions.WorkflownetzException;
+import de.BenediktKurth.view.HauptFenster;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
@@ -28,7 +23,7 @@ import javax.swing.JScrollPane;
  */
 public class MainWindowController {
     
-    MainWindow window;
+    HauptFenster window;
     ArrayListSearchID speicherArray;
     private int idCounter = 0;
     private Adjazenzmatrix matrix;
@@ -37,7 +32,7 @@ public class MainWindowController {
         super();
     }
     
-    public void setComponents(MainWindow window, ArrayListSearchID speicherArray) {
+    public void setComponents(HauptFenster window, ArrayListSearchID speicherArray) {
         this.window = window;
         this.speicherArray = speicherArray;
         this.matrix = new Adjazenzmatrix(speicherArray);
@@ -74,28 +69,25 @@ public class MainWindowController {
         
     }
     
-    public boolean testeWorkflownetz(){
-        matrix.aktualisieren(speicherArray);
+    public void testeWorkflownetz(){
+        //matrix.aktualisieren(speicherArray);
         try {
-            return matrix.pruefeWorkflownetz();
-        } catch (KeineAnfangsstelleException ex) {
-            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ZuVieleAnfangsstellenException ex) {
-            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (KeineEndstelleException ex) {
-            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ZuVieleEndstellenException ex) {
-            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SackgasseException ex) {
-            Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
+            if (matrix.pruefeWorkflownetz()){
+                window.gibFehleranzeigeText().setText("Keine Fehler.");
+                window.gibFehleranzeigeGross().setText("Es ist ein Workflownetz.");
+            }
+        } catch (WorkflownetzException ex) {
+            window.gibFehleranzeigeText().setText(ex.getMessage());
+            window.gibFehleranzeigeGross().setText("Es ist kein Workflownetz.");
         }
-        return false;
+        
+       
     }
     
     
  
     
-    public void paintComponents (JScrollPane zeichenflaeche){
+    public void paintComponents (JPanel zeichenflaeche){
                 
                 int i = 0;
                 while (i < speicherArray.size()){
@@ -118,10 +110,8 @@ public class MainWindowController {
                         int x = temp.getXint();
                         int y = temp.getYint();
                         JLabel darstellung = temp.getDarstellung();
-                        darstellung.setLocation(x, y);
-                        darstellung.setVisible(true);
-                        
-                        zeichenflaeche.add(darstellung);
+                                              
+                        zeichenflaeche.add(Stellen.test);
                         Graphics g = zeichenflaeche.getGraphics();
                        
                         g.setColor(Color.black);
@@ -131,8 +121,8 @@ public class MainWindowController {
                         i++; 
                     } else if (speicherArray.get(i) instanceof Arc) {
                         Arc temp = (Arc)speicherArray.get(i);
-                        String sourceString = temp.getSource();
-                        String targetString = temp.getTarget();
+                        String sourceString = temp.gibSource();
+                        String targetString = temp.gibTarget();
                         PosNameBase sourcePos = (PosNameBase)speicherArray.searchID(sourceString);
                         PosNameBase targetPos = (PosNameBase)speicherArray.searchID(targetString);
                         int xSource = sourcePos.getXint()+25; 

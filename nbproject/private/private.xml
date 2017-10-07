@@ -5,10 +5,9 @@
         <group>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/main/Main.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/IDBase.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/HauptFenster.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Transition.java</file>
-            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/XXXListBaum.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PNMLParser.java</file>
-            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/MainWindow.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/control/MainWindowController.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ArrayListCheckAdd.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Adjazenzmatrix.java</file>
@@ -17,6 +16,8 @@
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Stellen.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Arc.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PNMLWriter.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/Exceptions/WorkflownetzException.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/Exceptions/ArcFehlerException.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,22 +1,17 @@
 package de.BenediktKurth.model;
 
-import de.BenediktKurth.Exceptions.KeineEndstelleException;
-import de.BenediktKurth.Exceptions.SackgasseException;
-import de.BenediktKurth.Exceptions.KeineAnfangsstelleException;
-import de.BenediktKurth.Exceptions.ZuVieleEndstellenException;
-import de.BenediktKurth.Exceptions.ZuVieleAnfangsstellenException;
+import de.BenediktKurth.Exceptions.WorkflownetzException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
- *  Diese Klasse stellt eine Adjazenzmatrix und ein dazugehörige Prüfung dar.
+ *  Diese Klasse implementiert eine Adjazenzmatrix mit einer Workflownetz prüfung.
  *  Erste Aufgabe der Klasse ist die Erstellung einer Adjazenzmatrix.
  *  Zweite Aufgabe besteht aus einer Prüfung, ob alle Obejekt des Workflownetzes
  *  auf einem gerichteten Graphen zw. Anfang und Ende liegen.
  * 
  *  Klasse wirft keine Exceptions.
- * 
- * 
+
  *  Plannung:   - Exceptions
  *              - Verbesserung von prüfeWorkflow...
  *              - Kommentare
@@ -28,7 +23,7 @@ import java.util.ListIterator;
  *
  * @version 1.0
  */
-public class Adjazenzmatrix {
+public final class Adjazenzmatrix {
 
     /**
      * Stellt die eigentliche Adjazenzmatrix dar.
@@ -53,13 +48,13 @@ public class Adjazenzmatrix {
     /**
      * Typsichere ArrayList auf IDBase-Objekts, diese speziel für alle Pfeile
      */
-    private ArrayListSearchID arcListe;
+    private ArrayListSearchID<Arc> arcListe;
     
     /**
      * Typsichere ArrayList auf IDBase-Objekts, enthält die Basisdaten des
      * Workflownetzes
      */
-    private ArrayListSearchID gesamtListe;
+    private ArrayListSearchID<IDBase> gesamtListe;
     
     /**
      * Hilfsliste (Rekursion) Liste mit allen besuchten Knoten auf dem Hinweg
@@ -148,19 +143,24 @@ public class Adjazenzmatrix {
      *
      * @version 1.0
      * 
-     * @param arcList
+     * @param arcList   ArrayListSearchID mit allen gerichteten Graphen
+   
+     * @param basisdaten     ArrayListSearchID mit den Basisdaten
      * 
-     * @param array
+     * 
+     * @see ArrayListSearchID
      */
-    private void fuelleMatrix(ArrayListSearchID arcList, ArrayListSearchID array) {
+    private void fuelleMatrix(ArrayListSearchID arcList, ArrayListSearchID basisdaten ){
         int i = 0;
         while (i < arcList.size()) {
 
             Arc temp = (Arc) arcList.get(i);
-            String sourceString = temp.getSource();
-            String targetString = temp.getTarget();
-            IDBase sourceIDBase = (IDBase) array.searchID(sourceString);
-            IDBase targetIDBase = (IDBase) array.searchID(targetString);
+            String sourceString = temp.gibSource();
+            String targetString = temp.gibTarget();
+            
+            // !!!!!!!!!!!!!!! null wird bei nicht gefunden zurück
+            IDBase sourceIDBase = (IDBase) basisdaten.searchID(sourceString);
+            IDBase targetIDBase = (IDBase) basisdaten.searchID(targetString);
             int sourceInt = sourceIDBase.getInterneID();
             int targetInt = targetIDBase.getInterneID();
 
@@ -305,27 +305,17 @@ public class Adjazenzmatrix {
      * Hilfsmethoden:   _pruefeWorkflownetzVorwaerts
      *                  _pruefeWorkflownetzRuckwaerts
      * 
-     * @author Benedikt Kurth
-     * 
      *
      * @since 1.0
      *
      * @version 1.0
      * 
-     * @throws de.BenediktKurth.Exceptions.KeineAnfangsstelleException
-     * @throws de.BenediktKurth.Exceptions.ZuVieleAnfangsstellenException
-     * @throws de.BenediktKurth.Exceptions.KeineEndstelleException
-     * @throws de.BenediktKurth.Exceptions.ZuVieleEndstellenException
-     * @throws de.BenediktKurth.Exceptions.SackgasseException
+     * @throws de.BenediktKurth.Exceptions.WorkflownetzException
      * 
-     * @return boolean  True ->     Es handelt sich um ein Workflownetz
-     *                  False ->    Es ist kein Workflownetz
+     * @return boolean  True: Es handelt sich um ein Workflownetz
+     *                  False: Es ist kein Workflownetz
      */
-    public boolean pruefeWorkflownetz() throws  KeineAnfangsstelleException,
-                                                ZuVieleAnfangsstellenException,
-                                                KeineEndstelleException,
-                                                ZuVieleEndstellenException,
-                                                SackgasseException{
+    public boolean pruefeWorkflownetz() throws WorkflownetzException{
 
         //Bereitsstellen von allen benötigten Anfangsbedingungen
         besuchtePunkteHin = new ArrayList<>();
@@ -335,26 +325,26 @@ public class Adjazenzmatrix {
         
         //Prüfe: Keine Anfangsstelle?
         if (anfangsstelle.isEmpty()) {
-            throw new KeineAnfangsstelleException();
+            throw new WorkflownetzException("Es existiert keine Anfangsstelle.");
         }
         
         //Prüfe: Gibt es mehrere Anfangsstellen?
          if (anfangsstelle.size() > 1) {
             Integer intTemp = anfangsstelle.size();
             String stringTemp = intTemp.toString();
-            throw new ZuVieleAnfangsstellenException(stringTemp);
+            throw new WorkflownetzException("Es existieren " + stringTemp + " Anfangsstellen.");
         }  
          
         //Prüfe: Keine Endstelle?
         if (endstelle.isEmpty()) {
-            throw new KeineEndstelleException();
+            throw new WorkflownetzException("Es existiert keine Endstelle.");
         }
         
         //Prüfe: Gibt es mehrere Endstellen?
          if (endstelle.size() > 1) {
             Integer intTemp = endstelle.size();
             String stringTemp = intTemp.toString();
-            throw new ZuVieleEndstellenException(stringTemp);
+            throw new WorkflownetzException("Es existieren " + stringTemp + " Endstellen.");
         } 
         
         //Es gibt nur eine Anfangsstelle und ein Endstelle!
@@ -371,13 +361,17 @@ public class Adjazenzmatrix {
         boolean zurueck = _pruefeWorkflownetzRuckwaerts(inIdAnfang, inIdEnde, besuchtePunkteHer);
         
         if (!hin || !zurueck){
-            throw new SackgasseException();
+            throw new WorkflownetzException("Es gibt eine Sackgasse im Workflownetz.");
         }
         
         //...wurden alle Objekte auf dem Hinweg und Rückweg besucht?
         hin = (hin && besuchtePunkteHin.size() == this.gesamtZaehler);
         zurueck = (zurueck && besuchtePunkteHer.size() == this.gesamtZaehler);
 
+        if (!hin || !zurueck){
+            throw new WorkflownetzException("Es liegen nicht alle Objekte auf einem gerichteten Graphen.");
+        }
+        
         return (hin && zurueck);
     }
  

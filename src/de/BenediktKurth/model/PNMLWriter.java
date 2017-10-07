@@ -237,8 +237,8 @@ public final class PNMLWriter {
             try {
                 writer.writeStartElement("", "arc", "");
                 writer.writeAttribute("id", arc.getId());
-                writer.writeAttribute("source", arc.getSource());
-                writer.writeAttribute("target", arc.getTarget());
+                writer.writeAttribute("source", arc.gibSource());
+                writer.writeAttribute("target", arc.gibTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
                 System.err

@@ -3,8 +3,8 @@ package de.BenediktKurth.model;
 import java.util.ArrayList;
 
 /**
- * Diese Klasse ist eine reine Hilfsklasse. Die Funktionalität einer ArrayListe
- * wird durch eine Funktion erweitert.
+ *  Die Funktionalität einer ArrayListe wird durch die Funktion einfuegen erweitert. 
+ *  Diese Klasse ist eine reine Hilfsklasse.
  *
  * Plannung: - Exceptions
  *
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @version 1.0
  */
-public class ArrayListCheckAdd extends ArrayList<Integer>{
+public final class ArrayListCheckAdd extends ArrayList<Integer>{
 
     /**
      * Die Methode nimmt einen int-Wert entgegen und prüft Liste ob der int-Wert
@@ -24,10 +24,12 @@ public class ArrayListCheckAdd extends ArrayList<Integer>{
      * 
      * @param neuerWert  Einzufügender int-Wert
      * 
-     * @return boolean  True -> erfolgreich hinzugefügt
-     *                  False -> Wert bereits enthalten
+     * @return boolean  True: erfolgreich hinzugefügt
+     *                  False: Wert bereits enthalten
+     * 
+     * @since 1.0
      */
-    public boolean addCheck(int neuerWert){
+    public boolean einfuegen(int neuerWert){
         //Hilfsvariable
         Integer temp = neuerWert;
         

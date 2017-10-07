@@ -12,19 +12,19 @@ import javax.swing.JLabel;
  * 
  * @version 1.0
  */
-public class Stellen extends PosNameBase{
+public final class Stellen extends PosNameBase{
 
     private String markierung;
-
-    
+   
     private final static Icon viereck = new ImageIcon("/ressource/viereck.png");
    
+    public final static JLabel test = new JLabel("123", viereck,0); 
     
     public Stellen(){
         super();
         this.markierung = "null";
         
-        this.darstellung = new JLabel("neu", viereck,0);      
+        this.darstellung = new JLabel("neu", viereck,10);      
     }
     
     public Stellen(String id){

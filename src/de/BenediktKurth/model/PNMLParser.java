@@ -1,5 +1,6 @@
 package de.BenediktKurth.model;
 
+import de.BenediktKurth.Exceptions.ArcFehlerException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,7 +65,7 @@ public final class PNMLParser {
     /**
      * Liste mit allen Kanten,Stellen, Trans....
      */
-    private ArrayListSearchID<IDBase> tempListe = new ArrayListSearchID<>();
+    private final ArrayListSearchID<IDBase> tempListe = new ArrayListSearchID<>();
     
   
     /**
@@ -329,7 +330,10 @@ public final class PNMLParser {
     }
 
     /**
-     * Diese Methode kann überschrieben werden, um geladene Kanten zu erstellen.
+     * Die Methode erstellt ein neues sicheres Arc-Objekt.
+     * Es wird geprüft ob Start und Ziel nicht Stelle und Stelle oder Transition
+     * und Transition ist, weiter wird geprüft ob die beiden Objekte tatsächlich
+     * existieren.
      * 
      * @param id
      *      Identifikationstext der Kante
@@ -339,26 +343,14 @@ public final class PNMLParser {
      *      Identifikationstext des Endelements der Kante     
      */
     private void newArc(final String id, final String source, final String target) {
-        //System.out.println("Kante mit id " + id + " von " + source + " nach "
-        //        + target + " wurde gefunden.");
         
-        Boolean vonSnachT = ((tempListe.searchID(source) instanceof Stellen) &&
-                            (tempListe.searchID(target) instanceof Transition));
-        Boolean vonTnachS = ((tempListe.searchID(source) instanceof Transition) &&
-                            (tempListe.searchID(target) instanceof Stellen));
+        try {
+            Arc temp = new Arc(id, source, target, tempListe);
+            tempListe.add(temp);
+        } catch (ArcFehlerException ex) {
+            System.out.println(ex.getMessage());
+        }
         
-        if (vonSnachT || vonTnachS){
-        //Erstellt neue Kante (Arc) mit der übergebenen ID, Source und Target Werten.
-            Arc tempArc = new Arc(id,source,target);
-            tempListe.add(tempArc);
-            
-        }
-        /*
-        else {
-            throw new ArcErrorException("Kante mit id " + id + " von " + source + " nach "
-                + target + " konnte nicht eingefügt werden.");
-        }
-        */
     }
 
     /**

@@ -5,7 +5,7 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.ArrayListSearchID;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
-import de.BenediktKurth.view.MainWindow;
+import de.BenediktKurth.view.HauptFenster;
 
 /**
  *
@@ -20,12 +20,12 @@ public class Main {
     public static void main(String[] args) {
         long currentTime = System.currentTimeMillis();
         
-        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-04.pnml";
+        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Test.pnml";
         ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp);
 
         MainWindowController testController = new MainWindowController();
         
-        MainWindow testWindow = new MainWindow(testController);
+        HauptFenster testWindow = new HauptFenster(testController);
         testController.setComponents(testWindow, halla);
         testWindow.setVisible(true);
         

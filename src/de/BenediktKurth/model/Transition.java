@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Benedikt Kurth
@@ -8,7 +10,9 @@ package de.BenediktKurth.model;
  * 
  * @version 1.0
  */
-public class Transition extends PosNameBase{
+public final class Transition extends PosNameBase{
+
+    JLabel transitionDarstellung;
     
     public Transition(){
         super();
