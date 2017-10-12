@@ -1,8 +1,5 @@
 package de.BenediktKurth.model;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 /**
  *
  * @author Benedikt Kurth
@@ -15,14 +12,23 @@ public abstract class IDBase {
     
     /**
      * 
-     * @since 1.0
      */
     protected final String id;
+    
+    /**
+     * 
+     */    
     protected final int idInt;
     
-    protected JLabel darstellung;
-        
-    static int idCounter = 0;
+    /**
+     * 
+     */        
+    private static int idCounter = 0;
+    
+    /**
+     * 
+     */    
+    private static int size = 50;
 
     /**
      * Leerer Konstrukter erzeugt eine ID aus Basis des idCounter und erhöht 
@@ -33,21 +39,21 @@ public abstract class IDBase {
     public IDBase () {
         Integer temp = IDBase.idCounter;
         this.id = temp.toString();
-        this.darstellung = null;
-        this.idInt = idCounter++;
+        
+        this.idInt = getIdCounter();
     }
+    
      /**
      * Konstrukter mit vorhander ID, erhöht anschließend idCounter um eins
      * 
-     * @param id
+     * @param id    String
      * 
      * @since 1.0
      * 
      */
     public IDBase(String id) {
         this.id = id;
-        this.darstellung = null;
-        this.idInt = idCounter++;
+        this.idInt = getIdCounter();
     }
 
     /**
@@ -57,7 +63,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
     
@@ -68,13 +74,23 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */    
-    public int getID(){
+    public final int f(){
         int tempInt = Integer.parseInt(this.id);
         return tempInt;
     }
     
-    public int getInterneID(){
+    
+    public final int getInterneID(){
         return this.idInt;
+    }
+    
+    public final static void setSize(int faktor){
+        float temp = faktor/100.0f;
+        IDBase.size = (int)(50 * temp);
+    }
+    
+    public final static int getSize(){
+        return IDBase.size;
     }
     
     /**
@@ -84,8 +100,19 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public int getIdCounter() {
-        return IDBase.idCounter;
+    public final static int getIdCounter() {
+        int temp = IDBase.idCounter;
+        IDBase.idCounter++;
+        return temp;
     }
+    
+    public final static void senkeIdCounter(){
+       IDBase.idCounter--; 
+    } 
+    
+    public final static void resetIdCounter(){
+       IDBase.idCounter = 0; 
+    } 
+    
     
 }

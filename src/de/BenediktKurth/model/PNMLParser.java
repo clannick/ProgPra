@@ -75,8 +75,8 @@ public final class PNMLParser {
      * @param pnml
      *      Java {@link File} Objekt der PNML Datei
      */
-    public PNMLParser(final File pnml) {
-        super();
+    public PNMLParser(File pnml) {
+        
 
         this.pnmlDatei = pnml;
     }
@@ -87,7 +87,7 @@ public final class PNMLParser {
      */
     public final void initParser() {
         try {
-            InputStream dateiEingabeStrom = new FileInputStream(pnmlDatei);
+            InputStream dateiEingabeStrom = new FileInputStream(this.pnmlDatei);
             XMLInputFactory factory = XMLInputFactory.newInstance();
             try {
                 xmlParser = factory.createXMLEventReader(dateiEingabeStrom);
@@ -377,7 +377,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof PosNameBase){
             PosNameBase temp;
             temp = (PosNameBase)gesuchtesObjekt;
-            temp.setPosition(x, y);
+            temp.setPositionfromString(x, y);
      
         }
        
@@ -387,15 +387,10 @@ public final class PNMLParser {
      * Diese Methode kann überschrieben werden, um den Beschriftungstext der geladenen
      * Elemente zu aktualisieren.
      * 
-     * @param id
-     *      Identifikationstext des Elements
-     * @param name
-     *      Beschriftungstext des Elements
+     * @param id Identifikationstext des Elements.
+     * @param name Beschriftungstext des Elements.
      */
     private void setName(final String id, final String name) {
-        System.out.println("Setze den Namen des Elements " + id + " auf "
-                + name);
-    
         //Findet das gesuchte Objekt mit searchID
         IDBase gesuchtesObjekt = tempListe.searchID(id);
         
@@ -421,8 +416,6 @@ public final class PNMLParser {
      *      Markierung des Elements
      */
     private void setMarking(final String id, final String marking) {
-        System.out.println("Setze die Markierung des Elements " + id + " auf "
-                + marking);
         
         //Findet das gesuchte Objekt mit searchID
         IDBase gesuchtesObjekt = tempListe.searchID(id);
@@ -433,15 +426,9 @@ public final class PNMLParser {
             Stellen temp;
             temp = (Stellen)gesuchtesObjekt;
             temp.setInitialMarking(marking);
-            
         }     
-        
-         
     }
-    
-
-
-    
+ 
     /**
      * Diese Methode ermöglicht es eine eine PNML-Datei mithile ihres Quellverzeichnises aufzurufen. 
      * Die Methode liest den Inhalt der PNML-Datei aus und erzeugt ein ArrayListSearchID mit allen Objekt.
@@ -452,7 +439,7 @@ public final class PNMLParser {
      * 
      * @since 1.0
      */
-    public static ArrayListSearchID loadAndGet(String Dateiname){
+    public static ArrayListSearchID<IDBase> loadAndGet(String Dateiname){
             PNMLParser pnmlParser = null;
             
             if (Dateiname != null) {

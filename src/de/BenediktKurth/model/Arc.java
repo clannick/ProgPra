@@ -1,7 +1,10 @@
 package de.BenediktKurth.model;
 
 import de.BenediktKurth.Exceptions.ArcFehlerException;
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Diese Klasse stellt einen Pfeil da. Als Variablen hat ein Pfeil seine ID,
@@ -30,9 +33,12 @@ public final class Arc extends IDBase {
      * Indentifikationstext der Endelements der Kante
      */
     private String target;
-
+    
+    private Vector2D positionSource;
+    private Vector2D positionTarget;
+    
     /**
-     * Leerer Konstrukter -> es wird eine klare ID von IDBase erzeugt und Source
+     * Leerer Konstrukter: Es wird eine klare ID von IDBase erzeugt und Source
      * und Target auf "null" gesetzt.
      *
      * @author Benedikt Kurth
@@ -46,32 +52,66 @@ public final class Arc extends IDBase {
         super();
         this.source = "null";
         this.target = "null";
-        this.darstellung = null;
+        
     }
-
-    /**
-     * Vollständiger Konstrukter -> es werden alle benötigten Daten eingegeben.
-     * Die ID wird von IDBase auf eindeutigkeit überprüft und von einer intern
-     * Methode ob Source und Target existieren. 
-     * 
-     * @author Benedikt Kurth
+    
+        /**
+     * Leerer Konstrukter: Es wird eine klare ID von IDBase erzeugt und Source
+     * und Target auf "null" gesetzt.
+     *
+     * @param source
+     * @param tempListe
      *
      * @since 1.0
      *
-     * @version 1.0
-     * 
-     * @throws ArcFehlerException
-     *
      */
-    public Arc(String id, String source, String target, ArrayListSearchID tempListe) throws ArcFehlerException {
+    public Arc(String source, ArrayListSearchID<IDBase> tempListe) {
+        super();
+        this.source = source;
+        this.target = "null";
+        
+        if (tempListe.searchID(source) == null){
+            this.positionSource = new Vector2D(0,0);
+        } else {
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
+        }
+        
+    }
+
+    /**
+     * Vollständiger Konstrukter: Es werden alle benötigten Daten eingegeben.
+     * Die ID wird von IDBase auf eindeutigkeit überprüft und von einer intern
+     * Methode ob Source und Target existieren. 
+     * 
+     * @since 1.0
+     * 
+     * @param id        String 
+     * 
+     * @param source    String
+     * 
+     * @param target    String
+     * 
+     * @param tempListe ArrayListSearchID
+     *
+     * @throws ArcFehlerException   Der Pfeil konnte nicht zwischen den gewünschten 
+     *                              Objekten erstellt werden. Wird von Methode
+     *                              pruefeSourceTarget geworfen.
+     * 
+     * @see #pruefeSourceTarget(String, String, ArrayListSearchID)
+     * @see ArrayListSearchID
+     */
+    public Arc(String id, String source, String target, ArrayListSearchID<IDBase> tempListe) throws ArcFehlerException {
         super(id);
         
         if (pruefeSourceTarget(source, target, tempListe)){
-        //Setze Source und Target Werte und erzeuge Darstellung.
-        this.source = source;
-        this.target = target;
+            //Setze Source und Target Werte
+            this.source = source;
+            this.target = target;
 
-        this.darstellung = new JLabel();   
+
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
+            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
+
         }
     }
     
@@ -80,8 +120,6 @@ public final class Arc extends IDBase {
      * Objekte sind. Es wird geprüft ob der Pfeil von Stelle zu Transition 
      * oder umgekehrt verläuft und ob diese existieren. 
      * Sollte das nicht der Fall sein wird eine Exception erzeugt. 
-     * 
-     * @throws de.BenediktKurth.Exceptions.ArcFehlerException 
      * 
      * @since 1.0
      * 
@@ -93,10 +131,15 @@ public final class Arc extends IDBase {
      * 
      * @return boolean  True: Pfeil könnte eingefügt werden.
      *                  False: Pfeil kann aus o.g. Gründen nicht eingefügt werden.
+     * 
+     * @throws de.BenediktKurth.Exceptions.ArcFehlerException Der Pfeil konnte nicht 
+     *          zwischen den gewünschten Objekten erstellt werden.
+     * 
+     * @see ArrayListSearchID
      */
     public boolean pruefeSourceTarget(  String source, 
                                         String target, 
-                                        ArrayListSearchID tempListe) 
+                                        ArrayListSearchID<IDBase> tempListe) 
                                         throws ArcFehlerException{
                
         Boolean vonSnachT = ((tempListe.searchID(source) instanceof Stellen) &&
@@ -110,9 +153,9 @@ public final class Arc extends IDBase {
         } else {
             throw new ArcFehlerException("Kante mit id " + id + " von " + source + " nach "
                 + target + " konnte nicht eingefügt werden.");
-            
         }
     }
+    
     /**
      * Methode setzt die Start-ID als String mit Prüfung auf existens.
      * 
@@ -126,10 +169,12 @@ public final class Arc extends IDBase {
      * 
      * @see ArrayListSearchID
      */
-    public void setzeSource(String source, ArrayListSearchID tempListe) {
+    public void setSource(String source, ArrayListSearchID<IDBase> tempListe) {
         
         if (tempListe.searchID(source) != null){
             this.source = source;
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
+        
         }
         
     }
@@ -137,9 +182,10 @@ public final class Arc extends IDBase {
     /**
      * Methode setzt die Ziel-ID als String mit Prüfung auf existens.
      * 
+     * @throws de.BenediktKurth.Exceptions.ArcFehlerException
+     * 
      * @since 1.0
      *
-     * @version 1.0
      *
      * @param target    ID des Zieles als String 
      * 
@@ -147,10 +193,12 @@ public final class Arc extends IDBase {
      * 
      * @see ArrayListSearchID
      */
-    public void setzeTarget(String target, ArrayListSearchID tempListe) {
+    public void setTarget(String target, ArrayListSearchID<IDBase> tempListe) throws ArcFehlerException {
         
-        if (tempListe.searchID(target) != null){
-            this.source = target;
+        if (pruefeSourceTarget(this.source, target, tempListe)){
+            this.target = target;
+            
+            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
         }
         
     }
@@ -162,11 +210,10 @@ public final class Arc extends IDBase {
      *
      * @since 1.0
      *
-     * @version 1.0
      * 
      * @return Liefert den String mit der Quelle (Source) des Pfeils zurück.
      */
-    public String gibSource() {
+    public String getSource() {
         return source;
     }
 
@@ -181,7 +228,7 @@ public final class Arc extends IDBase {
      * 
      * @return Liefert den String mit dem Ziel (Target) des Pfeils zurück.
      */
-    public String gibTarget() {
+    public String getTarget() {
         return target;
     }
 
@@ -194,4 +241,18 @@ public final class Arc extends IDBase {
     public String toString() {
         return id + " " + source + " " + target;
     }
+    
+ 
+
+
+    public Vector2D getPositionSource() {
+        return positionSource;
+    }
+
+    public Vector2D getPositionTarget() {
+        return positionTarget;
+    }
+
+
+    
 }

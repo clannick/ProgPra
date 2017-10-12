@@ -1,8 +1,8 @@
 package de.BenediktKurth.model;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JPanel;
 
 /**
  *
@@ -14,61 +14,60 @@ import javax.swing.JLabel;
  */
 public final class Stellen extends PosNameBase{
 
-    private String markierung;
+    private String markierungString;
+    private Boolean markiert;
    
-    private final static Icon viereck = new ImageIcon("/ressource/viereck.png");
-   
-    public final static JLabel test = new JLabel("123", viereck,0); 
+
     
     public Stellen(){
         super();
-        this.markierung = "null";
+        this.markierungString = "null";
+        this.markiert = false;
         
-        this.darstellung = new JLabel("neu", viereck,10);      
+            
     }
     
     public Stellen(String id){
         super(id, "null", "null","null");
-        this.markierung = "null";
+        this.markierungString = "null";
+        this.markiert = false;
         
-        this.darstellung = new JLabel("neu", viereck,0); 
         
     }
-    
-    
+ 
     public Stellen(String id, String x, String y){
         super(id, "null", x, y );
-        this.markierung = "null";
+        this.markierungString = "null";
+        this.markiert = false;
         
-        this.darstellung = new JLabel("neu", viereck,0); 
+        
         
     }
-
+   
     public void setInitialMarking(String initialMarking) {
-        this.markierung = initialMarking;
-    }
-
-
-    
-    public String getMarkierungString() {
-        return markierung;
-    }
-    
-    public int getMarkierung() {
-        if (markierung.equals("null")){
-            return 0;
-        } else {
-            Integer temp = Integer.parseInt(markierung);
-            return temp;
+        this.markierungString = initialMarking;
+        if (initialMarking.equals("1")){
+            markiert = true;
         }
     }
 
-
+    public String getMarkierungString() {
+        return markierungString;
+    } 
     
+    public void setMarkiert(){
+        this.markiert = true;
+    }
+
+    public Boolean getMarkiert(){
+        return markiert;
+    }
+    
+  
     
     @Override
     public String toString(){
-        return super.toString() + ", " + markierung;
+        return super.toString() + ", " + markierungString;
     }
     
 }

@@ -1,6 +1,7 @@
 package de.BenediktKurth.model;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * @author Benedikt Kurth
@@ -29,16 +30,23 @@ public abstract class PosNameBase extends IDBase {
    private String label;
    
     /**
-    *  xPosition enthält die horizontale Position des Objektes (oberste Seite)
+    *  xPosString enthält die horizontale Position des Objektes (oberste Seite)
+    *  als String.
     */
-   private String xPosition;
+   private String xPosString;
    
     /**
-    *  yPosition enthält die vertikale Position des Objektes (linke Seite)
+    *  yPosString enthält die vertikale Position des Objektes (linke Seite)
+    *  als String.
     */
-   private String yPosition;
+   private String yPosString;
    
-   private static int size = 50;  
+   /**
+    * position enthält die Position des Objektes als Vector2D
+    * 
+    * @see Vector2D
+    */
+   private final Vector2D position;
    
    /**
     * Leerer Konstruktor - Erzeugt ein leeres Objekt mit klarer ID
@@ -51,8 +59,9 @@ public abstract class PosNameBase extends IDBase {
        super();
        
        this.label = "null";
-       this.xPosition = "null";
-       this.yPosition = "null";
+       this.xPosString = "null";
+       this.yPosString = "null";
+       this.position = new Vector2D(0,0);
        
        
    }
@@ -60,72 +69,75 @@ public abstract class PosNameBase extends IDBase {
    /**
     * Konstruktor erwarter vier Strings 
     * 
-    * @param id     
+    * @param id         String    
     * 
-    * @param label
+    * @param label      String
     * 
-    * @param xPosition
+    * @param xPosition  String
     * 
-    * @param yPosition
+    * @param yPosition  String
     * 
     * @since 1.0
     */
-   PosNameBase (String id, String label, String xPosition, String yPosition) {
-       super(id);
-       this.label = label;
-       this.xPosition = xPosition;
-       this.yPosition = yPosition;
-   }
+    PosNameBase(String id, String label, String xPosition, String yPosition) {
+        super(id);
+        this.label = label;
+        this.xPosString = xPosition;
+        this.yPosString = yPosition;
+        this.position = new Vector2D(0,0);
+        
+        try {
+            this.position.setX(Integer.parseInt(xPosition));
+            this.position.setY(Integer.parseInt(yPosition));
+        } catch (NumberFormatException e) {
+            this.position.setX(0);
+            this.position.setY(0);
+        }
+    }
 
 
-    public String getLabel() {
+    public final String getLabel() {
         return label;
     }
 
-    public String getxPosition() {
-        return xPosition;
+    public final String getxPosition() {
+        return xPosString;
     }
 
-    public String getyPosition() {
-        return yPosition;
+    public final String getyPosition() {
+        return yPosString;
     }
 
-    public void setPosition(String xPosition, String yPosition) {
-        this.xPosition = xPosition; 
-        this.yPosition = yPosition;
-    }
-    
-    public void setLabel(String label) {
+    public final void setLabel(String label) {
         this.label = label;
     }
-    
-    public static void setSize(int faktor){
-        float temp = faktor/100.0f;
-        PosNameBase.size = (int)(50 * temp);
+   
+    public final Vector2D getPosition(){
+        return this.position;
     }
     
-    public static int getSize(){
-        return PosNameBase.size;
+    public final void setPosition(int x, int y){
+        this.position.setX(x);
+        this.position.setY(y);
+        
     }
-    
-    public int getXint (){
-        int x = Integer.parseInt(xPosition);
-        return x;
-    }
-    
-    public int getYint (){
-        int y = Integer.parseInt(yPosition);
-        return y;
-    }
-    
-    public JLabel getDarstellung(){
-        return this.darstellung;
+    public final void setPositionfromString(String xPosition, String yPosition){
+        this.xPosString = xPosition; 
+        this.yPosString = yPosition;
+        
+        try {
+            this.position.setX(Integer.parseInt(xPosition));
+            this.position.setY(Integer.parseInt(yPosition));
+        } catch (NumberFormatException e) {
+            this.position.setX(0);
+            this.position.setY(0);
+        }
     }
 
     
    @Override
     public String toString(){
-        return id +", "+ label +", "+ xPosition +", "+ yPosition;
+        return id +", "+ label +", "+ xPosString +", "+ yPosString;
     }
 
     

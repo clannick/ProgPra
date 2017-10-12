@@ -7,6 +7,11 @@ import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
 import de.BenediktKurth.view.HauptFenster;
 
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author Benedikt Kurth
@@ -20,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
         long currentTime = System.currentTimeMillis();
         
-        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Test.pnml";
+        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-02.pnml";
         ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp);
 
         MainWindowController testController = new MainWindowController();
@@ -28,8 +33,10 @@ public class Main {
         HauptFenster testWindow = new HauptFenster(testController);
         testController.setComponents(testWindow, halla);
         testWindow.setVisible(true);
+       
         
-
+   
+        
         
         
 
@@ -54,6 +61,8 @@ public class Main {
         long time = System.currentTimeMillis();
         long dTime = (time - currentTime);
         System.out.println(dTime);
+        System.out.println(halla.size());
+        
     }
 
 }

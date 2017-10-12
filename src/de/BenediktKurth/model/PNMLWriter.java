@@ -25,7 +25,7 @@ public final class PNMLWriter {
      * 
      * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
      * 
-     * @param ausgabeListe  
+     * @param ausgabeListe  ArrayListSearchID 
      * 
      *  
      *      
@@ -38,7 +38,7 @@ public final class PNMLWriter {
 
             int i = 0;
             
-            while (i < ausgabeListe.size()-1){
+            while (i < ausgabeListe.size() ){
                 if (ausgabeListe.get(i) instanceof Transition){
                     pnmlWriter.addTransition((Transition)ausgabeListe.get(i));
                     i++;
@@ -52,11 +52,14 @@ public final class PNMLWriter {
                     i++;
                 }
             }
-
+            
             pnmlWriter.finishXMLDocument();
+            pnmlDatei = null;
         } else {
             System.out.println("Bitte eine Datei auswählen");
         }
+        
+        
     }
 
     /**
@@ -79,8 +82,7 @@ public final class PNMLWriter {
      */
     public PNMLWriter(final File pnml) {
         super();
-
-        pnmlDatei = pnml;
+        this.pnmlDatei = pnml;
     }
 
     /**
@@ -129,7 +131,7 @@ public final class PNMLWriter {
      * Diese Methode fügt eine neue Transition zum XML Dokument hinzu. Vor dieser Methode muss
      * startXMLDocument() aufgerufen worden sein.
      * 
-     * @param transition
+     * @param transition    Transition
      * 
      */
     public void addTransition(Transition transition) {
@@ -169,16 +171,7 @@ public final class PNMLWriter {
      * Diese Methode fügt eine neue Stelle zum XML Dokument hinzu. Vor dieser Methode muss
      * startXMLDocument() aufgerufen worden sein.
      * 
-     * @param id
-     *      Indentifikationstext der Stelle
-     * @param label
-     *      Beschriftung der Stelle
-     * @param xPosition
-     *      x Position der Stelle
-     * @param yPosition
-     *      y Position der Stelle
-     * @param initialMarking
-     *      Anfangsmarkierung der Stelle
+     * @param stelle Stellen
      */
     public void addStellen(Stellen stelle) {
         if (writer != null) {
@@ -225,20 +218,15 @@ public final class PNMLWriter {
      * Diese Methode fügt eine neue Kante zum XML Dokument hinzu. Vor dieser Methode muss
      * startXMLDocument() aufgerufen worden sein.
      * 
-     * @param id
-     *      Indentifikationstext der Stelle
-     * @param source
-     *      Indentifikationstext des Startelements der Kante
-     * @param target
-     *      Indentifikationstext der Endelements der Kante
+     * @param arc Arc
      */
     public void addArc(Arc arc) {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
                 writer.writeAttribute("id", arc.getId());
-                writer.writeAttribute("source", arc.gibSource());
-                writer.writeAttribute("target", arc.gibTarget());
+                writer.writeAttribute("source", arc.getSource());
+                writer.writeAttribute("target", arc.getTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
                 System.err

@@ -11,95 +11,142 @@ import java.util.ListIterator;
  *  auf einem gerichteten Graphen zw. Anfang und Ende liegen.
  * 
  *  Klasse wirft keine Exceptions.
-
+ * 
  *  Plannung:   - Exceptions
  *              - Verbesserung von prüfeWorkflow...
  *              - Kommentare
  *              - JavaDoc-Kommentare
- *
+ * 
  * @author Benedikt Kurth
  *
  * @since 1.0
  *
  * @version 1.0
+ * 
+ * @see ArrayListSearchID
+ * @see <a href="https://de.wikipedia.org/wiki/Adjazenzmatrix" target="_blank">Wikipedia - Adjazenzmatrix</a>
  */
 public final class Adjazenzmatrix {
 
     /**
      * Stellt die eigentliche Adjazenzmatrix dar.
+     * 
+     * @since 1.0
      */
     private boolean[][] matrix;
     
     /**
-     * Zähler für alle Stellen und Transitions im Workflownetz
+     * Zähler für alle Stellen und Transitions im Workflownetz.
+     * 
+     * @since 1.0
      */
     private int gesamtZaehler;
     
     /**
-     * Zähler für alle Stellen im Workflownetz
+     * Zähler für alle Stellen im Workflownetz.
+     * Derzeit überflüssig, gesamtZaehler würde ausreichen evtl. für spätere Versionen.
+     * 
+     * @since 1.0
      */    
     private int stellenZaehler;
     
     /**
-     * Zähler für alle Transitions im Workflownetz
+     * Zähler für alle Transitions im Workflownetz.
+     * Derzeit überflüssig, gesamtZaehler würde ausreichen evtl. für spätere Versionen.
+     * 
+     * @since 1.0
      */    
     private int transitionZaehler;
     
     /**
-     * Typsichere ArrayList auf IDBase-Objekts, diese speziel für alle Pfeile
+     * Typsichere ArrayList auf IDBase-Objekts, diese speziel für alle Pfeile.
+     * 
+     * @since 1.0
+     * 
+     * @see ArrayListSearchID
      */
     private ArrayListSearchID<Arc> arcListe;
     
     /**
      * Typsichere ArrayList auf IDBase-Objekts, enthält die Basisdaten des
-     * Workflownetzes
+     * Workflownetzes.
+     * 
+     * @since 1.0
+     * 
+     * @see ArrayListSearchID
      */
     private ArrayListSearchID<IDBase> gesamtListe;
     
     /**
      * Hilfsliste (Rekursion) Liste mit allen besuchten Knoten auf dem Hinweg
-     * (Vom Anfang zum Ende)
+     * (Vom Anfang zum Ende).
+     * 
+     * @since 1.0
+     * 
+     * @see java.util.ArrayList
      */
     private ArrayList<Integer> besuchtePunkteHin;
     
     /**
      * Hilfsliste (Rekursion) Liste mit allen besuchten Knoten auf dem Rückweg
-     * (Vom Ende zum Anfang)
+     * (Vom Ende zum Anfang).
+     * 
+     * @since 1.0
+     * 
+     * @see java.util.ArrayList
      */
     private ArrayList<Integer> besuchtePunkteHer;
 
-    public Adjazenzmatrix(ArrayListSearchID array) {
-        if (array != null) {
+    /**
+     * Der Kontruktor überprüft, ob eine nicht leere Basisdatenmenge übergeben
+     * wurde.
+     * Sollte ein leere Basisdatenmenge übergeben werden, wird keine Aktion 
+     * ausgeführt!
+     * Kontruktor ruft Methode aktualisieren auf.
+     * 
+     * @since 1.0
+     * 
+     * @param array  ArrayListSearchID mit den Basisdaten für die Adjazenzmatrix.
+     * 
+     * @see ArrayListSearchID
+     * @see #aktualisieren(de.BenediktKurth.model.ArrayListSearchID)
+     */
+    /*public Adjazenzmatrix(ArrayListSearchID<IDBase> array) {
+        if (!array.isEmpty()) {
             aktualisieren(array);
-
         }
+    }*/
 
+    public Adjazenzmatrix (ArrayListSearchID<IDBase> array) {
+        aktualisieren(array);  
+        
     }
-
+    
+    
     /**
      * Diese Methode setzt die Matrix zurück auf null und lässt dann die
      * Adjazenzmatrix des Workflownetzes auf Basis des EingabeArrays erstellen.
      * Die Methode teilt zugleich auch die Basisdaten in Stellen/Transitions und
      * Pfeilen, dabei werden Stellen und Transitions gezählt.
      *
-     * @author Benedikt Kurth
-     *
      * @since 1.0
      *
-     * @version 1.0
-     * 
      * @param basisDatenArray EingabeArray mit dem Workflownetz "Basisdaten"
      *
-     *
-     * @return Boolean true -> es wurde etwas verändert; false -> es wurde nur
-     * die alte Matrix gelöscht.
+     * @return Boolean  True: es wurde etwas verändert. 
+     *                  False: es wurde nur die alte Matrix gelöscht.
      */
-    public final boolean aktualisieren(ArrayListSearchID basisDatenArray) {
-
-        Boolean rueckgabeWert = (basisDatenArray.size() > 0);
-
+    public final boolean aktualisieren(ArrayListSearchID<IDBase> basisDatenArray) {
+        
+    // Rückgabewert ist true, wenn basisDatenArray nicht leer ist.
+        if (basisDatenArray.isEmpty()){
+            return false;
+        }
+        
+        // Setzt alle Werte der "alten" Matrix auf null
         zuruecksetzen();
-
+        
+        //Init Hilfsvariablen
         this.gesamtListe = basisDatenArray;
         int i = 0;
 
@@ -115,6 +162,7 @@ public final class Adjazenzmatrix {
                 arcListe.add(basisDatenArray.get(i));
             }
 
+            //Gehe zum nächsten Objekt
             i++;
         }
 
@@ -124,9 +172,11 @@ public final class Adjazenzmatrix {
         // Erstelle neue Matrix (Mnn(true,false))
         this.matrix = initalisiereMatrix(gesamtZaehler);
 
+        //Befüllt Matrix auf Grundlage der arcListe, BasisDaten werden gebraucht
+        //um InterneIDs der Source und Targets zu ermitteln
         fuelleMatrix(arcListe, basisDatenArray);
 
-        return rueckgabeWert;
+        return true;
 
     }
 
@@ -137,53 +187,50 @@ public final class Adjazenzmatrix {
      * interner ID, dann setzt die Methode an entsprechender Stelle in der
      * Matrix den Eintrag auf true (Es ex. ein Weg).
      *
-     * @author Benedikt Kurth
-     *
      * @since 1.0
-     *
-     * @version 1.0
      * 
      * @param arcList   ArrayListSearchID mit allen gerichteten Graphen
-   
+     *    
      * @param basisdaten     ArrayListSearchID mit den Basisdaten
-     * 
      * 
      * @see ArrayListSearchID
      */
-    private void fuelleMatrix(ArrayListSearchID arcList, ArrayListSearchID basisdaten ){
+    private void fuelleMatrix(ArrayListSearchID<Arc> arcList, ArrayListSearchID<IDBase> basisdaten ){
+        
+        //Hilfsvariable while-Schleife
         int i = 0;
+        
+        //Durchlaufe alle Pfeile in der Liste
         while (i < arcList.size()) {
 
-            Arc temp = (Arc) arcList.get(i);
-            String sourceString = temp.gibSource();
-            String targetString = temp.gibTarget();
+            //Hol aktuellen Pfeil aus der Liste
+            Arc arc = (Arc) arcList.get(i);
             
-            // !!!!!!!!!!!!!!! null wird bei nicht gefunden zurück
-            IDBase sourceIDBase = (IDBase) basisdaten.searchID(sourceString);
-            IDBase targetIDBase = (IDBase) basisdaten.searchID(targetString);
-            int sourceInt = sourceIDBase.getInterneID();
-            int targetInt = targetIDBase.getInterneID();
+            //Suche Source und Target in Basisdaten und ermittle interner ID´s
+            int sourceInt = basisdaten.searchID(arc.getSource()).getInterneID();
+            int targetInt = basisdaten.searchID(arc.getTarget()).getInterneID();
 
+            System.out.println(sourceInt +" "+ targetInt);
+            //Setzte Adjazenmatrix an passender Stelle auf true
+            //(Es gibt einen Weg von Source nach Target)
             this.matrix[sourceInt][targetInt] = true;
 
+            //Nächstes Objekt
             i++;
         }
     }
     
     /**
-     * Diese Methode
+     * Diese Methode erzeugt eine "leere" (false-Einträge) Adjazenmatrix 
+     * gewünschter Größe.
      *    
-     * @author Benedikt Kurth
-     *
      * @since 1.0
-     *
-     * @version 1.0
      * 
-     * @param groesse
+     * @param groesse   int Gibt die Größe der Adjazenzmatrix vor (n x n).
      * 
-     * @return 
+     * @return boolean[][]  Dies ist die Adjazenzmatrix in der gewünschten Größe.
+     *                      Initalisiert wurden alle Felde mit false.
      */
-
     private boolean[][] initalisiereMatrix(int groesse) {
         boolean[][] tempMatrix = new boolean[groesse][groesse];
         for (int g = 0; g < groesse; g++) {
@@ -195,53 +242,56 @@ public final class Adjazenzmatrix {
     }
 
     /**
-     *  Methode
-     * 
-     *  @author Benedikt Kurth
+     *  Methode setzt alle Parameter auf zurück auf null.     * 
      *
      *  @since 1.0
-     *
-     *  @version 1.0
-     * 
      */
     private void zuruecksetzen() {
         this.stellenZaehler = 0;
         this.transitionZaehler = 0;
         this.gesamtZaehler = 0;
-        this.arcListe = new ArrayListSearchID();
+        this.arcListe = new ArrayListSearchID<>();
         this.matrix = null;
     }
 
     /**
-     * Diese Methode
-     *    
-     * @author Benedikt Kurth
+     * Diese Methode sucht mögliche Anfangsstellen auf Basis der Adjazenzmatrix.
+     * Wenn es keinen Pfeile zur Stelle gibt, wird die Stelle vorgemerkt als
+     * mögliche Anfangsstelle. Sollte es aus div. Gründen keine geben übergebe
+     * eine leere Liste.
      *
      * @since 1.0
-     *
-     * @version 1.0
      * 
-     * @return 
+     * @return ArrayList Gibt eine Liste möglicher Anfangsstellen zurück. 
+     * 
+     * @see java.util.ArrayList
      */    
     public ArrayList getAnfang() {
 
+        //Erstelle leere ArrayListe
         ArrayList moeglicheAnfangsstellen = new ArrayList();
         
-
+        //Wenn es überhaupt Daten gibt prüfe diese, ansonsten gib leere Liste
         if (this.gesamtZaehler <= 0) {
             return moeglicheAnfangsstellen;
         } else {
+            //Hilfsvariable 
             boolean flag;
 
+            //Finde Stellen/Transitions ohne eigehende Pfeile
             for (int i = 0; i < this.gesamtZaehler; i++) {
                 flag = false;
                 for (int j = 0; j < this.gesamtZaehler; j++) {
+                    //Wenn es eingehenden Pfeile gibt, setzte flag
                     if ((this.matrix[j][i])) {
                         flag = true;
                     }
                 }
-                if (!flag) {
+                
+                // Wenn keine eigehende Pfeile und Objekt ist eine Stelle
+                if (!flag && (gesamtListe.getWithInternID(i) instanceof Stellen)) {
                    
+                    //Füge es als mögliche Anfangsstelle hinzu
                     moeglicheAnfangsstellen.add(gesamtListe.getWithInternID(i));
                 }
             }
@@ -251,38 +301,42 @@ public final class Adjazenzmatrix {
     }
 
     /**
-     * Diese Methode
-     *    
-     * @author Benedikt Kurth
+     * Diese Methode sucht mögliche Anfangsstellen auf Basis der Adjazenzmatrix.
+     * Wenn es keinen Pfeile zur Stelle gibt, wird die Stelle vorgemerkt als
+     * mögliche Anfangsstelle. Sollte es aus div. Gründen keine geben übergebe
+     * eine leere Liste.
      *
      * @since 1.0
-     *
-     * @version 1.0
      * 
-     * @return 
-     */     
+     * @return ArrayList Gibt eine Liste möglicher Anfangsstellen zurück. 
+     * 
+     * @see java.util.ArrayList
+     */      
     public ArrayList getEnde() {
 
-        ArrayList moeglicheEndstellen = null;
-
+        //Erstelle leere ArrayListe
+        ArrayList moeglicheEndstellen = new ArrayList();
+        
+        //Wenn es überhaupt Daten gibt prüfe diese, ansonsten gib leere Liste
         if (this.gesamtZaehler <= 0) {
             return moeglicheEndstellen;
         } else {
-        
-
-            
+            //Hilfsvariable 
             boolean flag;
 
+            //Finde Stellen/Transitions ohne ausgehende Pfeile
             for (int i = 0; i < this.gesamtZaehler; i++) {
                 flag = false;
                 for (int j = 0; j < this.gesamtZaehler; j++) {
+                    //Wenn es ausgehende Pfeile gibt, setzte flag
                     if ((this.matrix[i][j])) {
                         flag = true;
                     }
                 }
-                if (!flag) {
-                    //Es kann kein Nullpointer übergeben werden da i ex.
-                    //und damit auch das Objekt existiert.
+                // Wenn keine ausgehenden Pfeile und Objekt ist eine Stelle
+                if (!flag && (gesamtListe.getWithInternID(i) instanceof Stellen)) {
+                    
+                    //Füge es als mögliche Endstelle hinzu
                     moeglicheEndstellen.add(gesamtListe.getWithInternID(i));
                 }
             }
@@ -294,26 +348,26 @@ public final class Adjazenzmatrix {
     /**
      * Diese Methode überprüft ein bestehendes Netz (Art unbekannt) auf vorhanden
      * sein eines Workflownetzes. Dazu wird das Netz mithilfe der Adjazenzmatrix 
-     * einmal Vorwärts und einmal Rückwärts durchlaufen. 
-     * 
-     * Es wird geprüft: 1. Gibt es eine Anfangsstelle und eine Endstelle?
+     * einmal Vorwärts und einmal Rückwärts durchlaufen. <br>
+     * <br>
+     * Es wird geprüft:<br> 1. Gibt es eine Anfangsstelle und eine Endstelle?<br>
      *                  2.a. Sind alle Stellen/Transitions von der Anfangsstelle
-     *                       bzw. Endstelle erreichbar?
-     *                  2.b. Wurden dabei alle Stellen/Transitions "besucht"?
-     *                  3. Gibt es Sackgassen?
+     *                       bzw. Endstelle erreichbar?<br>
+     *                  2.b. Wurden dabei alle Stellen/Transitions "besucht"?<br>
+     *                  3. Gibt es Sackgassen?<br>
+     * <br>
+     * Hilfsmethoden:<br>   _pruefeWorkflownetzVorwaerts<br>
+     *                      _pruefeWorkflownetzRuckwaerts<br>
      * 
-     * Hilfsmethoden:   _pruefeWorkflownetzVorwaerts
-     *                  _pruefeWorkflownetzRuckwaerts
-     * 
-     *
      * @since 1.0
-     *
-     * @version 1.0
-     * 
-     * @throws de.BenediktKurth.Exceptions.WorkflownetzException
      * 
      * @return boolean  True: Es handelt sich um ein Workflownetz
      *                  False: Es ist kein Workflownetz
+     *
+     * @throws de.BenediktKurth.Exceptions.WorkflownetzException Es wird zu
+     *          jeder Exception ein entsprechende Nachricht mitgegeben.
+     * 
+     * @see java.util.ArrayList
      */
     public boolean pruefeWorkflownetz() throws WorkflownetzException{
 
@@ -349,8 +403,8 @@ public final class Adjazenzmatrix {
         
         //Es gibt nur eine Anfangsstelle und ein Endstelle!
         
-        Stellen anfang = (Stellen)anfangsstelle.get(anfangsstelle.size());
-        Stellen ende = (Stellen)endstelle.get(endstelle.size());
+        Stellen anfang = (Stellen)anfangsstelle.get(0);
+        Stellen ende = (Stellen)endstelle.get(0);
 
         //Ermittlung Interner ID der Anfangsstelle und Endstelle
         int inIdAnfang = anfang.getInterneID();
@@ -376,80 +430,86 @@ public final class Adjazenzmatrix {
     }
  
     /**
-     * Diese Methode
-     *    
-     * @author Benedikt Kurth
+     * Diese Methode prüft ein Netzwerk (vorwärts) auf Sackgassen und 
+     * merkt sich besuchte Objekte.
      *
      * @since 1.0
      *
-     * @version 1.0
+     * @param anfangsID     Interne ID der Stelle/Transition von der gesucht werden soll.
      * 
-     * @return 
-     *  
+     * @param inIdEnde      Interne ID der Endstelle.
+     * 
+     * @param besuchtePunkte    ArrayList mit allen besuchten Obejkten
+     *                          (interne ID).
+     * 
+     * @return boolean  True: Es gibt keine Sackgassen
+     *                  False: Es gibt Sackgassen
      */
-    private boolean _pruefeWorkflownetzVorwaerts(int inIdAnfang, int inIdEnde, ArrayList<Integer> besuchtePunkte) {
+    private boolean _pruefeWorkflownetzVorwaerts(int anfangsID, int inIdEnde, ArrayList<Integer> besuchtePunkte) {
 
         //Sicherung gegen Zyklen -> Endlosschleife
         ListIterator<Integer> iterator = besuchtePunkte.listIterator();
         while (iterator.hasNext()) {
             int temp = iterator.next();
-            if (temp == inIdAnfang) {
+            if (temp == anfangsID) {
 
                 return true;
-
             }
         }
 
-        besuchtePunkte.add(inIdAnfang);
+        besuchtePunkte.add(anfangsID);
 
         boolean rueckgabeWert = true;
 
-        if (inIdAnfang == inIdEnde) {
+        //Wenn Anfang = Ende, dann ziel erfüllt
+        if (anfangsID == inIdEnde) {
             return true;
-
         }
 
         int countNachfolger = 0;
 
         for (int i = 0; i < this.gesamtZaehler; i++) {
-            if (this.matrix[inIdAnfang][i]) {
+            if (this.matrix[anfangsID][i]) {
                 countNachfolger++;
             }
         }
 
         if (countNachfolger == 0) {
-            //throw new WorkflownetzDeadEndException();
-            System.out.println("Fehler");
+            //Es handelt sich um eine Sackgasse
             return false;
+       
+        //Es gibt genau einen Nachfolger, dann rufe einmal rekursiv auf    
         } else if (countNachfolger == 1) {
             for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[inIdAnfang][i]) {
+                if (this.matrix[anfangsID][i]) {
                     rueckgabeWert = _pruefeWorkflownetzVorwaerts(i, inIdEnde, besuchtePunkte);
-
                 }
             }
+            
+        //Es gibt n Nachfolger, dann rufe n-mal rekursiv auf      
         } else if (countNachfolger > 1) {
-            ArrayList<Integer> tempIntList = new ArrayList<>();
-            ArrayList<Boolean> tempBooleanList = new ArrayList<>();
+            
+            ArrayList<Integer> listeNachfolger = new ArrayList<>();
+            ArrayList<Boolean> listePruefungen = new ArrayList<>();
+            
             for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[inIdAnfang][i]) {
-                    tempIntList.add(i);
+                if (this.matrix[anfangsID][i]) {
+                    listeNachfolger.add(i);
                 }
             }
 
-            for (Integer x : tempIntList) {
-                tempBooleanList.add(_pruefeWorkflownetzVorwaerts(x, inIdEnde, besuchtePunkte));
+            for (Integer x : listeNachfolger) {
+                listePruefungen.add(_pruefeWorkflownetzVorwaerts(x, inIdEnde, besuchtePunkte));
             }
 
             boolean flag = false;
-            for (Boolean x : tempBooleanList) {
+            for (Boolean x : listePruefungen) {
                 if (!x) {
                     flag = true;
                 }
             }
 
             if (flag) {
-                System.out.println("Ein Weg versperrt, hin");
                 return false;
             }
         }
@@ -458,34 +518,38 @@ public final class Adjazenzmatrix {
     }
 
     /**
-     * Diese Methode
-     *    
-     * @author Benedikt Kurth
+     * Diese Methode prüft ein Netzwerk (rückwärts) auf Sackgassen und 
+     * merkt sich besuchte Objekte.
      *
      * @since 1.0
      *
-     * @version 1.0
+     * @param inIdAnfang     Interne ID der Anfangsstelle. 
      * 
-     * @return 
-     *  
+     * @param anfangsID      Interne ID der Stelle/Transition von der aus gesucht werden soll.
+     * 
+     * @param besuchtePunkte    ArrayList mit allen besuchten Obejkten
+     *                          (interne ID).
+     * 
+     * @return boolean  True: Es gibt keine Sackgassen
+     *                  False: Es gibt Sackgassen
      */
-    private boolean _pruefeWorkflownetzRuckwaerts(int inIdAnfang, int inIdEnde, ArrayList<Integer> besuchtePunkte) {
+    private boolean _pruefeWorkflownetzRuckwaerts(int inIdAnfang, int anfangsID, ArrayList<Integer> besuchtePunkte) {
 
         //Sicherung gegen Zyklen -> Endlosschleife
         ListIterator<Integer> iterator = besuchtePunkte.listIterator();
         while (iterator.hasNext()) {
             int temp = iterator.next();
-            if (temp == inIdEnde) {
-                System.out.println("Zyklus her");
+            if (temp == anfangsID) {
+ 
                 return true;
             }
         }
 
-        besuchtePunkte.add(inIdEnde);
+        besuchtePunkte.add(anfangsID);
 
         boolean rueckgabeWert = true;
 
-        if (inIdEnde == inIdAnfang) {
+        if (anfangsID == inIdAnfang) {
             return true;
 
         }
@@ -493,20 +557,19 @@ public final class Adjazenzmatrix {
         int countVorgaenger = 0;
 
         for (int i = 0; i < this.gesamtZaehler; i++) {
-            if (this.matrix[i][inIdEnde]) {
+            if (this.matrix[i][anfangsID]) {
                 countVorgaenger++;
 
             }
         }
 
         if (countVorgaenger == 0) {
-            //throw new WorkflownetzDeadEndException();
-            System.out.println("Fehler");
+
             return false;
 
         } else if (countVorgaenger == 1) {
             for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[i][inIdEnde]) {
+                if (this.matrix[i][anfangsID]) {
                     rueckgabeWert = _pruefeWorkflownetzRuckwaerts(inIdAnfang, i, besuchtePunkte);
                     //System.out.println("1");
                 }
@@ -517,7 +580,7 @@ public final class Adjazenzmatrix {
             ArrayList<Integer> tempIntList = new ArrayList<>();
             ArrayList<Boolean> tempBooleanList = new ArrayList<>();
             for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[i][inIdEnde]) {
+                if (this.matrix[i][anfangsID]) {
                     tempIntList.add(i);
                 }
             }
@@ -537,7 +600,6 @@ public final class Adjazenzmatrix {
             if (flag) {
                 return false;
             }
-
         }
 
         return rueckgabeWert;

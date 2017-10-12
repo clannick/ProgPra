@@ -31,10 +31,10 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
         
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
         while (i < this.size()){
-            T temp = (T)this.get(i);
+          
            
-            if (temp.getId().equals(id)) {
-                return temp;
+            if (((T)this.get(i)).getId().equals(id)) {
+                return (T)this.get(i);
             }
             i++;
         }
@@ -62,15 +62,17 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
      * @return  true, wenn ID einmalig
      *          false, wenn ID vorhanden
      */
-    @Override
-    public boolean add(Object eingabeObjekt){
+    
+    public boolean add(T eingabeObjekt){
        
-        if (!idExist(((T)eingabeObjekt).getId())){
+        if (!idExist(eingabeObjekt.getId())){
             super.add(eingabeObjekt);
             return true;
         }
         return false;
     }
+    
+    
     
     public T getWithInternID(int id){
         

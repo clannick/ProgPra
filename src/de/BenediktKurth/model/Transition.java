@@ -1,5 +1,7 @@
 package de.BenediktKurth.model;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JLabel;
 
 /**
@@ -12,14 +14,14 @@ import javax.swing.JLabel;
  */
 public final class Transition extends PosNameBase{
 
-    JLabel transitionDarstellung;
-    
     public Transition(){
         super();
+        //this.darstellung = new TransitionPanel(this.getLabel());
     }
     
     public Transition(String id){
         super(id, "", "", "");
     }
-    
+
+
 }
