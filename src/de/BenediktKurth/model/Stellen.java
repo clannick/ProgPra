@@ -55,8 +55,8 @@ public final class Stellen extends PosNameBase{
         return markierungString;
     } 
     
-    public void setMarkiert(){
-        this.markiert = true;
+    public void setMarkiert(boolean flag){
+        this.markiert = flag;
     }
 
     public Boolean getMarkiert(){

@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
         long currentTime = System.currentTimeMillis();
         
-        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-02.pnml";
+        String stringTemp = "D:\\Desktop\\ProPra\\Beispiele\\Beispiel-03.pnml";
         ArrayListSearchID<IDBase> halla = PNMLParser.loadAndGet(stringTemp);
 
         MainWindowController testController = new MainWindowController();

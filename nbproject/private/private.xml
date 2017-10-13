@@ -7,15 +7,21 @@
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/IDBase.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/HauptFenster.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Transition.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/ArcLabel.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PNMLParser.java</file>
-            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/control/MainWindowController.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/PopUpMenu.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ArrayListCheckAdd.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/control/MainWindowController.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/StellenLabel.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Adjazenzmatrix.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/BasisLabel.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Vector2D.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PosNameBase.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/ArrayListSearchID.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Stellen.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Arc.java</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/ressource/viereck.png</file>
+            <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/view/TransitionLabel.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/PNMLWriter.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/Exceptions/WorkflownetzException.java</file>
             <file>file:/D:/JavaWorkspace/ProgPra/src/de/BenediktKurth/model/Platzhalter.java</file>

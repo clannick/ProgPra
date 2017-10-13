@@ -152,6 +152,11 @@ public class HauptFenster extends javax.swing.JFrame {
         groessenText.setText("Größe");
 
         zeichenflaeche.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        zeichenflaeche.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                zeichenflaecheMouseClicked(evt);
+            }
+        });
         zeichenflaeche.setLayout(null);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -169,6 +174,9 @@ public class HauptFenster extends javax.swing.JFrame {
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jLabel1MouseReleased(evt);
             }
         });
         zeichenflaeche.add(jLabel1);
@@ -248,7 +256,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_neueStelleKnopfActionPerformed
 
     private void neueTransitionKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTransitionKnopfActionPerformed
-        JLabel test = new PosNameLabel(new Transition(), controller, this);
+        JLabel test = new BasisLabel(new Transition(), controller, this);
         
 
         zeichenflaeche.add(test);
@@ -259,7 +267,7 @@ public class HauptFenster extends javax.swing.JFrame {
 
     private void neuKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuKnopfActionPerformed
         zeichenflaeche.removeAll();
-        controller.getArraySize();
+        //controller.getArraySize();
         controller.testeWorkflownetz();
         controller.createView(darstellungen);
         controller.setzteDarstellung(zeichenflaeche, darstellungen);
@@ -286,6 +294,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_speichernKnopfActionPerformed
 
     private void groessenSchieberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_groessenSchieberStateChanged
+        zeichenflaeche.removeAll();
         controller.setSize(groessenSchieber.getValue());
         controller.createView(darstellungen);
         controller.setzteDarstellung(zeichenflaeche, darstellungen);
@@ -320,6 +329,14 @@ public class HauptFenster extends javax.swing.JFrame {
     private void jLabel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseDragged
        
     }//GEN-LAST:event_jLabel1MouseDragged
+
+    private void jLabel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1MouseReleased
+
+    private void zeichenflaecheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_zeichenflaecheMouseClicked
 
 
     public JLabel gibFehleranzeigeText(){

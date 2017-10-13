@@ -19,6 +19,11 @@ public abstract class IDBase {
      * 
      */    
     protected final int idInt;
+     
+    /**
+     * 
+     */    
+    private boolean focusOn = false;
     
     /**
      * 
@@ -113,6 +118,16 @@ public abstract class IDBase {
     public final static void resetIdCounter(){
        IDBase.idCounter = 0; 
     } 
+
+    public void setFocusOn(boolean focusOn) {
+        this.focusOn = focusOn;
+    }
+
+    public boolean isFocusOn() {
+        return focusOn;
+    }
+    
+    
     
     
 }
