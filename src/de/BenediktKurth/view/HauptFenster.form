@@ -36,6 +36,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="formKeyPressed"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -64,17 +67,20 @@
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="fehleranzeigeGross" alignment="0" max="32767" attributes="0"/>
-                      <Component id="groessenSchieber" alignment="0" max="32767" attributes="0"/>
-                      <Component id="neuKnopf" pref="150" max="32767" attributes="0"/>
-                      <Component id="speichernKnopf" pref="150" max="32767" attributes="0"/>
-                      <Component id="ladenKnopf" pref="150" max="32767" attributes="0"/>
-                      <Component id="neueTransitionKnopf" pref="150" max="32767" attributes="0"/>
-                      <Component id="neueVerbindungKnopf" alignment="1" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="groessenSchieber" alignment="0" max="32767" attributes="0"/>
+                          <Component id="neuKnopf" max="32767" attributes="0"/>
+                          <Component id="speichernKnopf" max="32767" attributes="0"/>
+                          <Component id="ladenKnopf" max="32767" attributes="0"/>
+                          <Component id="neueTransitionKnopf" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="neueVerbindungKnopf" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="fehleranzeigeGross" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="groessenText" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="neueStelleKnopf" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="groessenText" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="neueStelleKnopf" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
+                  <Component id="neueVerbindungKnopf1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -89,11 +95,13 @@
                       <Component id="neueStelleKnopf" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="neueTransitionKnopf" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="neueVerbindungKnopf1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="fehleranzeigeGross" min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="neueVerbindungKnopf" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="fehleranzeigeGross" min="-2" pref="37" max="-2" attributes="0"/>
-                      <EmptySpace pref="189" max="32767" attributes="0"/>
+                      <EmptySpace pref="120" max="32767" attributes="0"/>
                       <Component id="groessenText" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="groessenSchieber" min="-2" pref="30" max="-2" attributes="0"/>
@@ -163,8 +171,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="neueVerbindungKnopf">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Neue Verbindung"/>
+        <Property name="mnemonic" type="int" value="76"/>
+        <Property name="text" type="java.lang.String" value="L&#xf6;schen"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Loeschen"/>
+        <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+      </AccessibilityProperties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="neueVerbindungKnopfActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="neueTransitionKnopf">
       <Properties>
@@ -199,38 +215,17 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="zeichenflaecheMouseClicked"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="zeichenflaecheKeyTyped"/>
       </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/ressource/viereck.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-            <Property name="verticalAlignment" type="int" value="1"/>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Handcursor"/>
-            </Property>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseDragged"/>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseClicked"/>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseReleased"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="280" y="180" width="80" height="80"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-      </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="neueVerbindungKnopf1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Neue Verbindung"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

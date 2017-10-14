@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @param <T> Ermöglicht den Typsicherenzugriff auf getId() der Klasse IDBase
  */
-public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
+public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
     
     
     /**
@@ -32,9 +32,9 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
         while (i < this.size()){
           
-           
-            if (((T)this.get(i)).getId().equals(id)) {
-                return (T)this.get(i);
+
+            if (this.get(i).getId().equals(id)) {
+                return this.get(i);
             }
             i++;
         }
@@ -63,6 +63,7 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
      *          false, wenn ID vorhanden
      */
     
+    @Override
     public boolean add(T eingabeObjekt){
        
         if (!idExist(eingabeObjekt.getId())){
@@ -81,7 +82,7 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList {
         
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
         while (i < this.size()){
-            T temp = (T)this.get(i);
+            T temp = this.get(i);
            
             if (temp.getInterneID() == id) {
                 return temp;

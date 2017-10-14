@@ -38,7 +38,7 @@ public class PopUpMenu extends JPopupMenu{
             @Override
              public void mouseReleased(java.awt.event.MouseEvent evt) {
                 controller.removePosNameBase(interneID);
-                controller.erzeugeNeueDarstellung();
+                
                 
             }
         });

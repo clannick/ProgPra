@@ -17,8 +17,6 @@ import de.BenediktKurth.view.StellenLabel;
 import de.BenediktKurth.view.TransitionLabel;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -102,7 +100,7 @@ public class MainWindowController {
 
         int i = 0;
         while (i < this.speicherArray.size()) {
-            IDBase temp = (IDBase) this.speicherArray.get(i);
+            IDBase temp = this.speicherArray.get(i);
             if (temp instanceof Stellen) {
                 JLabel test = new StellenLabel((Stellen) temp, this, window);
 
@@ -156,13 +154,14 @@ public class MainWindowController {
             speicherArrayNeu();
 
         }
+        erzeugeNeueDarstellung();
     }
 
     private void speicherArrayNeu() {
-        ArrayListSearchID<IDBase> neuesSpeicherArray = new ArrayListSearchID<IDBase>();
+        ArrayListSearchID<IDBase> neuesSpeicherArray = new ArrayListSearchID<>();
         int i = 0;
         while (i < this.speicherArray.size()) {
-            IDBase temp = (IDBase) this.speicherArray.get(i);
+            IDBase temp = this.speicherArray.get(i);
             if (temp instanceof Arc) {
                 Arc arcTemp = (Arc) temp;
                 String id = arcTemp.getId();

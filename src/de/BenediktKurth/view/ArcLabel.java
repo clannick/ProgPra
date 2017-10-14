@@ -3,6 +3,7 @@ package de.BenediktKurth.view;
 import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.Vector2D;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -32,19 +33,11 @@ public class ArcLabel extends BasisLabel {
 
         this.posX = Math.min(sourcePosition.getX(), targetPosition.getX()) - 1;
         this.posY = Math.min(sourcePosition.getY(), targetPosition.getY())- 1;
-        
      
-        double aabb = (breite*breite)+(hoehe*hoehe);
-        double c = Math.sqrt(aabb);
-        double sinalpha = Math.sin(hoehe/c);
-        
-        
-        System.out.println(sinalpha + "°");
-        
         
         super.setBounds(posX, posY, breite, hoehe);
 
-        super.setBorder(BorderFactory.createLineBorder(Color.green));
+        //super.setBorder(BorderFactory.createLineBorder(Color.green));
 
     }
 
@@ -57,33 +50,28 @@ public class ArcLabel extends BasisLabel {
         Vector2D test1 = sourcePosition;
         Vector2D test2 = targetPosition;
         g.setColor(Color.black);
-
-        if ((test1.getX() < test2.getX() && (test1.getY() < test2.getY()))){
-            //Von oben links nach unten rechts
-            g.drawLine(0, 0, breite, hoehe);
-        } else if ((test1.getX() > test2.getX() && (test1.getY() < test2.getY()))){
-            //Von oben rechts nach unten links
-            g.drawLine(0, hoehe, breite, 0);
-            
-        } else if ((test1.getX() < test2.getX() && (test1.getY() > test2.getY()))){
-            //Von unten links -> oben rechts
-            g.drawLine(0, hoehe, breite, 0);
-            
-        } else if ((test1.getX() > test2.getX() && (test1.getY() > test2.getY()))){
-            //Von unten rechts -> oben links
-            g.drawLine(0, 0, breite, hoehe);
-        } 
-        
-        
-        
-        
         
         
         if (hoehe < 3 || breite < 3) {
             g.drawLine(1, 1, breite - 1, hoehe - 1);
         } else {
+            if ((test1.getX() < test2.getX() && (test1.getY() < test2.getY()))){
+                //Von oben links nach unten rechts
+              
+                 g.drawLine(0, 0, breite, hoehe);
+               
+            } else if ((test1.getX() > test2.getX() && (test1.getY() < test2.getY()))){
+                //Von oben rechts nach unten links
+                g.drawLine(0, hoehe, breite, 0);
 
+            } else if ((test1.getX() < test2.getX() && (test1.getY() > test2.getY()))){
+                //Von unten links -> oben rechts
+                g.drawLine(0, hoehe, breite, 0);
 
+            } else if ((test1.getX() > test2.getX() && (test1.getY() > test2.getY()))){
+                //Von unten rechts -> oben links
+                g.drawLine(0, 0, breite, hoehe);
+            }
         }
 
     }
