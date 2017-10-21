@@ -30,7 +30,7 @@ public final class PNMLWriter {
      *  
      *      
      */
-    public static void saveFile(final String fileName, ArrayListSearchID ausgabeListe) {
+    public static void saveFile(final String fileName, ArrayListSearchID<IDBase> ausgabeListe) {
         if (fileName != null) {
             File pnmlDatei = new File(fileName);
             PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);

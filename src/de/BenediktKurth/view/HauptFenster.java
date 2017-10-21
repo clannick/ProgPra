@@ -1,14 +1,19 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-import de.BenediktKurth.model.IDBase;
-import de.BenediktKurth.model.Transition;
+import de.BenediktKurth.model.Vector2D;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.logging.Filter;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *  Klasse zur graphischen Darstellung des Programmes. 
@@ -32,9 +37,9 @@ public class HauptFenster extends javax.swing.JFrame {
     
     private boolean wurdeGeaender = false;
     
-    private boolean istWasMarkiert = false;
-    
     private ArrayList<Integer> interneIDmarkierter = new ArrayList<>();
+    
+    private Toolkit desktop = Toolkit.getDefaultToolkit();
     
     /**
      *  Enthält den Controller für diese Klasse
@@ -45,7 +50,8 @@ public class HauptFenster extends javax.swing.JFrame {
     
     private ArrayList<JLabel> darstellungen = new ArrayList<>();
     
-     
+    private int screenHeight;
+    private int screenWidth;
     /**
      * Konstruktor mit übergabe des Kontrollers (MVC)
      * 
@@ -55,9 +61,16 @@ public class HauptFenster extends javax.swing.JFrame {
      */
     public HauptFenster(MainWindowController controller) {
         this.controller = controller;
-        initComponents();
-        super.setFocusable(true);
         
+        
+        screenHeight = desktop.getScreenSize().height;
+        screenWidth = desktop.getScreenSize().width;
+        super.setBounds((screenWidth/2)-(screenWidth/4), (screenHeight/2)-(screenHeight/4), screenWidth/2, screenHeight/2);
+        super.setFocusable(true);
+        initComponents();
+        zeichenflaeche.setPreferredSize(new Dimension(2000, 2000));
+        
+       
     }
 
     /**
@@ -74,13 +87,26 @@ public class HauptFenster extends javax.swing.JFrame {
         neuKnopf = new javax.swing.JButton();
         speichernKnopf = new javax.swing.JButton();
         ladenKnopf = new javax.swing.JButton();
-        neueVerbindungKnopf = new javax.swing.JButton();
+        loeschenKnopf = new javax.swing.JButton();
         neueTransitionKnopf = new javax.swing.JButton();
         neueStelleKnopf = new javax.swing.JButton();
         groessenText = new javax.swing.JLabel();
         fehleranzeigeText = new javax.swing.JLabel();
-        zeichenflaeche = new javax.swing.JPanel();
-        neueVerbindungKnopf1 = new javax.swing.JButton();
+        neueVerbindungKnopf = new javax.swing.JButton();
+        scrollFenster = new javax.swing.JScrollPane();
+        zeichenflaeche = new javax.swing.JLayeredPane();
+        umbennenKnopf = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        pfeilOben = new javax.swing.JButton();
+        pfeilLinks = new javax.swing.JButton();
+        pfeilRechts = new javax.swing.JButton();
+        pfeilUnten = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         menueLeiste = new javax.swing.JMenuBar();
         menuEintragDatei = new javax.swing.JMenu();
         menuEintragBearbeiten = new javax.swing.JMenu();
@@ -111,6 +137,9 @@ public class HauptFenster extends javax.swing.JFrame {
         });
 
         neuKnopf.setText("Neu");
+        neuKnopf.setMaximumSize(new java.awt.Dimension(150, 46));
+        neuKnopf.setMinimumSize(new java.awt.Dimension(150, 46));
+        neuKnopf.setPreferredSize(new java.awt.Dimension(150, 46));
         neuKnopf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 neuKnopfActionPerformed(evt);
@@ -131,11 +160,11 @@ public class HauptFenster extends javax.swing.JFrame {
             }
         });
 
-        neueVerbindungKnopf.setMnemonic('L');
-        neueVerbindungKnopf.setText("Löschen");
-        neueVerbindungKnopf.addActionListener(new java.awt.event.ActionListener() {
+        loeschenKnopf.setMnemonic('L');
+        loeschenKnopf.setText("Löschen");
+        loeschenKnopf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                neueVerbindungKnopfActionPerformed(evt);
+                loeschenKnopfActionPerformed(evt);
             }
         });
 
@@ -152,23 +181,119 @@ public class HauptFenster extends javax.swing.JFrame {
                 neueStelleKnopfActionPerformed(evt);
             }
         });
+        neueStelleKnopf.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                neueStelleKnopfPropertyChange(evt);
+            }
+        });
 
         groessenText.setText("Größe");
 
-        zeichenflaeche.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        fehleranzeigeText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        neueVerbindungKnopf.setText("Neue Verbindung");
+        neueVerbindungKnopf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                neueVerbindungKnopfActionPerformed(evt);
+            }
+        });
+
+        zeichenflaeche.setBackground(new java.awt.Color(255, 255, 255));
+        zeichenflaeche.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        zeichenflaeche.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        zeichenflaeche.setPreferredSize(new java.awt.Dimension(1000, 1000));
         zeichenflaeche.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 zeichenflaecheMouseClicked(evt);
             }
         });
-        zeichenflaeche.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                zeichenflaecheKeyTyped(evt);
+
+        javax.swing.GroupLayout zeichenflaecheLayout = new javax.swing.GroupLayout(zeichenflaeche);
+        zeichenflaeche.setLayout(zeichenflaecheLayout);
+        zeichenflaecheLayout.setHorizontalGroup(
+            zeichenflaecheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1000, Short.MAX_VALUE)
+        );
+        zeichenflaecheLayout.setVerticalGroup(
+            zeichenflaecheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1000, Short.MAX_VALUE)
+        );
+
+        scrollFenster.setViewportView(zeichenflaeche);
+
+        umbennenKnopf.setMnemonic('L');
+        umbennenKnopf.setText("Umbennen");
+        umbennenKnopf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umbennenKnopfActionPerformed(evt);
             }
         });
-        zeichenflaeche.setLayout(null);
 
-        neueVerbindungKnopf1.setText("Neue Verbindung");
+        pfeilOben.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_oben.png")); // NOI18N
+        pfeilOben.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfeilObenActionPerformed(evt);
+            }
+        });
+
+        pfeilLinks.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_links.png")); // NOI18N
+        pfeilLinks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfeilLinksActionPerformed(evt);
+            }
+        });
+
+        pfeilRechts.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_rechts.png")); // NOI18N
+        pfeilRechts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfeilRechtsActionPerformed(evt);
+            }
+        });
+
+        pfeilUnten.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_runter.png")); // NOI18N
+        pfeilUnten.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfeilUntenActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField1.setText(getSizeWidthString());
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField1PropertyChange(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
+
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.setText(getSizeHeightString());
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
+
+        jLabel1.setText("Breite");
+
+        jLabel2.setText("Höhe");
+
+        jLabel3.setText("Arbeitsfläche");
 
         menuEintragDatei.setText("Datei");
         menueLeiste.add(menuEintragDatei);
@@ -185,63 +310,120 @@ public class HauptFenster extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollFenster)
+                    .addComponent(fehleranzeigeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(fehleranzeigeText, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(65, 65, 65)
+                        .addComponent(groessenText))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(zeichenflaeche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(groessenSchieber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(neuKnopf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(speichernKnopf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ladenKnopf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(umbennenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ladenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(neueStelleKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(neueVerbindungKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(neueTransitionKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(neueVerbindungKnopf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(groessenText, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(neueStelleKnopf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(neueVerbindungKnopf1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                            .addComponent(loeschenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(speichernKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(groessenSchieber, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(neuKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(pfeilLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pfeilRechts, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pfeilOben, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pfeilUnten, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(neueStelleKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(neueTransitionKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(neueVerbindungKnopf1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16)
-                        .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(neueStelleKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(neueVerbindungKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                        .addComponent(groessenText)
+                        .addComponent(neueTransitionKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(groessenSchieber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(neuKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(neueVerbindungKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(speichernKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(zeichenflaeche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(loeschenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(umbennenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pfeilOben, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pfeilLinks, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pfeilRechts, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pfeilUnten, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel3)
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(groessenText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(groessenSchieber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(neuKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(speichernKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrollFenster, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ladenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fehleranzeigeText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ladenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fehleranzeigeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        neueVerbindungKnopf.getAccessibleContext().setAccessibleName("Loeschen");
-        neueVerbindungKnopf.getAccessibleContext().setAccessibleDescription("");
+        loeschenKnopf.getAccessibleContext().setAccessibleName("Loeschen");
+        loeschenKnopf.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -251,41 +433,41 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_neueStelleKnopfActionPerformed
 
     private void neueTransitionKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTransitionKnopfActionPerformed
-        JLabel test = new BasisLabel(new Transition(), controller, this);
-        
-
-        zeichenflaeche.add(test);
-        test.setBounds(10, 10, IDBase.getSize()+30, IDBase.getSize()+20);
-        
        
     }//GEN-LAST:event_neueTransitionKnopfActionPerformed
 
     private void neuKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuKnopfActionPerformed
         zeichenflaeche.removeAll();
-        //controller.getArraySize();
+        
         controller.testeWorkflownetz();
         controller.createView(darstellungen);
         controller.setzteDarstellung(zeichenflaeche, darstellungen);
+        
         zeichenflaeche.repaint();
-       // controller.paintComponents(zeichenflaeche);
+       
     }//GEN-LAST:event_neuKnopfActionPerformed
 
     private void speichernKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopfActionPerformed
+        JFileChooser chooser = null;
+        int open = -1;
         
-        JFileChooser chooser;
+        
         if (lastDirectory == null){
-           chooser = new JFileChooser();
-           
-        } else {
-           chooser = new JFileChooser(this.lastDirectory); 
-        }
-        
-        int open = chooser.showSaveDialog(null); 
+               chooser = new JFileChooser();
+
+            } else {
+               chooser = new JFileChooser(this.lastDirectory);; 
+            }
+            
+            open = chooser.showSaveDialog(null);
+     
         
         if (open == JFileChooser.APPROVE_OPTION){
             controller.speichern(chooser.getSelectedFile().getAbsolutePath());
             this.lastDirectory = chooser.getSelectedFile().getPath();
         }
+        
+        
     }//GEN-LAST:event_speichernKnopfActionPerformed
 
     private void groessenSchieberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_groessenSchieberStateChanged
@@ -298,89 +480,194 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_groessenSchieberStateChanged
 
     private void ladenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ladenKnopfActionPerformed
-        JFileChooser chooser;
-        if (lastDirectory == null){
-           chooser = new JFileChooser();
-           
-        } else {
-           chooser = new JFileChooser(this.lastDirectory);; 
-        }
+        JFileChooser chooser = null;
+        int open = -1;
         
-        int open = chooser.showOpenDialog(null); 
+        
+        if (lastDirectory == null){
+               chooser = new JFileChooser();
+
+            } else {
+               chooser = new JFileChooser(this.lastDirectory);; 
+            }
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Workflownetz", 
+            "pnml");     
+            chooser.setFileFilter(filter);
+            
+            open = chooser.showOpenDialog(null);
+     
         
         if (open == JFileChooser.APPROVE_OPTION){
             controller.laden(chooser.getSelectedFile().getAbsolutePath());
             this.lastDirectory = chooser.getSelectedFile().getPath();
         }
         
+      
+        controller.neueDarstellungMitTest();
+        
         
         
     }//GEN-LAST:event_ladenKnopfActionPerformed
-
-    private void zeichenflaecheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseClicked
-            focusZuruecksetzen();
-            interneIDmarkierter.removeAll(interneIDmarkierter);
-    }//GEN-LAST:event_zeichenflaecheMouseClicked
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
 
     }//GEN-LAST:event_formKeyPressed
 
-    private void zeichenflaecheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_zeichenflaecheKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_zeichenflaecheKeyTyped
+    private void loeschenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loeschenKnopfActionPerformed
+        for (Integer x: interneIDmarkierter){
+            controller.remove(x);
+        }
+ 
+        interneIDmarkierter.removeAll(interneIDmarkierter);
+    }//GEN-LAST:event_loeschenKnopfActionPerformed
+
+    private void umbennenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbennenKnopfActionPerformed
+        Umbenennen();
+        
+        
+ 
+    }//GEN-LAST:event_umbennenKnopfActionPerformed
+
+    private void pfeilObenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilObenActionPerformed
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, -50));
+    }//GEN-LAST:event_pfeilObenActionPerformed
+
+    private void pfeilLinksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilLinksActionPerformed
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(-50, 0));
+    }//GEN-LAST:event_pfeilLinksActionPerformed
+
+    private void pfeilRechtsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilRechtsActionPerformed
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(50, 0));
+    }//GEN-LAST:event_pfeilRechtsActionPerformed
+
+    private void pfeilUntenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilUntenActionPerformed
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, 50));
+    }//GEN-LAST:event_pfeilUntenActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+     
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
+            String inhalt = jTextField1.getText();
+            
+            int hoehe = zeichenflaeche.getPreferredSize().height;
+            
+            try{
+                int temp = Integer.parseInt(inhalt);
+                if (temp > -1) {
+
+                    zeichenflaeche.setPreferredSize(new Dimension(temp, hoehe));
+                } 
+            } catch (Exception e){
+                jTextField2.setText(getSizeHeightString());
+                fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl größer 0 ein!");
+            }
+            
+            controller.neueDarstellungOhneTest();
+            scrollFenster.repaint();
+            
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     private void neueVerbindungKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueVerbindungKnopfActionPerformed
-        int i = 0;
-        
-        while ( i < interneIDmarkierter.size()) {
-            controller.removePosNameBase(interneIDmarkierter.get(i));
-            i++;
-        }
-        interneIDmarkierter.removeAll(interneIDmarkierter);
+        //controller.newArc(lastDirectory, lastDirectory);
     }//GEN-LAST:event_neueVerbindungKnopfActionPerformed
 
-    public void focusZuruecksetzen(){
-        int i = 0;
-        while (i < darstellungen.size()){
-            BasisLabel temp = (BasisLabel)darstellungen.get(i);
-            temp.setFocus(false);
-            temp.setBorder(BorderFactory.createEmptyBorder());
-            i++;
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+       
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
+            String inhalt = jTextField1.getText();
+
+            int breite = zeichenflaeche.getPreferredSize().width;
+            
+            try{
+                int temp = Integer.parseInt(inhalt);
+                if (temp > -1) {
+
+                    zeichenflaeche.setPreferredSize(new Dimension(breite, temp));
+                } 
+            } catch (Exception e){
+                jTextField2.setText(getSizeWidthString());
+                fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl größer 0 ein!");
+            }
+            
+            controller.neueDarstellungOhneTest();
+            scrollFenster.repaint();
+            
         }
+    }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void neueStelleKnopfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_neueStelleKnopfPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_neueStelleKnopfPropertyChange
+
+    private void jTextField1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField1PropertyChange
+        
+    }//GEN-LAST:event_jTextField1PropertyChange
+
+    private void zeichenflaecheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseClicked
+        focusZuruecksetzen();
+    }//GEN-LAST:event_zeichenflaecheMouseClicked
+   
+    public void Umbenennen() {
+        if (interneIDmarkierter.size() == 1){
+            int temp = interneIDmarkierter.get(0);
+            if (controller.isTransition(temp)){
+               String label = controller.getLabel(temp);
+               Umbennen test = new Umbennen(temp, label, controller, screenHeight, screenWidth);  
+            }
+               
+        } else {
+            getFehleranzeigeText().setText("Bitte nur eine Transition auswählen!");
+        }
+    }
+    
+    public void focusZuruecksetzen(){
         interneIDmarkierter.removeAll(interneIDmarkierter);
+        
+        controller.neueDarstellungMitTest();
+    }
+    private String getSizeHeightString() {
+        Integer temp = (int)zeichenflaeche.getPreferredSize().getHeight();
+        return temp.toString();
+    }
+    
+    private String getSizeWidthString() {
+        Integer temp = (int)zeichenflaeche.getPreferredSize().getWidth();
+        return temp.toString();
+        
     }
     
     public void setWurdeGeaender(boolean wurdeGeaender) {
         this.wurdeGeaender = wurdeGeaender;
     }
 
-    public void setIstWasMarkiert(boolean istWasMarkiert) {
-        this.istWasMarkiert = istWasMarkiert;
-    }
+
 
     public ArrayList<Integer> getInterneIDmarkierter() {
         return interneIDmarkierter;
     }
 
-    
-    
     public boolean getWurdeGeaender() {
         return wurdeGeaender;
     }
 
-    public boolean getIstWasMarkiert() {
-        return istWasMarkiert;
-    }
-
-
-    public JLabel gibFehleranzeigeText(){
+    public JLabel getFehleranzeigeText(){
         return this.fehleranzeigeText;
     }
-    public JLabel gibFehleranzeigeGross(){
+    public JLabel getFehleranzeigeGross(){
         return this.fehleranzeigeGross;
     }
-    public JPanel getZeichenflaeche(){
+    public JLayeredPane getZeichenflaeche(){
         return this.zeichenflaeche;
     }
     
@@ -393,7 +680,15 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JLabel fehleranzeigeText;
     private javax.swing.JSlider groessenSchieber;
     private javax.swing.JLabel groessenText;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton ladenKnopf;
+    private javax.swing.JButton loeschenKnopf;
     private javax.swing.JMenu menuEintragBearbeiten;
     private javax.swing.JMenu menuEintragDatei;
     private javax.swing.JMenu menuEintragHilfe;
@@ -402,8 +697,17 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JButton neueStelleKnopf;
     private javax.swing.JButton neueTransitionKnopf;
     private javax.swing.JButton neueVerbindungKnopf;
-    private javax.swing.JButton neueVerbindungKnopf1;
+    private javax.swing.JButton pfeilLinks;
+    private javax.swing.JButton pfeilOben;
+    private javax.swing.JButton pfeilRechts;
+    private javax.swing.JButton pfeilUnten;
+    private javax.swing.JScrollPane scrollFenster;
     private javax.swing.JButton speichernKnopf;
-    private javax.swing.JPanel zeichenflaeche;
+    private javax.swing.JButton umbennenKnopf;
+    private javax.swing.JLayeredPane zeichenflaeche;
     // End of variables declaration//GEN-END:variables
+
+    
+
+    
 }

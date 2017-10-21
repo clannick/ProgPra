@@ -14,8 +14,14 @@ import javax.swing.JLabel;
  */
 public final class Transition extends PosNameBase{
 
+    /**
+    *  Label enthält den angezeigten Bezeichner des Objektes
+    */
+   private String label;
+   
     public Transition(){
         super();
+        this.label = "";
         //this.darstellung = new TransitionPanel(this.getLabel());
     }
     

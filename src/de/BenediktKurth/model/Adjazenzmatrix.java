@@ -111,17 +111,9 @@ public final class Adjazenzmatrix {
      * @see ArrayListSearchID
      * @see #aktualisieren(de.BenediktKurth.model.ArrayListSearchID)
      */
-    /*public Adjazenzmatrix(ArrayListSearchID<IDBase> array) {
-        if (!array.isEmpty()) {
-            aktualisieren(array);
-        }
-    }*/
-
     public Adjazenzmatrix (ArrayListSearchID<IDBase> array) {
         aktualisieren(array);  
-        
     }
-    
     
     /**
      * Diese Methode setzt die Matrix zurück auf null und lässt dann die
@@ -152,7 +144,7 @@ public final class Adjazenzmatrix {
         int hohsteInterneID = 0;
         // Sortiere Array nach S/T/A 
         while (i < basisDatenArray.size()) {
-            IDBase test = (IDBase)basisDatenArray.get(i);
+            IDBase test = basisDatenArray.get(i);
             if ( test.getInterneID() > hohsteInterneID){
                 hohsteInterneID = test.getInterneID();
             }
@@ -212,7 +204,7 @@ public final class Adjazenzmatrix {
         while (i < arcList.size()) {
 
             //Hol aktuellen Pfeil aus der Liste
-            Arc arc = (Arc) arcList.get(i);
+            Arc arc = arcList.get(i);
             
             try{
                 //Suche Source und Target in Basisdaten und ermittle interner ID´s
@@ -224,7 +216,7 @@ public final class Adjazenzmatrix {
                 //(Es gibt einen Weg von Source nach Target)
                 this.matrix[sourceInt][targetInt] = true;
             } catch (Exception e) {
-            
+                //throw new MatrixException();
             }
             //Nächstes Objekt
             i++;
@@ -385,37 +377,34 @@ public final class Adjazenzmatrix {
         //Bereitsstellen von allen benötigten Anfangsbedingungen
         besuchtePunkteHin = new ArrayList<>();
         besuchtePunkteHer = new ArrayList<>();
-        ArrayList anfangsstelle = getAnfang();
-        ArrayList endstelle = getEnde();
+        ArrayList<Stellen> anfangsstelle = getAnfang();;
+        ArrayList<Stellen> endstelle = getEnde();
         
+            
         //Prüfe: Keine Anfangsstelle?
         if (anfangsstelle.isEmpty()) {
             throw new WorkflownetzException("Es existiert keine Anfangsstelle.");
         }
         
-        //Prüfe: Gibt es mehrere Anfangsstellen?
-         if (anfangsstelle.size() > 1) {
-            Integer intTemp = anfangsstelle.size();
-            String stringTemp = intTemp.toString();
-            throw new WorkflownetzException("Es existieren " + stringTemp + " Anfangsstellen.");
-        }  
-         
         //Prüfe: Keine Endstelle?
         if (endstelle.isEmpty()) {
             throw new WorkflownetzException("Es existiert keine Endstelle.");
         }
         
+        //Prüfe: Gibt es mehrere Anfangsstellen?
+         if (anfangsstelle.size() > 1) {
+            throw new WorkflownetzException("Es existieren zu viele Anfangsstellen.");
+        }  
+        
         //Prüfe: Gibt es mehrere Endstellen?
          if (endstelle.size() > 1) {
-            Integer intTemp = endstelle.size();
-            String stringTemp = intTemp.toString();
-            throw new WorkflownetzException("Es existieren " + stringTemp + " Endstellen.");
+            throw new WorkflownetzException("Es existieren zu viele Endstellen.");
         } 
         
         //Es gibt nur eine Anfangsstelle und ein Endstelle!
         
-        Stellen anfang = (Stellen)anfangsstelle.get(0);
-        Stellen ende = (Stellen)endstelle.get(0);
+        Stellen anfang = anfangsstelle.get(0);
+        Stellen ende = endstelle.get(0);
 
    
         
@@ -589,7 +578,7 @@ public final class Adjazenzmatrix {
             for (int i = 0; i < this.gesamtZaehler; i++) {
                 if (this.matrix[i][anfangsID]) {
                     rueckgabeWert = _pruefeWorkflownetzRuckwaerts(inIdAnfang, i, besuchtePunkte);
-                    //System.out.println("1");
+                  
                 }
             }
 
@@ -623,6 +612,16 @@ public final class Adjazenzmatrix {
         return rueckgabeWert;
     }
 
+    public ArrayList<Integer> getNachfolger(int interneID){
+        ArrayList<Integer> rueckgabe = new ArrayList<>();
+        for ( int i = 0; i < gesamtZaehler; i++){
+            if (matrix[interneID][i]) {
+                rueckgabe.add(i);
+            }
+        }
+        return rueckgabe;    
+    }
+    
     /**
      * TEST-Methode
      */

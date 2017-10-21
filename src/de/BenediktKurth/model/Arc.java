@@ -1,10 +1,6 @@
 package de.BenediktKurth.model;
 
 import de.BenediktKurth.Exceptions.ArcFehlerException;
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Diese Klasse stellt einen Pfeil da. Als Variablen hat ein Pfeil seine ID,
@@ -111,8 +107,19 @@ public final class Arc extends IDBase {
 
             this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
             this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
-
+            
         }
+    }
+    
+    public Arc(String source, String target,ArrayListSearchID<IDBase> tempListe)throws ArcFehlerException{
+        super();
+        this.source = source;
+            this.target = target;
+
+
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
+            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
+        
     }
     
     /**
@@ -155,6 +162,8 @@ public final class Arc extends IDBase {
                 + target + " konnte nicht eingefügt werden.");
         }
     }
+    
+    
     
     /**
      * Methode setzt die Start-ID als String mit Prüfung auf existens.
@@ -252,7 +261,6 @@ public final class Arc extends IDBase {
     public Vector2D getPositionTarget() {
         return positionTarget;
     }
-
 
     
 }

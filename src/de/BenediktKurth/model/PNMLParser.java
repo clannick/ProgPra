@@ -1,6 +1,7 @@
 package de.BenediktKurth.model;
 
 import de.BenediktKurth.Exceptions.ArcFehlerException;
+import de.BenediktKurth.Exceptions.FileNotLoadException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -439,22 +440,30 @@ public final class PNMLParser {
      * 
      * @since 1.0
      */
-    public static ArrayListSearchID<IDBase> loadAndGet(String Dateiname){
+    public static ArrayListSearchID<IDBase> loadAndGet(String Dateiname) throws FileNotLoadException{
             PNMLParser pnmlParser = null;
             
             if (Dateiname != null) {
             File pnmlDatei = new File(Dateiname);
-            if (pnmlDatei.exists()) {
+            String testString = pnmlDatei.getName().toLowerCase();
+            int testStringLaenge = testString.length();
+            testString = testString.substring(testStringLaenge-5, testStringLaenge);
+                System.out.println(testString);
+            if (pnmlDatei.exists() && testString.equals(".pnml")) {
                 pnmlParser = new PNMLParser(pnmlDatei);
                 pnmlParser.initParser();
                 pnmlParser.parse();
             } else {
-                System.err.println("Die Datei " + pnmlDatei.getAbsolutePath()
-                        + " wurde nicht gefunden!");
+                String uebergabe = "Die Datei | " + pnmlDatei.getName()
+                        + " | konnte nicht geöffnet werden!";
+                throw new FileNotLoadException(uebergabe);
+                
             }
         } else {
-            System.out.println("Bitte eine Datei als Parameter angeben!");
+            throw new FileNotLoadException("Bitte eine Datei als Parameter angeben!");
+            
         }
+           // pnmlParser = null;
         return pnmlParser.tempListe;
     }
 }

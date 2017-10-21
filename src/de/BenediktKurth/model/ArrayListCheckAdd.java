@@ -16,19 +16,21 @@ import java.util.ArrayList;
  */
 public final class ArrayListCheckAdd extends ArrayList<Integer>{
 
+    private static final long serialVersionUID = 403L;
+
     /**
      * Die Methode nimmt einen int-Wert entgegen und prüft Liste ob der int-Wert
      * bereits enthalten ist oder nicht. Wenn der Wert bereits enthalt wird die
      * Methode abgebrochen und false zurück geben. Wenn int-Wert nicht enthalten 
      * super.add() und es wird true zurückgegeben.
      * 
-     * @param neuerWert  Einzufügender int-Wert
+     * @since 1.0
+     * 
+     * @param neuerWert  int Einzufügender int-Wert
      * 
      * @return boolean  True: erfolgreich hinzugefügt
      *                  False: Wert bereits enthalten
-     * 
-     * @since 1.0
-     */
+    */
     public boolean einfuegen(int neuerWert){
         //Hilfsvariable
         Integer temp = neuerWert;
@@ -43,7 +45,7 @@ public final class ArrayListCheckAdd extends ArrayList<Integer>{
             }
         }
         
-        //Aufruf der Methode der Superklasse
+        //neuerWert nicht enthalten - > neuerWert einfügen
         this.add(temp);
         
         return true;

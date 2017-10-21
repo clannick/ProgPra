@@ -19,13 +19,12 @@ public class PopUpMenu extends JPopupMenu{
         umbennen = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         loeschen = new javax.swing.JMenuItem();
-        kopieren = new javax.swing.JMenuItem();
-
-        umbennen.setText("Umbennen");
+        
+        umbennen.setText("Umbenennen");
         umbennen.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                umbennenMouseClicked(evt);
+                mother.Umbenennen();
             }
         });
         super.add(umbennen);
@@ -37,7 +36,8 @@ public class PopUpMenu extends JPopupMenu{
             
             @Override
              public void mouseReleased(java.awt.event.MouseEvent evt) {
-                controller.removePosNameBase(interneID);
+                controller.remove(interneID);
+                mother.getDarstellung().remove(interneID);
                 
                 
             }
@@ -45,35 +45,20 @@ public class PopUpMenu extends JPopupMenu{
             
         super.add(loeschen);
 
-        kopieren.setText("Kopieren");
-        kopieren.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kopierenMouseClicked(evt);
-            }
-        });
-        super.add(kopieren);
+
 
 
     }                        
 
-    private void umbennenMouseClicked(java.awt.event.MouseEvent evt) {                                      
-        // TODO add your handling code here:
-    }                                     
+                                     
+                                   
 
-    private void loeschenMouseClicked(java.awt.event.MouseEvent evt) {                                      
-       
-    }                                     
-
-    private void kopierenMouseClicked(java.awt.event.MouseEvent evt) {                                      
-        // TODO add your handling code here:
-    }                                     
+                                  
 
 
     // Variables declaration - do not modify                     
  
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JMenuItem kopieren;
     private javax.swing.JMenuItem loeschen;
     private javax.swing.JMenuItem umbennen;
     // End of variables declaration                   

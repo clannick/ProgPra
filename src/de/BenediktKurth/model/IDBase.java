@@ -34,6 +34,8 @@ public abstract class IDBase {
      * 
      */    
     private static int size = 50;
+    
+    private FarbenEnum meineFarbe = FarbenEnum.weiss;
 
     /**
      * Leerer Konstrukter erzeugt eine ID aus Basis des idCounter und erhöht 
@@ -44,7 +46,6 @@ public abstract class IDBase {
     public IDBase () {
         Integer temp = IDBase.idCounter;
         this.id = temp.toString();
-        
         this.idInt = getIdCounter();
     }
     
@@ -61,43 +62,50 @@ public abstract class IDBase {
         this.idInt = getIdCounter();
     }
 
-    /**
-     * Method gibt die ID des Objektes als String zurück
-     * 
-     * @return String   ID des Objektes
-     * 
-     * @since 1.0
-     */
-    public final String getId() {
-        return id;
-    }
-    
-    /**
-     * Method gibt die ID des Objektes als int zurück
-     * 
-     * @return int   ID des Objektes als int
-     * 
-     * @since 1.0
-     */    
-    public final int f(){
-        int tempInt = Integer.parseInt(this.id);
-        return tempInt;
-    }
     
     
-    public final int getInterneID(){
-        return this.idInt;
-    }
+    public final static void senkeIdCounter(){
+       IDBase.idCounter--; 
+    } 
+    
+    public final static void resetIdCounter(){
+       IDBase.idCounter = 0; 
+    } 
+    
+
+    public void setFocusOn(boolean focusOn) {
+        this.focusOn = focusOn;
+    }    
     
     public final static void setSize(int faktor){
         float temp = faktor/100.0f;
         IDBase.size = (int)(50 * temp);
+    }
+
+    public void setMeineFarbe(FarbenEnum meineFarbe) {
+        this.meineFarbe = meineFarbe;
+    }
+
+    public FarbenEnum getMeineFarbe() {
+        return meineFarbe;
+    }
+    
+    public boolean getFocusOn() {
+        return focusOn;
     }
     
     public final static int getSize(){
         return IDBase.size;
     }
     
+    public final int getInterneID(){
+        return this.idInt;
+    }   
+    
+    public final String getId() {
+        return id;
+    }
+
     /**
      * Diese Method gibt den IdCounter der Klasse (Static) zurück
      * 
@@ -110,24 +118,4 @@ public abstract class IDBase {
         IDBase.idCounter++;
         return temp;
     }
-    
-    public final static void senkeIdCounter(){
-       IDBase.idCounter--; 
-    } 
-    
-    public final static void resetIdCounter(){
-       IDBase.idCounter = 0; 
-    } 
-
-    public void setFocusOn(boolean focusOn) {
-        this.focusOn = focusOn;
-    }
-
-    public boolean isFocusOn() {
-        return focusOn;
-    }
-    
-    
-    
-    
 }
