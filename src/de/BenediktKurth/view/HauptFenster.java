@@ -4,8 +4,10 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.Vector2D;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.logging.Filter;
@@ -37,7 +39,7 @@ public class HauptFenster extends javax.swing.JFrame {
     
     private boolean wurdeGeaender = false;
     
-    private ArrayList<Integer> interneIDmarkierter = new ArrayList<>();
+    private volatile ArrayList<Integer> interneIDmarkierter = new ArrayList<>();
     
     private Toolkit desktop = Toolkit.getDefaultToolkit();
     
@@ -68,7 +70,8 @@ public class HauptFenster extends javax.swing.JFrame {
         super.setBounds((screenWidth/2)-(screenWidth/4), (screenHeight/2)-(screenHeight/4), screenWidth/2, screenHeight/2);
         super.setFocusable(true);
         initComponents();
-        zeichenflaeche.setPreferredSize(new Dimension(2000, 2000));
+        
+  
         
        
     }
@@ -102,8 +105,8 @@ public class HauptFenster extends javax.swing.JFrame {
         pfeilLinks = new javax.swing.JButton();
         pfeilRechts = new javax.swing.JButton();
         pfeilUnten = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        textHoehe = new javax.swing.JTextField();
+        textBreite = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -201,7 +204,12 @@ public class HauptFenster extends javax.swing.JFrame {
         zeichenflaeche.setBackground(new java.awt.Color(255, 255, 255));
         zeichenflaeche.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         zeichenflaeche.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        zeichenflaeche.setPreferredSize(new java.awt.Dimension(1000, 1000));
+        zeichenflaeche.setPreferredSize(new java.awt.Dimension(1500, 1500));
+        zeichenflaeche.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                zeichenflaecheMouseDragged(evt);
+            }
+        });
         zeichenflaeche.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 zeichenflaecheMouseClicked(evt);
@@ -212,11 +220,11 @@ public class HauptFenster extends javax.swing.JFrame {
         zeichenflaeche.setLayout(zeichenflaecheLayout);
         zeichenflaecheLayout.setHorizontalGroup(
             zeichenflaecheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1500, Short.MAX_VALUE)
         );
         zeichenflaecheLayout.setVerticalGroup(
             zeichenflaecheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1500, Short.MAX_VALUE)
         );
 
         scrollFenster.setViewportView(zeichenflaeche);
@@ -229,69 +237,74 @@ public class HauptFenster extends javax.swing.JFrame {
             }
         });
 
-        pfeilOben.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_oben.png")); // NOI18N
+        pfeilOben.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/BenediktKurth/ressource/pfeil_oben.png"))); // NOI18N
         pfeilOben.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pfeilObenActionPerformed(evt);
             }
         });
 
-        pfeilLinks.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_links.png")); // NOI18N
+        pfeilLinks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/BenediktKurth/ressource/pfeil_links.png"))); // NOI18N
         pfeilLinks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pfeilLinksActionPerformed(evt);
             }
         });
 
-        pfeilRechts.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_rechts.png")); // NOI18N
+        pfeilRechts.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/BenediktKurth/ressource/pfeil_rechts.png"))); // NOI18N
         pfeilRechts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pfeilRechtsActionPerformed(evt);
             }
         });
 
-        pfeilUnten.setIcon(new javax.swing.ImageIcon("D:\\JavaWorkspace\\ProgPra\\ressoucres\\pfeil_runter.png")); // NOI18N
+        pfeilUnten.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/BenediktKurth/ressource/pfeil_runter.png"))); // NOI18N
         pfeilUnten.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pfeilUntenActionPerformed(evt);
             }
         });
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField1.setText(getSizeWidthString());
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        textHoehe.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textHoehe.setText(getSizeWidthString());
+        textHoehe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                textHoeheActionPerformed(evt);
             }
         });
-        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        textHoehe.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextField1PropertyChange(evt);
+                textHoehePropertyChange(evt);
             }
         });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        textHoehe.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField1KeyPressed(evt);
+                textHoeheKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField1KeyTyped(evt);
+                textHoeheKeyTyped(evt);
             }
         });
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField2.setText(getSizeHeightString());
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        textBreite.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        textBreite.setText(getSizeHeightString());
+        textBreite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textBreiteActionPerformed(evt);
+            }
+        });
+        textBreite.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField2KeyPressed(evt);
+                textBreiteKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
+                textBreiteKeyTyped(evt);
             }
         });
 
-        jLabel1.setText("Breite");
+        jLabel1.setText("Höhe");
 
-        jLabel2.setText("Höhe");
+        jLabel2.setText("Breite");
 
         jLabel3.setText("Arbeitsfläche");
 
@@ -313,7 +326,7 @@ public class HauptFenster extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollFenster)
+                    .addComponent(scrollFenster, javax.swing.GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE)
                     .addComponent(fehleranzeigeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -343,11 +356,11 @@ public class HauptFenster extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textHoehe, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(textBreite, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -398,11 +411,11 @@ public class HauptFenster extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textHoehe, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textBreite, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(groessenText)
@@ -433,17 +446,11 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_neueStelleKnopfActionPerformed
 
     private void neueTransitionKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTransitionKnopfActionPerformed
-       
+       controller.newTransition();
     }//GEN-LAST:event_neueTransitionKnopfActionPerformed
 
     private void neuKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuKnopfActionPerformed
-        zeichenflaeche.removeAll();
-        
-        controller.testeWorkflownetz();
-        controller.createView(darstellungen);
-        controller.setzteDarstellung(zeichenflaeche, darstellungen);
-        
-        zeichenflaeche.repaint();
+        controller.simualtionZurucksetzen();
        
     }//GEN-LAST:event_neuKnopfActionPerformed
 
@@ -471,11 +478,9 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_speichernKnopfActionPerformed
 
     private void groessenSchieberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_groessenSchieberStateChanged
-        zeichenflaeche.removeAll();
+        
         controller.setSize(groessenSchieber.getValue());
-        controller.createView(darstellungen);
-        controller.setzteDarstellung(zeichenflaeche, darstellungen);
-        zeichenflaeche.repaint();
+        controller.neueDarstellungOhneTest();
  
     }//GEN-LAST:event_groessenSchieberStateChanged
 
@@ -504,8 +509,7 @@ public class HauptFenster extends javax.swing.JFrame {
         
       
         controller.neueDarstellungMitTest();
-        
-        
+  
         
     }//GEN-LAST:event_ladenKnopfActionPerformed
 
@@ -519,38 +523,36 @@ public class HauptFenster extends javax.swing.JFrame {
         }
  
         interneIDmarkierter.removeAll(interneIDmarkierter);
+        controller.neueDarstellungMitTest();
     }//GEN-LAST:event_loeschenKnopfActionPerformed
 
     private void umbennenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_umbennenKnopfActionPerformed
         Umbenennen();
-        
-        
- 
     }//GEN-LAST:event_umbennenKnopfActionPerformed
 
     private void pfeilObenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilObenActionPerformed
-        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, -50));
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, -10));
     }//GEN-LAST:event_pfeilObenActionPerformed
 
     private void pfeilLinksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilLinksActionPerformed
-        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(-50, 0));
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(-10, 0));
     }//GEN-LAST:event_pfeilLinksActionPerformed
 
     private void pfeilRechtsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilRechtsActionPerformed
-        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(50, 0));
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(10, 0));
     }//GEN-LAST:event_pfeilRechtsActionPerformed
 
     private void pfeilUntenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfeilUntenActionPerformed
-        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, 50));
+        controller.verschiebeMarkierteUmOffset(interneIDmarkierter, new Vector2D(0, 10));
     }//GEN-LAST:event_pfeilUntenActionPerformed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+    private void textHoeheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textHoeheKeyTyped
      
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_textHoeheKeyTyped
 
-    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+    private void textHoeheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textHoeheKeyPressed
         if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
-            String inhalt = jTextField1.getText();
+            String inhalt = textHoehe.getText();
             
             int hoehe = zeichenflaeche.getPreferredSize().height;
             
@@ -559,35 +561,39 @@ public class HauptFenster extends javax.swing.JFrame {
                 if (temp > -1) {
 
                     zeichenflaeche.setPreferredSize(new Dimension(temp, hoehe));
-                } 
+                    controller.neueDarstellungOhneTest();
+                    scrollFenster.repaint();
+                } else {
+                    textHoehe.setText(getSizeHeightString());
+                    fehleranzeigeText.setText("Bitte geben Sie eine positive ganze Zahl ein.");
+                }
             } catch (Exception e){
-                jTextField2.setText(getSizeHeightString());
-                fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl größer 0 ein!");
+                textHoehe.setText(getSizeHeightString());
+                fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl zwischen 0 und " + Integer.MAX_VALUE + " ein.");
             }
-            
-            controller.neueDarstellungOhneTest();
-            scrollFenster.repaint();
+ 
             
         }
-    }//GEN-LAST:event_jTextField1KeyPressed
+    }//GEN-LAST:event_textHoeheKeyPressed
 
     private void neueVerbindungKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueVerbindungKnopfActionPerformed
-        //controller.newArc(lastDirectory, lastDirectory);
+        controller.newArc(interneIDmarkierter);
+        focusZuruecksetzen();
     }//GEN-LAST:event_neueVerbindungKnopfActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void textHoeheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textHoeheActionPerformed
        
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_textHoeheActionPerformed
 
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    private void textBreiteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBreiteKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_textBreiteKeyTyped
 
-    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+    private void textBreiteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBreiteKeyPressed
         if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
-            String inhalt = jTextField1.getText();
+            String inhalt = textBreite.getText();
 
-            int breite = zeichenflaeche.getPreferredSize().width;
+            int breite = zeichenflaeche.getPreferredSize().height;
             
             try{
                 int temp = Integer.parseInt(inhalt);
@@ -596,7 +602,7 @@ public class HauptFenster extends javax.swing.JFrame {
                     zeichenflaeche.setPreferredSize(new Dimension(breite, temp));
                 } 
             } catch (Exception e){
-                jTextField2.setText(getSizeWidthString());
+                textBreite.setText(getSizeHeightString());
                 fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl größer 0 ein!");
             }
             
@@ -604,27 +610,35 @@ public class HauptFenster extends javax.swing.JFrame {
             scrollFenster.repaint();
             
         }
-    }//GEN-LAST:event_jTextField2KeyPressed
+    }//GEN-LAST:event_textBreiteKeyPressed
 
     private void neueStelleKnopfPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_neueStelleKnopfPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_neueStelleKnopfPropertyChange
 
-    private void jTextField1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField1PropertyChange
+    private void textHoehePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_textHoehePropertyChange
         
-    }//GEN-LAST:event_jTextField1PropertyChange
+    }//GEN-LAST:event_textHoehePropertyChange
 
     private void zeichenflaecheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseClicked
         focusZuruecksetzen();
     }//GEN-LAST:event_zeichenflaecheMouseClicked
+
+    private void zeichenflaecheMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseDragged
+          
+    }//GEN-LAST:event_zeichenflaecheMouseDragged
+
+    private void textBreiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBreiteActionPerformed
+
+    }//GEN-LAST:event_textBreiteActionPerformed
    
     public void Umbenennen() {
         if (interneIDmarkierter.size() == 1){
             int temp = interneIDmarkierter.get(0);
-            if (controller.isTransition(temp)){
+            
                String label = controller.getLabel(temp);
                Umbennen test = new Umbennen(temp, label, controller, screenHeight, screenWidth);  
-            }
+           
                
         } else {
             getFehleranzeigeText().setText("Bitte nur eine Transition auswählen!");
@@ -634,7 +648,7 @@ public class HauptFenster extends javax.swing.JFrame {
     public void focusZuruecksetzen(){
         interneIDmarkierter.removeAll(interneIDmarkierter);
         
-        controller.neueDarstellungMitTest();
+        controller.neueDarstellungOhneTest();
     }
     private String getSizeHeightString() {
         Integer temp = (int)zeichenflaeche.getPreferredSize().getHeight();
@@ -650,8 +664,6 @@ public class HauptFenster extends javax.swing.JFrame {
     public void setWurdeGeaender(boolean wurdeGeaender) {
         this.wurdeGeaender = wurdeGeaender;
     }
-
-
 
     public ArrayList<Integer> getInterneIDmarkierter() {
         return interneIDmarkierter;
@@ -685,8 +697,6 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton ladenKnopf;
     private javax.swing.JButton loeschenKnopf;
     private javax.swing.JMenu menuEintragBearbeiten;
@@ -703,11 +713,12 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JButton pfeilUnten;
     private javax.swing.JScrollPane scrollFenster;
     private javax.swing.JButton speichernKnopf;
+    private javax.swing.JTextField textBreite;
+    private javax.swing.JTextField textHoehe;
     private javax.swing.JButton umbennenKnopf;
     private javax.swing.JLayeredPane zeichenflaeche;
     // End of variables declaration//GEN-END:variables
 
-    
 
     
 }

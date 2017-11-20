@@ -5,11 +5,8 @@ import de.BenediktKurth.Exceptions.FileNotLoadException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -101,11 +98,12 @@ public final class PNMLParser {
            // } catch (IOException ex) {
            //     Logger.getLogger(PNMLParser.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         } catch (FileNotFoundException e) {
             System.err.println("Die Datei wurde nicht gefunden! "
                     + e.getMessage());
             
-        }
+        } 
        
     }
 
@@ -366,10 +364,7 @@ public final class PNMLParser {
      *      y Position des Elements
      */
     private void setPosition(final String id, final String x, final String y) {
-        System.out.println("Setze die Position des Elements " + id + " auf ("
-                + x + ", " + y + ")");
-        
-        
+  
         //Findet das gesuchte Objekt mit searchID
         IDBase gesuchtesObjekt = tempListe.searchID(id);
         
@@ -437,6 +432,7 @@ public final class PNMLParser {
      * @param Dateiname Quellverzeichnis inkl. Dateibezeichnung ("D:\\Desktop\\ProPra\\Beispiele\\Beispiel-01.pnml")
      * 
      * @return          ArrayListSearchID ArrayList mit searchID Funktion
+     * @throws de.BenediktKurth.Exceptions.FileNotLoadException
      * 
      * @since 1.0
      */
@@ -448,7 +444,7 @@ public final class PNMLParser {
             String testString = pnmlDatei.getName().toLowerCase();
             int testStringLaenge = testString.length();
             testString = testString.substring(testStringLaenge-5, testStringLaenge);
-                System.out.println(testString);
+               
             if (pnmlDatei.exists() && testString.equals(".pnml")) {
                 pnmlParser = new PNMLParser(pnmlDatei);
                 pnmlParser.initParser();

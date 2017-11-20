@@ -150,8 +150,8 @@ public final class Adjazenzmatrix {
             }
             
             if (basisDatenArray.get(i) instanceof Stellen) {
-                Stellen temp = (Stellen)basisDatenArray.get(i);
-                temp.setMarkiert(false);
+                
+                
                 stellenZaehler++;
 
             }
@@ -169,8 +169,11 @@ public final class Adjazenzmatrix {
         // Evtl. für spätere Versionen derzeit eig. unnötig
         gesamtZaehler = stellenZaehler + transitionZaehler;
 
+        if (hohsteInterneID > gesamtZaehler ){
+            gesamtZaehler = hohsteInterneID;
+        }
         // Erstelle neue Matrix (Mnn(true,false))
-        this.matrix = initalisiereMatrix(hohsteInterneID);
+        this.matrix = initalisiereMatrix(gesamtZaehler);
 
         //Befüllt Matrix auf Grundlage der arcListe, BasisDaten werden gebraucht
         //um InterneIDs der Source und Targets zu ermitteln
@@ -210,8 +213,7 @@ public final class Adjazenzmatrix {
                 //Suche Source und Target in Basisdaten und ermittle interner ID´s
                 int sourceInt = basisdaten.searchID(arc.getSource()).getInterneID();
                 int targetInt = basisdaten.searchID(arc.getTarget()).getInterneID();
-
-                System.out.println(sourceInt +" "+ targetInt);
+        
                 //Setzte Adjazenmatrix an passender Stelle auf true
                 //(Es gibt einen Weg von Source nach Target)
                 this.matrix[sourceInt][targetInt] = true;
@@ -255,6 +257,11 @@ public final class Adjazenzmatrix {
         this.gesamtZaehler = 0;
         this.arcListe = new ArrayListSearchID<>();
         this.matrix = null;
+        this.besuchtePunkteHer = null;
+        this.besuchtePunkteHin = null;
+        
+                
+                
     }
 
     /**
@@ -271,8 +278,10 @@ public final class Adjazenzmatrix {
      */    
     public ArrayList<Stellen> getAnfang() {
 
+        
         //Erstelle leere ArrayListe
         ArrayList<Stellen> moeglicheAnfangsstellen = new ArrayList<>();
+        
         
         //Wenn es überhaupt Daten gibt prüfe diese, ansonsten gib leere Liste
         if (this.gesamtZaehler <= 0) {
@@ -293,7 +302,6 @@ public final class Adjazenzmatrix {
                 
                 // Wenn keine eigehende Pfeile und Objekt ist eine Stelle
                 if (!flag && (gesamtListe.getWithInternID(i) instanceof Stellen)) {
-                   
                     //Füge es als mögliche Anfangsstelle hinzu
                     moeglicheAnfangsstellen.add((Stellen)gesamtListe.getWithInternID(i));
                 }
@@ -374,13 +382,17 @@ public final class Adjazenzmatrix {
      */
     public boolean pruefeWorkflownetz() throws WorkflownetzException{
 
+        zuruecksetzen();
+        aktualisieren(this.gesamtListe);
         //Bereitsstellen von allen benötigten Anfangsbedingungen
         besuchtePunkteHin = new ArrayList<>();
         besuchtePunkteHer = new ArrayList<>();
-        ArrayList<Stellen> anfangsstelle = getAnfang();;
-        ArrayList<Stellen> endstelle = getEnde();
+        ArrayList<Stellen> anfangsstelle;
+        ArrayList<Stellen> endstelle;
         
-            
+        anfangsstelle = getAnfang();
+        endstelle = getEnde();
+    
         //Prüfe: Keine Anfangsstelle?
         if (anfangsstelle.isEmpty()) {
             throw new WorkflownetzException("Es existiert keine Anfangsstelle.");
@@ -390,7 +402,7 @@ public final class Adjazenzmatrix {
         if (endstelle.isEmpty()) {
             throw new WorkflownetzException("Es existiert keine Endstelle.");
         }
-        
+  
         //Prüfe: Gibt es mehrere Anfangsstellen?
          if (anfangsstelle.size() > 1) {
             throw new WorkflownetzException("Es existieren zu viele Anfangsstellen.");
@@ -406,7 +418,6 @@ public final class Adjazenzmatrix {
         Stellen anfang = anfangsstelle.get(0);
         Stellen ende = endstelle.get(0);
 
-   
         
         //Ermittlung Interner ID der Anfangsstelle und Endstelle
         int inIdAnfang = anfang.getInterneID();
@@ -421,17 +432,13 @@ public final class Adjazenzmatrix {
         }
         
         //...wurden alle Objekte auf dem Hinweg und Rückweg besucht?
-        hin = (hin && besuchtePunkteHin.size() == this.gesamtZaehler);
-        zurueck = (zurueck && besuchtePunkteHer.size() == this.gesamtZaehler);
-
+        hin = (hin && besuchtePunkteHin.size() == (this.stellenZaehler + this.transitionZaehler));
+        zurueck = (zurueck && besuchtePunkteHer.size() == (this.stellenZaehler + this.transitionZaehler));
+        
         if (!hin || !zurueck){
             throw new WorkflownetzException("Es liegen nicht alle Objekte auf einem gerichteten Graphen.");
         }
-        
-        if (hin && zurueck) {
-            anfang.setMarkiert(true);
-            ende.setMarkiert(true);    
-        }
+
         
         return (hin && zurueck);
     }
@@ -455,15 +462,15 @@ public final class Adjazenzmatrix {
     private boolean _pruefeWorkflownetzVorwaerts(int anfangsID, int inIdEnde, ArrayList<Integer> besuchtePunkte) {
 
         //Sicherung gegen Zyklen -> Endlosschleife
-        ListIterator<Integer> iterator = besuchtePunkte.listIterator();
-        while (iterator.hasNext()) {
-            int temp = iterator.next();
+        for (Integer x: besuchtePunkte){
+            int temp = x;
             if (temp == anfangsID) {
 
                 return true;
             }
         }
 
+     
         besuchtePunkte.add(anfangsID);
 
         boolean rueckgabeWert = true;
@@ -620,6 +627,16 @@ public final class Adjazenzmatrix {
             }
         }
         return rueckgabe;    
+    }
+    
+    public ArrayList<Integer> getVorganger(int interneID){
+        ArrayList<Integer> rueckgabe = new ArrayList<>();
+        for ( int i = 0; i < gesamtZaehler; i++){
+            if (matrix[i][interneID]) {
+                rueckgabe.add(i);
+            }
+        }
+        return rueckgabe; 
     }
     
     /**

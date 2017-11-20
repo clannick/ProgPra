@@ -16,6 +16,8 @@ package de.BenediktKurth.Exceptions;
  */
 public class FileNotLoadException extends Exception {
 
+    private static final long serialVersionUID = 102L;
+
     /**
      * Kontruktor gibt nur Nachricht an super-Klasse (Exception) weiter.
      * 

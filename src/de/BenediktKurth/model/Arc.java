@@ -113,13 +113,16 @@ public final class Arc extends IDBase {
     
     public Arc(String source, String target,ArrayListSearchID<IDBase> tempListe)throws ArcFehlerException{
         super();
-        this.source = source;
+        if (pruefeSourceTarget(source, target, tempListe)){
+            //Setze Source und Target Werte
+            this.source = source;
             this.target = target;
 
 
             this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
             this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
-        
+            
+        }
     }
     
     /**

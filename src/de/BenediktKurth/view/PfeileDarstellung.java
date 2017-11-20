@@ -56,8 +56,6 @@ public class PfeileDarstellung extends JLabel {
     @Override
     public void paint(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.red);
-        g.drawRect(0, 0, FENSTER_GROESSE_X-1, FENSTER_GROESSE_Y-1);
         
         g.setColor(Color.black);
         
@@ -189,8 +187,6 @@ public class PfeileDarstellung extends JLabel {
         //Zielposition am Objekt
         int xSpitze = (int)xTarget + xOffset.intValue();
         int ySpitze = (int)yTarget + yOffset.intValue();
-
-        System.out.println(Math.toDegrees(phi) + " " + TARGET.toString());
 
         //Pfeil erstellen        
         Polygon pfeil = new Polygon();

@@ -21,7 +21,7 @@ public final class Stellen extends PosNameBase{
     
     public Stellen(){
         super();
-        this.markierungString = "null";
+        this.markierungString = "0";
         this.markiert = false;
         
             
@@ -29,7 +29,7 @@ public final class Stellen extends PosNameBase{
     
     public Stellen(String id){
         super(id, "null", "null","null");
-        this.markierungString = "null";
+        this.markierungString = "0";
         this.markiert = false;
         
         
@@ -37,7 +37,7 @@ public final class Stellen extends PosNameBase{
  
     public Stellen(String id, String x, String y){
         super(id, "null", x, y );
-        this.markierungString = "null";
+        this.markierungString = "0";
         this.markiert = false;
         
         
@@ -47,7 +47,9 @@ public final class Stellen extends PosNameBase{
     public void setInitialMarking(String initialMarking) {
         this.markierungString = initialMarking;
         if (initialMarking.equals("1")){
-            markiert = true;
+            this.markiert = true;
+        } else {
+            this.markiert = false;
         }
     }
 
@@ -56,7 +58,16 @@ public final class Stellen extends PosNameBase{
     } 
     
     public void setMarkiert(boolean flag){
+        
         this.markiert = flag;
+        
+        if (flag){
+            this.markierungString = "1";
+        } else {
+            this.markierungString = "0";
+        }
+        
+        System.out.println("Wurde markiert mit: " + getMarkiert() + toString());
     }
 
     public Boolean getMarkiert(){

@@ -7,6 +7,8 @@ import de.BenediktKurth.model.Vector2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.event.MouseInputListener;
 
 /**
@@ -33,6 +35,38 @@ public abstract class VerschiebbarLabel extends BasisLabel{
         basis.setPosition(xPosition, yPosition);
         this.position = new Vector2D(xPosition, yPosition);
         
+        int interneID = this.interneID;
+        
+        super.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public synchronized void mouseDragged(MouseEvent evt){
+                boolean istMarkiert = false;
+                
+                ArrayList<Integer> listeMarkierter = mother.getInterneIDmarkierter();
+                for (Integer x: listeMarkierter){
+                    if (x == interneID) {
+                        istMarkiert = true;
+                        break;
+                    }
+                }
+                
+                if (istMarkiert) {
+                    int dx = evt.getX() - point.x;
+                    int dy = evt.getY() - point.y;
+                    Vector2D test = new Vector2D(dx,dy);
+                    point = evt.getPoint();
+                  
+
+                    controller.verschiebeMarkierteUmOffsetTest(mother.getDarstellung(), mother.getInterneIDmarkierter(), test);
+
+                    //mother.getZeichenflaeche().repaint();    
+                }
+                
+                
+              
+            }
+        });
+
        
     }
     

@@ -40,7 +40,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D sourcePosition;
+    private Vector2D sourcePosition;
 
     /**
      * Enthält die Position des Zieles des Striches.
@@ -49,21 +49,21 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D targetPosition;
+    private Vector2D targetPosition;
     
     /**
      * Enthält die Strecke (in pixel) zwischen zwei Objekten horizontal.
      * 
      * @since 1.0
      */
-    private final int breite;
+    private int breite;
     
     /**
      * Enthält die Strecke (in pixel) zwischen zwei Objekten vertikal.
      * 
      * @since 1.0
      */
-    private final int hoehe;
+    private int hoehe;
     
     /**
      * Enthält die horizontal Position des einzufügenden Striches.
@@ -71,7 +71,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private final int posX;
+    private int posX;
     
     /**
      * Enthält die vertikale Position des einzufügenden Striches.
@@ -79,9 +79,9 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private final int posY;
+    private int posY;
 
-
+    private Arc basis;    
     /**
      * Vollstädiger Konstruktor der Klasse. 
      * Auf basis der Basisdaten der Kante im Basisdatenmodel wird eine entsprechende 
@@ -100,6 +100,7 @@ public class ArcLabel extends BasisLabel {
      */
     public ArcLabel(Arc basis, MainWindowController controller, HauptFenster mother) {
         super(basis, controller, mother);
+        this.basis = basis;
         
         this.sourcePosition = basis.getPositionSource();
         this.targetPosition = basis.getPositionTarget();
@@ -115,6 +116,19 @@ public class ArcLabel extends BasisLabel {
         
 
     }
+
+    public Arc getBasis() {
+        return basis;
+    }
+
+    public void setBreite(int breite) {
+        this.breite = breite;
+    }
+
+    public void setHoehe(int hoehe) {
+        this.hoehe = hoehe;
+    }
+
     
      /**
      * Überschriebene Methode der Klasse JLabel um auf Oberfläche zu zeichen.
@@ -140,22 +154,22 @@ public class ArcLabel extends BasisLabel {
   
         g.setColor(Color.black);
 
-        if (hoehe < 3 || breite < 3) {
+        if (this.getHeight()< 3 || this.getWidth() < 3) { 
             if ( sourcePos.getX() < targetPos.getX()) {
                 //Von links nach rechts
-                g.drawLine(1, 1, breite - 1, hoehe - 1);
+                g.drawLine(1, 1, this.getWidth()-1, this.getHeight() - 1);
               
             } else if (sourcePos.getX() > targetPos.getX() ){
                 //Von rechts nach links
-                g.drawLine(breite - 1, hoehe - 1, 1, 1);
+                g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
                 
             } else if (sourcePos.getY() < targetPos.getY() ){
                 //Von oben nach unten 
-                g.drawLine(1, 1, breite - 1, hoehe - 1);
+                g.drawLine(1, 1, this.getWidth() - 1, this.getHeight() - 1);
                 
             } else if (sourcePos.getY() > targetPos.getY() ){
                 //Von unten nach oben
-                g.drawLine(breite - 1, hoehe - 1, 1, 1);
+                g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
             }
    
         } else {

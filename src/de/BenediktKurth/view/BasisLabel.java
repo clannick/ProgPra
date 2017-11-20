@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import static javax.swing.SwingConstants.TOP;
 import javax.swing.border.Border;
 
 /**
@@ -17,17 +18,17 @@ import javax.swing.border.Border;
  */
 public abstract class BasisLabel extends JLabel {
 
-    private final int interneID;
+    protected final int interneID;
 
     private HauptFenster mother;
 
     protected MainWindowController controller;
 
-    protected Vector2D firstClick = null;
+
     private Border stani = BorderFactory.createLineBorder(Color.yellow);
     
-    private int pressedX,pressedY,draggedX,draggedY;
-    private Point point;
+
+    protected Point point = new Point(0,0);
 
     public BasisLabel(IDBase basis, MainWindowController controller, HauptFenster mother) {
         this.interneID = basis.getInterneID();
@@ -43,6 +44,8 @@ public abstract class BasisLabel extends JLabel {
             }
         }
 
+        JLabel ich = this;
+        
         super.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -59,7 +62,8 @@ public abstract class BasisLabel extends JLabel {
                     }
                     
                 } else {
-                    controller.findeNachfolger(evt, getInterneID());
+                    controller.simuliereSicheresWorklflownetz(evt, getInterneID());
+                    
                 }
                 
             }
@@ -69,21 +73,13 @@ public abstract class BasisLabel extends JLabel {
                    point = evt.getPoint();
                    repaint();
             }
+            
+     
+            
+
 
         });
-        super.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent evt) {
-                int dx = evt.getX() - point.x;
-                int dy = evt.getY() - point.y;
-                
-                controller.verschiebeMarkierteUmOffset(mother.getInterneIDmarkierter(), new Vector2D(dx,dy));
-    
-                point = evt.getPoint();
-                repaint();
-            }
-     
-        });
+
     }
 
     private void setFocusAndBorder(IDBase basis) {

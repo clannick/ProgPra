@@ -4,10 +4,15 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.FarbenEnum;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
+import de.BenediktKurth.model.Vector2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import javax.swing.JLabel;
+import static javax.swing.SwingConstants.TOP;
 
 /**
  *
@@ -16,23 +21,45 @@ import java.awt.RenderingHints;
 public class StellenLabel extends VerschiebbarLabel {
 
     private final static int OFFSET = 6;
-    private boolean markiertAnfangEnde;
+    private boolean markiert;
     private FarbenEnum meineFarbe;
 
     public StellenLabel(Stellen basis, MainWindowController controller, HauptFenster mother) {
         super(basis, controller, mother);
-      
-        this.markiertAnfangEnde = basis.getMarkiert();
 
+        this.markiert = basis.getMarkiert();
         this.meineFarbe = basis.getMeineFarbe();
-
+        
+        
         int size = IDBase.getSize() + OFFSET;
-        int posX = this.position.getX() - (size / 2);
-        int posY = this.position.getY() - (size / 2);
 
-        super.setBounds(posX, posY, size, size);
-        super.setToolTipText("Stelle: " + basis.getId() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")" );
-    
+        int posX;
+        int posY;
+       
+        
+        if (basis.getLabel().equals("null")) {
+            // Keine Bezeichnung für Label bzw. "null"
+            posX = this.position.getX() - (size / 2);
+            posY = this.position.getY() - (size / 2);
+            super.setBounds(posX, posY, size, size);
+            super.setToolTipText("Stelle: " + basis.getId() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
+
+            
+        } else {
+            //Stelle mit Label
+            posX = this.position.getX() - (size / 2);
+            posY = this.position.getY() - ((size) / 2) ;
+
+            super.setBounds(posX, posY, size, size + 20);
+            super.setToolTipText("Stelle: ID " + basis.getId() + " Label: " + basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
+            
+            super.setText(basis.getLabel());
+
+            super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            super.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+            super.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        }
 
     }
 
@@ -68,7 +95,7 @@ public class StellenLabel extends VerschiebbarLabel {
         g.fillOval(pos, pos, IDBase.getSize(), IDBase.getSize());
         g.setColor(Color.black);
         g.drawOval(pos, pos, IDBase.getSize(), IDBase.getSize());
-        if (markiertAnfangEnde) {
+        if (markiert) {
             int size = (IDBase.getSize() + OFFSET) / 2;
             int kreisGroesse = IDBase.getSize() / 8;
             size -= kreisGroesse / 2;

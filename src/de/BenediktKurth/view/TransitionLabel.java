@@ -62,8 +62,7 @@ public class TransitionLabel extends VerschiebbarLabel {
                 g.setColor(Color.black);
                 break;
         }
-        //g.setColor(Color.white);
-        
+       
         g.fillRect(10, 0, IDBase.getSize(), IDBase.getSize());
         g.setColor(Color.black);
         g.drawRect(10, 0, IDBase.getSize(), IDBase.getSize());

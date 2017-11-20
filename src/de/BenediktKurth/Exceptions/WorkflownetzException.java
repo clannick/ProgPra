@@ -14,6 +14,8 @@ package de.BenediktKurth.Exceptions;
  * @see Exception
  */
 public class WorkflownetzException extends Exception {
+
+    private static final long serialVersionUID = 104L;
     
     /**
      * Kontruktor gibt nur Nachricht an super-Klasse (Exception) weiter.

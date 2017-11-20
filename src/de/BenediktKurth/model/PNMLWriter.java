@@ -3,6 +3,9 @@ package de.BenediktKurth.model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -73,6 +76,7 @@ public final class PNMLWriter {
      */
     private XMLStreamWriter writer = null;
 
+    private FileOutputStream fos;
     /**
      * Dieser Konstruktor erstellt einen neuen Writer für PNML Dateien,
      * dem die PNML Datei als Java {@link File} übergeben wird.
@@ -91,13 +95,14 @@ public final class PNMLWriter {
      */
     public void startXMLDocument() {
         try {
-            FileOutputStream fos = new FileOutputStream(pnmlDatei);
+            fos = new FileOutputStream(pnmlDatei);
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
             writer = factory.createXMLStreamWriter(fos, "UTF-8");
             // XML Dokument mit Version 1.0 und Kodierung UTF-8 beginnen
             writer.writeStartDocument("UTF-8", "1.0");
             writer.writeStartElement("pnml");
             writer.writeStartElement("net");
+            
         } catch (FileNotFoundException e) {
             System.err.println("Die Datei " + pnmlDatei.getAbsolutePath()
                     + " kann nicht geschrieben werden! " + e.getMessage());
@@ -105,7 +110,7 @@ public final class PNMLWriter {
         } catch (XMLStreamException e) {
             System.err.println("XML Fehler: " + e.getMessage());
             e.printStackTrace();
-        }
+        } 
     }
 
     /**
@@ -118,9 +123,12 @@ public final class PNMLWriter {
                 writer.writeEndElement();
                 writer.writeEndDocument();
                 writer.close();
+                fos.close();
             } catch (XMLStreamException e) {
                 System.err.println("XML Fehler: " + e.getMessage());
                 e.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(PNMLWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             System.err.println("Das Dokument wurde noch nicht gestartet!");
