@@ -18,13 +18,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *  Klasse zur graphischen Darstellung des Programmes. 
- * 
- *  Klasse wirft keine Exceptions.
- * 
- *  Plannung:   - Exceptions
- *              - Kommentare
- *              - JavaDoc-Kommentare
+ * Klasse zur graphischen Darstellung des Programmes.
+ *
+ * Klasse wirft keine Exceptions.
+ *
+ * Plannung: - Exceptions - Kommentare - JavaDoc-Kommentare
  *
  * @author Benedikt Kurth; NetBeans IDE 8.2 FormEditor
  *
@@ -34,46 +32,43 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class HauptFenster extends javax.swing.JFrame {
 
-    
     private String lastDirectory;
-    
+
     private boolean wurdeGeaender = false;
-    
+
     private volatile ArrayList<Integer> interneIDmarkierter = new ArrayList<>();
-    
+
     private Toolkit desktop = Toolkit.getDefaultToolkit();
-    
+
     /**
-     *  Enthält den Controller für diese Klasse
-     * 
-     *  @see MainWindowController
+     * Enthält den Controller für diese Klasse
+     *
+     * @see MainWindowController
      */
     private final MainWindowController controller;
-    
+
     private ArrayList<JLabel> darstellungen = new ArrayList<>();
-    
+
     public final int screenHeight;
     public final int screenWidth;
+
     /**
      * Konstruktor mit übergabe des Kontrollers (MVC)
-     * 
-     * @param controller MainWindowController zur Steuerung des Programmes und Datenänderungen
-     * 
+     *
+     * @param controller MainWindowController zur Steuerung des Programmes und
+     * Datenänderungen
+     *
      * @see MainWindowController
      */
     public HauptFenster(MainWindowController controller) {
         this.controller = controller;
-        
-        
+
         screenHeight = desktop.getScreenSize().height;
         screenWidth = desktop.getScreenSize().width;
-        super.setBounds((screenWidth/2)-(screenWidth/4), (screenHeight/2)-(screenHeight/4), screenWidth/2, screenHeight/2);
+        super.setBounds((screenWidth / 2) - (screenWidth / 4), (screenHeight / 2) - (screenHeight / 4), screenWidth / 2, screenHeight / 2);
         super.setFocusable(true);
         initComponents();
-        
-  
-        
-       
+
     }
 
     /**
@@ -401,75 +396,35 @@ public class HauptFenster extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void neueStelleKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueStelleKnopfActionPerformed
-       controller.newStellen();
+        controller.newStellen();
     }//GEN-LAST:event_neueStelleKnopfActionPerformed
 
     private void neueTransitionKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTransitionKnopfActionPerformed
-       controller.newTransition();
+        controller.newTransition();
     }//GEN-LAST:event_neueTransitionKnopfActionPerformed
 
     private void simulationResetKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulationResetKnopfActionPerformed
         controller.simualtionZurucksetzen();
-       
+
     }//GEN-LAST:event_simulationResetKnopfActionPerformed
 
     private void speichernKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopfActionPerformed
-        JFileChooser chooser = null;
-        int open = -1;
-        
-        
-        if (lastDirectory == null){
-               chooser = new JFileChooser();
+        controller.speichernView();
 
-            } else {
-               chooser = new JFileChooser(this.lastDirectory);; 
-            }
-            
-            open = chooser.showSaveDialog(null);
-     
-        
-        if (open == JFileChooser.APPROVE_OPTION){
-            controller.speichern(chooser.getSelectedFile().getAbsolutePath());
-            this.lastDirectory = chooser.getSelectedFile().getPath();
-        }
-        
-        
+
     }//GEN-LAST:event_speichernKnopfActionPerformed
 
     private void groessenSchieberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_groessenSchieberStateChanged
-        
+
         controller.setSize(groessenSchieber.getValue());
         controller.neueDarstellungOhneTest();
- 
+
     }//GEN-LAST:event_groessenSchieberStateChanged
 
     private void ladenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ladenKnopfActionPerformed
-        JFileChooser chooser = null;
-        int open = -1;
-        
-        
-        if (lastDirectory == null){
-               chooser = new JFileChooser();
+        controller.ladenView();
 
-            } else {
-               chooser = new JFileChooser(this.lastDirectory);; 
-            }
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Workflownetz", 
-            "pnml");     
-            chooser.setFileFilter(filter);
-            
-            open = chooser.showOpenDialog(null);
-     
-        
-        if (open == JFileChooser.APPROVE_OPTION){
-            controller.laden(chooser.getSelectedFile().getAbsolutePath());
-            this.lastDirectory = chooser.getSelectedFile().getPath();
-        }
-        
-      
-        controller.neueDarstellungMitTest();
-  
-        
+
     }//GEN-LAST:event_ladenKnopfActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
@@ -477,10 +432,10 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_formKeyPressed
 
     private void loeschenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loeschenKnopfActionPerformed
-        for (Integer x: interneIDmarkierter){
+        for (Integer x : interneIDmarkierter) {
             controller.remove(x);
         }
- 
+
         interneIDmarkierter.removeAll(interneIDmarkierter);
         controller.neueDarstellungMitTest();
     }//GEN-LAST:event_loeschenKnopfActionPerformed
@@ -490,16 +445,16 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_umbennenKnopfActionPerformed
 
     private void textHoeheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textHoeheKeyTyped
-     
+
     }//GEN-LAST:event_textHoeheKeyTyped
 
     private void textHoeheKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textHoeheKeyPressed
-        if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String inhalt = textHoehe.getText();
-            
+
             int hoehe = zeichenflaeche.getPreferredSize().height;
-            
-            try{
+
+            try {
                 int temp = Integer.parseInt(inhalt);
                 if (temp > -1) {
 
@@ -510,12 +465,11 @@ public class HauptFenster extends javax.swing.JFrame {
                     textHoehe.setText(getSizeHeightString());
                     fehleranzeigeText.setText("Bitte geben Sie eine positive ganze Zahl ein.");
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 textHoehe.setText(getSizeHeightString());
                 fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl zwischen 0 und " + Integer.MAX_VALUE + " ein.");
             }
- 
-            
+
         }
     }//GEN-LAST:event_textHoeheKeyPressed
 
@@ -525,7 +479,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_neueVerbindungKnopfActionPerformed
 
     private void textHoeheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textHoeheActionPerformed
-       
+
     }//GEN-LAST:event_textHoeheActionPerformed
 
     private void textBreiteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBreiteKeyTyped
@@ -533,25 +487,25 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_textBreiteKeyTyped
 
     private void textBreiteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBreiteKeyPressed
-        if ( evt.getKeyCode() == KeyEvent.VK_ENTER ){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String inhalt = textBreite.getText();
 
             int breite = zeichenflaeche.getPreferredSize().height;
-            
-            try{
+
+            try {
                 int temp = Integer.parseInt(inhalt);
                 if (temp > -1) {
 
                     zeichenflaeche.setPreferredSize(new Dimension(breite, temp));
-                } 
-            } catch (Exception e){
+                }
+            } catch (Exception e) {
                 textBreite.setText(getSizeHeightString());
                 fehleranzeigeText.setText("Bitte geben Sie eine ganze Zahl größer 0 ein!");
             }
-            
+
             controller.neueDarstellungOhneTest();
             scrollFenster.repaint();
-            
+
         }
     }//GEN-LAST:event_textBreiteKeyPressed
 
@@ -560,7 +514,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_neueStelleKnopfPropertyChange
 
     private void textHoehePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_textHoehePropertyChange
-        
+
     }//GEN-LAST:event_textHoehePropertyChange
 
     private void zeichenflaecheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseClicked
@@ -568,7 +522,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_zeichenflaecheMouseClicked
 
     private void zeichenflaecheMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_zeichenflaecheMouseDragged
-          
+
     }//GEN-LAST:event_zeichenflaecheMouseDragged
 
     private void textBreiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBreiteActionPerformed
@@ -578,25 +532,24 @@ public class HauptFenster extends javax.swing.JFrame {
     private void speichernKnopf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopf1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_speichernKnopf1ActionPerformed
-   
 
-    
-    public void focusZuruecksetzen(){
+    public void focusZuruecksetzen() {
         interneIDmarkierter.removeAll(interneIDmarkierter);
-        
+
         controller.neueDarstellungOhneTest();
     }
+
     private String getSizeHeightString() {
-        Integer temp = (int)zeichenflaeche.getPreferredSize().getHeight();
+        Integer temp = (int) zeichenflaeche.getPreferredSize().getHeight();
         return temp.toString();
     }
-    
+
     private String getSizeWidthString() {
-        Integer temp = (int)zeichenflaeche.getPreferredSize().getWidth();
+        Integer temp = (int) zeichenflaeche.getPreferredSize().getWidth();
         return temp.toString();
-        
+
     }
-    
+
     public void setWurdeGeaender(boolean wurdeGeaender) {
         this.wurdeGeaender = wurdeGeaender;
     }
@@ -609,17 +562,19 @@ public class HauptFenster extends javax.swing.JFrame {
         return wurdeGeaender;
     }
 
-    public JLabel getFehleranzeigeText(){
+    public JLabel getFehleranzeigeText() {
         return this.fehleranzeigeText;
     }
-    public JLabel getFehleranzeigeGross(){
+
+    public JLabel getFehleranzeigeGross() {
         return this.fehleranzeigeGross;
     }
-    public JLayeredPane getZeichenflaeche(){
+
+    public JLayeredPane getZeichenflaeche() {
         return this.zeichenflaeche;
     }
-    
-    public ArrayList<JLabel> getDarstellung(){
+
+    public ArrayList<JLabel> getDarstellung() {
         return this.darstellungen;
     }
 
@@ -652,6 +607,4 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JLayeredPane zeichenflaeche;
     // End of variables declaration//GEN-END:variables
 
-
-    
 }

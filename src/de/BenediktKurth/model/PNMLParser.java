@@ -306,9 +306,6 @@ public final class PNMLParser {
      *      Identifikationstext der Transition
      */
     private void newTransition(final String id) {
-        //System.out.println("Transition mit id " + id + " wurde gefunden.");
-        
-        
         //Erstellt neue Transition mit der übergebenen ID und ansonsten Null Werten.
         Transition tempTran = new Transition(id);
         tempListe.add(tempTran);
@@ -321,8 +318,6 @@ public final class PNMLParser {
      *      Identifikationstext der Stelle
      */
     private void newPlace(final String id) {
-        //System.out.println("Stelle mit id " + id + " wurde gefunden.");
-        
         //Erstellt neue Stelle mit der übergebenen ID und ansonsten Null Werten.
         Stellen tempStellen = new Stellen (id);
         tempListe.add(tempStellen);
@@ -341,13 +336,13 @@ public final class PNMLParser {
      * @param target
      *      Identifikationstext des Endelements der Kante     
      */
-    private void newArc(final String id, final String source, final String target) {
+    private void newArc(final String id, final String source, final String target)  {
         
         try {
             Arc temp = new Arc(id, source, target, tempListe);
             tempListe.add(temp);
         } catch (ArcFehlerException ex) {
-            System.out.println(ex.getMessage());
+            
         }
         
     }

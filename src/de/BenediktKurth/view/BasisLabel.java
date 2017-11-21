@@ -24,9 +24,9 @@ public abstract class BasisLabel extends JLabel {
 
     protected MainWindowController controller;
 
-
     private Border stani = BorderFactory.createLineBorder(Color.yellow);
     
+    protected boolean isMarkiert = false;
 
     protected Point point = new Point(0,0);
 
@@ -41,11 +41,12 @@ public abstract class BasisLabel extends JLabel {
         for (Integer x : mother.getInterneIDmarkierter()) {
             if (x == basis.getInterneID()) {
                 super.setBorder(stani);
+                this.isMarkiert = true;
+                break;
             }
         }
 
-        JLabel ich = this;
-        
+               
         super.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {

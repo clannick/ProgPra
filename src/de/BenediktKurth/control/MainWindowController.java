@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Der Controller des Programmes. Er verbindet die GUI mit dem Basisdatenmodel.
@@ -75,7 +77,8 @@ public class MainWindowController {
      * @since 1.0
      */
     private boolean isWorkflownetz;
-
+    
+    private String lastDirectory = null;
     /**
      * Leerer Konstruktor zur Initalizierung des Controllers.
      *
@@ -84,6 +87,8 @@ public class MainWindowController {
     public MainWindowController() {
         super();
     }
+    
+     
 
     /**
      * Diese Methode muss bei Programmstart in der Main-Methode aufgerufen
@@ -619,7 +624,7 @@ public class MainWindowController {
                     int altHoehe = x.getHeight();
                     int altBreite = x.getWidth();
 
-                    System.out.println(altHoehe + " " + altBreite);
+                    
                     int altX = x.getX();
                     int altY = x.getY();
 
@@ -772,6 +777,55 @@ public class MainWindowController {
                
         } else {
             window.getFehleranzeigeText().setText("Bitte nur eine Transition oder Stelle auswählen!");
+        }
+    }
+
+    public void ladenView() {
+        JFileChooser chooser = null;
+        int open = -1;
+        
+        
+        if (lastDirectory == null){
+               chooser = new JFileChooser();
+
+            } else {
+               chooser = new JFileChooser(this.lastDirectory);; 
+            }
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Workflownetz", 
+            "pnml");     
+            chooser.setFileFilter(filter);
+            
+            open = chooser.showOpenDialog(null);
+     
+        
+        if (open == JFileChooser.APPROVE_OPTION){
+            laden(chooser.getSelectedFile().getAbsolutePath());
+            this.lastDirectory = chooser.getSelectedFile().getPath();
+            neueDarstellungMitTest();
+        }
+        
+      
+        
+    }
+
+    public void speichernView() {
+        JFileChooser chooser;
+        int open = -1;
+        
+        
+        if (lastDirectory == null){
+               chooser = new JFileChooser();
+
+            } else {
+               chooser = new JFileChooser(this.lastDirectory);; 
+            }
+            
+            open = chooser.showSaveDialog(null);
+     
+        
+        if (open == JFileChooser.APPROVE_OPTION){
+            speichern(chooser.getSelectedFile().getAbsolutePath());
+            this.lastDirectory = chooser.getSelectedFile().getPath();
         }
     }
 }

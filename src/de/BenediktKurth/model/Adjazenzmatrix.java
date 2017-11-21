@@ -639,16 +639,6 @@ public final class Adjazenzmatrix {
         return rueckgabe; 
     }
     
-    /**
-     * TEST-Methode
-     */
-    public void druckeMatrix() {
-        for (int i = 0; i < gesamtZaehler; i++) {
-            for (int j = 0; j < gesamtZaehler; j++) {
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+
 
 }

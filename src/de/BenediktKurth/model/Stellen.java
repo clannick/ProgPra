@@ -67,7 +67,7 @@ public final class Stellen extends PosNameBase{
             this.markierungString = "0";
         }
         
-        System.out.println("Wurde markiert mit: " + getMarkiert() + toString());
+       
     }
 
     public Boolean getMarkiert(){

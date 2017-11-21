@@ -57,9 +57,9 @@ public final class PNMLWriter {
             }
             
             pnmlWriter.finishXMLDocument();
-            pnmlDatei = null;
+           
         } else {
-            System.out.println("Bitte eine Datei auswählen");
+            
         }
         
         

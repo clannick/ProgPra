@@ -40,26 +40,16 @@ public abstract class VerschiebbarLabel extends BasisLabel{
         super.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public synchronized void mouseDragged(MouseEvent evt){
-                boolean istMarkiert = false;
+               
                 
-                ArrayList<Integer> listeMarkierter = mother.getInterneIDmarkierter();
-                for (Integer x: listeMarkierter){
-                    if (x == interneID) {
-                        istMarkiert = true;
-                        break;
-                    }
-                }
-                
-                if (istMarkiert) {
+                if (isMarkiert) {
                     int dx = evt.getX() - point.x;
                     int dy = evt.getY() - point.y;
                     Vector2D test = new Vector2D(dx,dy);
-                    point = evt.getPoint();
-                  
-
+                    System.out.println(dx + " " + dy);
                     controller.verschiebeMarkierteUmOffsetTest(mother.getDarstellung(), mother.getInterneIDmarkierter(), test);
-
-                    //mother.getZeichenflaeche().repaint();    
+                    point = evt.getPoint();
+                       
                 }
                 
                 
