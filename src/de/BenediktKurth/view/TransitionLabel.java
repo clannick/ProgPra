@@ -21,7 +21,7 @@ public class TransitionLabel extends VerschiebbarLabel {
                
         this.meineFarbe = basis.getMeineFarbe();
         
-        int size = IDBase.getSize() + 20;
+        int size = IDBase.getSize() + 21;
         int posX = this.position.getX() - (size / 2);
         int posY = this.position.getY() - ((size-20) / 2);
         

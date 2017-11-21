@@ -20,7 +20,7 @@ import static javax.swing.SwingConstants.TOP;
  */
 public class StellenLabel extends VerschiebbarLabel {
 
-    private final static int OFFSET = 6;
+    private final static int OFFSET = 1;
     private boolean markiert;
     private FarbenEnum meineFarbe;
 
@@ -37,7 +37,7 @@ public class StellenLabel extends VerschiebbarLabel {
         int posY;
        
         
-        if (basis.getLabel().equals("null")) {
+        if (basis.getLabel().equals("null") || basis.getLabel().equals("")) {
             // Keine Bezeichnung für Label bzw. "null"
             posX = this.position.getX() - (size / 2);
             posY = this.position.getY() - (size / 2);

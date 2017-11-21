@@ -20,6 +20,7 @@ import de.BenediktKurth.view.HauptFenster;
 import de.BenediktKurth.view.PfeileDarstellung;
 import de.BenediktKurth.view.StellenLabel;
 import de.BenediktKurth.view.TransitionLabel;
+import de.BenediktKurth.view.Umbennen;
 import de.BenediktKurth.view.VerschiebbarLabel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -211,6 +212,7 @@ public class MainWindowController {
                 window.getFehleranzeigeText().setText("Keine Fehler.");
                 window.getFehleranzeigeGross().setText("Es ist ein Workflownetz.");
                 this.isWorkflownetz = true;
+                simualtionZurucksetzen();
 
             }
         } catch (WorkflownetzException ex) {
@@ -218,6 +220,7 @@ public class MainWindowController {
             window.getFehleranzeigeText().setText(ex.getMessage());
             window.getFehleranzeigeGross().setText("Es ist kein Workflownetz.");
             this.isWorkflownetz = false;
+            simualtionZurucksetzen();
         }
 
     }
@@ -755,5 +758,20 @@ public class MainWindowController {
 
         neueDarstellungOhneTest();
     }
-
+    
+    public void umbenennen(ArrayList<Integer> interneIDmarkierter) {
+        boolean bedingung1 = interneIDmarkierter.size() == 1;
+        boolean bedingung2 = speicherArray.getWithInternID(interneIDmarkierter.get(0)) instanceof Arc;
+        
+        if (bedingung1 && !bedingung2){
+            int temp = interneIDmarkierter.get(0);
+            
+               String label = getLabel(temp);
+               Umbennen test = new Umbennen(temp, label, this, window.screenHeight, window.screenWidth);  
+           
+               
+        } else {
+            window.getFehleranzeigeText().setText("Bitte nur eine Transition oder Stelle auswählen!");
+        }
+    }
 }
