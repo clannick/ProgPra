@@ -80,8 +80,9 @@
                           <Component id="loeschenKnopf" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="speichernKnopf" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="groessenSchieber" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="neuKnopf" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="simulationResetKnopf" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="fehleranzeigeGross" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="speichernKnopf1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -132,7 +133,9 @@
                       <Component id="loeschenKnopf" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="umbennenKnopf" min="-2" pref="35" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="simulationResetKnopf" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -149,7 +152,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="groessenSchieber" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="neuKnopf" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="speichernKnopf1" min="-2" pref="35" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="speichernKnopf" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
@@ -191,9 +194,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="fehleranzeigeGross">
     </Component>
-    <Component class="javax.swing.JButton" name="neuKnopf">
+    <Component class="javax.swing.JButton" name="simulationResetKnopf">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Neu"/>
+        <Property name="text" type="java.lang.String" value="Simulation reset"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[150, 46]"/>
         </Property>
@@ -205,7 +208,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="neuKnopfActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="simulationResetKnopfActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="speichernKnopf">
@@ -367,6 +370,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Arbeitsfl&#xe4;che"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="speichernKnopf1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Speichern"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="speichernKnopf1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

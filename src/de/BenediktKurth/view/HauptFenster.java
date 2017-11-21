@@ -87,7 +87,7 @@ public class HauptFenster extends javax.swing.JFrame {
 
         groessenSchieber = new javax.swing.JSlider();
         fehleranzeigeGross = new javax.swing.JLabel();
-        neuKnopf = new javax.swing.JButton();
+        simulationResetKnopf = new javax.swing.JButton();
         speichernKnopf = new javax.swing.JButton();
         ladenKnopf = new javax.swing.JButton();
         loeschenKnopf = new javax.swing.JButton();
@@ -106,6 +106,7 @@ public class HauptFenster extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        speichernKnopf1 = new javax.swing.JButton();
         menueLeiste = new javax.swing.JMenuBar();
         menuEintragDatei = new javax.swing.JMenu();
         menuEintragBearbeiten = new javax.swing.JMenu();
@@ -135,13 +136,13 @@ public class HauptFenster extends javax.swing.JFrame {
             }
         });
 
-        neuKnopf.setText("Neu");
-        neuKnopf.setMaximumSize(new java.awt.Dimension(150, 46));
-        neuKnopf.setMinimumSize(new java.awt.Dimension(150, 46));
-        neuKnopf.setPreferredSize(new java.awt.Dimension(150, 46));
-        neuKnopf.addActionListener(new java.awt.event.ActionListener() {
+        simulationResetKnopf.setText("Simulation reset");
+        simulationResetKnopf.setMaximumSize(new java.awt.Dimension(150, 46));
+        simulationResetKnopf.setMinimumSize(new java.awt.Dimension(150, 46));
+        simulationResetKnopf.setPreferredSize(new java.awt.Dimension(150, 46));
+        simulationResetKnopf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                neuKnopfActionPerformed(evt);
+                simulationResetKnopfActionPerformed(evt);
             }
         });
 
@@ -276,6 +277,13 @@ public class HauptFenster extends javax.swing.JFrame {
 
         jLabel3.setText("Arbeitsfläche");
 
+        speichernKnopf1.setText("Speichern");
+        speichernKnopf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speichernKnopf1ActionPerformed(evt);
+            }
+        });
+
         menuEintragDatei.setText("Datei");
         menueLeiste.add(menuEintragDatei);
 
@@ -314,8 +322,9 @@ public class HauptFenster extends javax.swing.JFrame {
                             .addComponent(loeschenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(speichernKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(groessenSchieber, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(neuKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(simulationResetKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fehleranzeigeGross, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(speichernKnopf1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,7 +364,9 @@ public class HauptFenster extends javax.swing.JFrame {
                         .addComponent(loeschenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(umbennenKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(208, 208, 208)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(simulationResetKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(167, 167, 167)
                         .addComponent(jLabel3)
                         .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -370,7 +381,7 @@ public class HauptFenster extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(groessenSchieber, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(neuKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(speichernKnopf1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(speichernKnopf, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -397,10 +408,10 @@ public class HauptFenster extends javax.swing.JFrame {
        controller.newTransition();
     }//GEN-LAST:event_neueTransitionKnopfActionPerformed
 
-    private void neuKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neuKnopfActionPerformed
+    private void simulationResetKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulationResetKnopfActionPerformed
         controller.simualtionZurucksetzen();
        
-    }//GEN-LAST:event_neuKnopfActionPerformed
+    }//GEN-LAST:event_simulationResetKnopfActionPerformed
 
     private void speichernKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopfActionPerformed
         JFileChooser chooser = null;
@@ -563,6 +574,10 @@ public class HauptFenster extends javax.swing.JFrame {
     private void textBreiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBreiteActionPerformed
 
     }//GEN-LAST:event_textBreiteActionPerformed
+
+    private void speichernKnopf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopf1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_speichernKnopf1ActionPerformed
    
 
     
@@ -624,12 +639,13 @@ public class HauptFenster extends javax.swing.JFrame {
     private javax.swing.JMenu menuEintragDatei;
     private javax.swing.JMenu menuEintragHilfe;
     private javax.swing.JMenuBar menueLeiste;
-    private javax.swing.JButton neuKnopf;
     private javax.swing.JButton neueStelleKnopf;
     private javax.swing.JButton neueTransitionKnopf;
     private javax.swing.JButton neueVerbindungKnopf;
     private javax.swing.JScrollPane scrollFenster;
+    private javax.swing.JButton simulationResetKnopf;
     private javax.swing.JButton speichernKnopf;
+    private javax.swing.JButton speichernKnopf1;
     private javax.swing.JTextField textBreite;
     private javax.swing.JTextField textHoehe;
     private javax.swing.JButton umbennenKnopf;

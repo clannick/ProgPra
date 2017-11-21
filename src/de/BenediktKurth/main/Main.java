@@ -18,20 +18,17 @@ import de.BenediktKurth.view.HauptFenster;
 public class Main {
 
     public static void main(String[] args) {
-        String stringTemp = "F:\\Desktop\\ProPra\\Beispiele\\Beispiel-03.pnml";
+      
         ArrayListSearchID<IDBase> halla = new ArrayListSearchID<>();
         
-        try {
-            halla = PNMLParser.loadAndGet(stringTemp);
-        } catch (FileNotLoadException ex) {
-            
-        }
+      
+      
 
         MainWindowController testController = new MainWindowController();
         
         HauptFenster testWindow = new HauptFenster(testController);
         testController.setComponents(testWindow, halla);
-        testController.neueDarstellungMitTest();
+     
         testWindow.setVisible(true);
 
         
