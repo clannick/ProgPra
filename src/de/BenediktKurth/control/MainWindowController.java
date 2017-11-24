@@ -3,6 +3,7 @@ package de.BenediktKurth.control;
 import de.BenediktKurth.Exceptions.ArcFehlerException;
 import de.BenediktKurth.Exceptions.DateiFehlerException;
 import de.BenediktKurth.Exceptions.WorkflownetzException;
+
 import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.ArrayListSearchID;
@@ -14,6 +15,7 @@ import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
 import de.BenediktKurth.model.PNMLWriter;
 import de.BenediktKurth.model.Vector2D;
+
 import de.BenediktKurth.view.ArcLabel;
 import de.BenediktKurth.view.HauptFenster;
 import de.BenediktKurth.view.PfeileDarstellung;
@@ -21,11 +23,12 @@ import de.BenediktKurth.view.StellenLabel;
 import de.BenediktKurth.view.TransitionLabel;
 import de.BenediktKurth.view.Umbennen;
 import de.BenediktKurth.view.VerschiebbarLabel;
+
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Iterator;
+
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -34,11 +37,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * Der Controller des Programmes. Er verbindet die GUI mit dem Basisdatenmodel.
  * Wichtiger Bestandteil ist die Simultion eines sicheren Workflownetzes. Die
- * Klasse ist in acht Bereiche geteilt.
- *
- * 1. Variablen 2. Konstruktor 3. Erzeuge neue Objekte 4. Manipuliere Objekte 5.
- * Workflownetz und Simulation 6. Dateimanipulation 7. Darstellung 8. Hilfs- und
- * "Außen" Funktionen
+ * Klasse ist in acht Bereiche geteilt. <br>
+ * <br>
+ * 1. Variablen <br>
+ * 2. Konstruktor <br>
+ * 3. Erzeuge neue Objekte <br>
+ * 4. Manipuliere Objekte <br>
+ * 5. Workflownetz und Simulation <br>
+ * 6. Dateimanipulation  <br>
+ * 7. Darstellung  <br>
+ * 8. Hilfs- und "Außen" Funktionen <br>
  *
  * @author Benedikt Kurth
  *
@@ -266,7 +274,7 @@ public class MainWindowController {
      *
      * @since 1.0
      *
-     * @param interneID
+     * @param interneID Interne-ID des zu löschenden Objektes.
      */
     public void entfernen(int interneID) {
         //Hole Objekt mit der internen ID als Referenz
@@ -376,7 +384,7 @@ public class MainWindowController {
 
         //Durchlaufe ein zweites mal Darstellungen.
         //Wichtig: Erst Verschiebar, dann Pfeile, ansonsten keine Positionsbestimmung möglich.
-        for (JLabel x : darstellungen) {
+        darstellungen.forEach((x) -> {
             if (!(x instanceof ArcLabel)) {
                 //Keine Kantendarstellung
             } else {
@@ -400,7 +408,7 @@ public class MainWindowController {
                 ((ArcLabel) x).setBreite(breite);
                 ((ArcLabel) x).setHoehe(hoehe);
             }
-        }
+        });
 
         //Zeichne Darstellung neu (Pfeilspitzen)
         window.getZeichenflaeche().repaint();
@@ -803,7 +811,7 @@ public class MainWindowController {
         } 
         //Wenn ein zuletzt genutzer Pfad gesetzt ist, nutze diesen
         else {
-            chooser = new JFileChooser(this.lastDirectory);;
+            chooser = new JFileChooser(this.lastDirectory);
         }
 
         //Rufe Methode show auf um den "fertigen" SaveDialog aufzurufen
@@ -1063,7 +1071,7 @@ public class MainWindowController {
      * 
      * @since 1.0
      * 
-     * @return 
+     * @return Benötigte Größe der Arbeitsfläche als Dimensions-Objekt
      */
     public Dimension findeGroesse() {
         //Initalisiere Hilfsvariablen

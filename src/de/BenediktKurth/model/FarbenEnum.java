@@ -10,5 +10,9 @@ package de.BenediktKurth.model;
  * @version 1.0
  */
 public enum FarbenEnum {
-    rot, gruen, weiss, gelb, grau;
+    rot, 
+    gruen, 
+    weiss, 
+    gelb, 
+    grau;
 }

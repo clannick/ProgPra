@@ -1,60 +1,127 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
+
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
 import de.BenediktKurth.model.Transition;
 import de.BenediktKurth.model.Vector2D;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
+
 import javax.swing.JLabel;
 
 /**
- *
- * @author clannick
+ * Diese Klasse stellt die Pfeilspitzen der Kanten da. Die Klasse ist gelöst von 
+ * der eigentlichen Kantendarstellung, um spätere Änderungen sperat zu realisieren.
+ * Die Pfeilspitzen werden als erstes unter alle anderen Objekt gezeichnet. Es werden
+ * die globalen Positionen genutzt und die Java-Klasse Math.*.
+ * 
+ * @author Benedikt Kurth
+ * 
+ * @since 1.0
+ * 
+ * @version 1.0
+ * 
+ * @see JLabel
+ * @see Arc
+ * @see Stellen
+ * @see Transition
+ * @see Vector2D
+ * @see java.awt
  */
 public class PfeileDarstellung extends JLabel {
 
+    /**
+     * Referenz auf die Position das QuellObjektes als Vector2D.
+     * 
+     * @since 1.0
+     * 
+     * @see Vector2D
+     */
     private final Vector2D sourcePosition;
+    
+    /**
+     * Referenz auf die Position das ZielObjektes als Vector2D.
+     * 
+     * @since 1.0
+     * 
+     * @see Vector2D
+     */
     private final Vector2D targetPosition;
-
-    private final double RADIUSKREIS = IDBase.getSize() / 2;
+    
+    /**
+     * Kreisradius bzw. halbe Kantenlänge eines Quadrates der Objekte auf Basis der
+     * globalen Größe.
+     * 
+     * @since 1.0
+     * 
+     * @see IDBase
+     */
+    private final double RADIUSKREIS_GROESSE = IDBase.getSize() / 2;
+    
+    /**
+     * Pfeilgröße in relation zur Größe der Objekte.
+     * 
+     * @since 1.0
+     * 
+     * @see IDBase
+     */
     private final double PFEIL_GROESSE = IDBase.getSize() / 3;
-    private final IDBase TARGET;
-
-    private final double GROESSE = IDBase.getSize() / 2;
     
-    private final int FENSTER_GROESSE_X;
-    private final int FENSTER_GROESSE_Y;
-    
+    /**
+     * Referenz auf Zeilobjekt. Wird benötigt da je nach Objekt eine andere Berechnung
+     * für den Schnittpunkt Kante/Objekt benötigt wird.
+     * 
+     * @since 1.0
+     */
+    private final IDBase target;
 
+
+    /**
+     * Vollständigert Konstruktor. Erhält Referenzen auf "seine" Kante aus den Basisdaten
+     * und dem Kontroller.
+     * 
+     * @param arc           Referenz auf Kante. Zur Ermittlung Source- und Target-Position
+     * @param controller    Referenz auf Kontroller. Zum ermitteln der Arbeitsflächengrößen und des Targets
+     * 
+     * @since 1.0
+     */
     public PfeileDarstellung(Arc arc, MainWindowController controller) {
+        //Konstruktor JLabel
         super();
+        
+        //Setzte Position und ermittle Target
         this.sourcePosition = arc.getPositionSource();
         this.targetPosition = arc.getPositionTarget();
-        this.TARGET = controller.sucheMitID(arc.getTarget());
-        this.FENSTER_GROESSE_X = controller.getZeichenflaecheGroesse().getX();
-        this.FENSTER_GROESSE_Y = controller.getZeichenflaecheGroesse().getY();
-        super.setBounds(0, 0, FENSTER_GROESSE_X, FENSTER_GROESSE_Y);
+        this.target = controller.sucheMitID(arc.getTarget());
+     
+        //Setze Rahmen über gesamte Arbeitsflächengröße
+        super.setBounds(0, 0, controller.getZeichenflaecheGroesse().getX(), controller.getZeichenflaecheGroesse().getY());
     }
 
     /**
      * Die Methode zeichnet die Pfeilspitzen auf den Hintergrund. Es wird mithilfe
-     * des Mittelpunktes und diverser Winkelfunktionen (sin,cos,tan) die passenden 
-     * Außenpositionen ermitellt und dann ein Pfeil ausgehen dieser Position gezeichnet.
-     * Weiter wird der Rahmen für den Arbeitsbereich gezeichnet. 
-     *
+     * des Mittelpunktes und diverser Winkelfunktionen (sin,cos,tan) der passenden 
+     * Schnittpunkt ermitellt und dann ein Pfeil ausgehen dieser Position gezeichnet.
      * 
      * @param g  Graphics Übergibt die "Zeichenfläche" auf der gezeichnet wird.
+     * 
+     * @since 1.0
+     * 
+     * @see Math
      */
     @Override
     public void paint(Graphics g) {
+        //Paintmethode JLabel, für sichere Konsitenz
         super.paintComponent(g);
         
+        //Setze Farbe auf Schwarz
         g.setColor(Color.black);
         
         //Kantenglättung
@@ -69,6 +136,8 @@ public class PfeileDarstellung extends JLabel {
 
         //Berechne Winkel
         double phi = Math.atan((yTarget - ySource) / (xTarget - xSource));
+        
+        //Wenn Target links von Source, dann 180° hinzu addieren
         if (xTarget < xSource) {
             phi = phi + Math.PI;
         }
@@ -82,98 +151,97 @@ public class PfeileDarstellung extends JLabel {
         }
         
         //Verschiebung zur "richtigen" Targetposition
-      
         Double xOffset = 0.0;
         Double yOffset = 0.0;
 
         //Berechne Schnittpunkt gerade und Objekt
-        if (TARGET instanceof Stellen) {
+        if (target instanceof Stellen) {
             // Kreisberechnung
-            xOffset = -Math.cos(phi) * RADIUSKREIS;
-            yOffset = -Math.sin(phi) * RADIUSKREIS;
+            xOffset = -Math.cos(phi) * RADIUSKREIS_GROESSE;
+            yOffset = -Math.sin(phi) * RADIUSKREIS_GROESSE;
             
-        } else if (TARGET instanceof Transition) {
+        } else if (target instanceof Transition) {
             
             // Vierecksberechnung
             if (phi == Math.toRadians(0.0)){
                 //Links Mitte
-                xOffset = -GROESSE;
+                xOffset = -RADIUSKREIS_GROESSE;
                 yOffset = 0.0;
                 
             } else if (phi > Math.toRadians(0.0) && phi < Math.toRadians(45.0)){
                 //Seite 1
-                xOffset = -GROESSE;
-                yOffset = -GROESSE*Math.tan(phi);
+                xOffset = -RADIUSKREIS_GROESSE;
+                yOffset = -RADIUSKREIS_GROESSE*Math.tan(phi);
                 
             } else if(phi == Math.toRadians(45.0)){
                 //Oben Links
-                xOffset = -GROESSE;
-                yOffset = -GROESSE;
+                xOffset = -RADIUSKREIS_GROESSE;
+                yOffset = -RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(45.0) && phi < Math.toRadians(90.0)){
                 //Seite 2
-                xOffset = -GROESSE/Math.tan(phi);
-                yOffset = -GROESSE;
+                xOffset = -RADIUSKREIS_GROESSE/Math.tan(phi);
+                yOffset = -RADIUSKREIS_GROESSE;
                 
             } else if (phi == Math.toRadians(90.0) ) {
                 //Oben Mitte
                 xOffset = 0.0;
-                yOffset = -GROESSE;
+                yOffset = -RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(90.0) && phi < Math.toRadians(135.0)){
                 //Seite 3
-                xOffset = GROESSE*Math.tan(phi-Math.toRadians(90.0));
-                yOffset = -GROESSE;
+                xOffset = RADIUSKREIS_GROESSE*Math.tan(phi-Math.toRadians(90.0));
+                yOffset = -RADIUSKREIS_GROESSE;
                 
             } else if(phi == Math.toRadians(135.0)){
                 //Oben Rechts
-                xOffset = GROESSE;
-                yOffset = -GROESSE;
+                xOffset = RADIUSKREIS_GROESSE;
+                yOffset = -RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(135.0) && phi < Math.toRadians(180.0)){
                 //Seite 4
-                xOffset = GROESSE;
-                yOffset = -GROESSE/Math.tan(phi-Math.toRadians(90.0));
+                xOffset = RADIUSKREIS_GROESSE;
+                yOffset = -RADIUSKREIS_GROESSE/Math.tan(phi-Math.toRadians(90.0));
                 
             } else if(phi == Math.toRadians(180.0)){
                 //Rechts Mitte
-                xOffset = GROESSE;
+                xOffset = RADIUSKREIS_GROESSE;
                 yOffset = 0.0;
                 
             } else if (phi > Math.toRadians(180.0) && phi < Math.toRadians(225.0)){
                 //Seite 5
-                xOffset = GROESSE;
-                yOffset = GROESSE*Math.tan(phi-Math.toRadians(180.0));
+                xOffset = RADIUSKREIS_GROESSE;
+                yOffset = RADIUSKREIS_GROESSE*Math.tan(phi-Math.toRadians(180.0));
                 
             } else if(phi == Math.toRadians(225.0)){
                 //Rechts Unten
-                xOffset = GROESSE;
-                yOffset = GROESSE;
+                xOffset = RADIUSKREIS_GROESSE;
+                yOffset = RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(225.0) && phi < Math.toRadians(270.0)){
                 //Seite 6
-                xOffset = GROESSE/Math.tan(phi-Math.toRadians(180.0));
-                yOffset = GROESSE;
+                xOffset = RADIUSKREIS_GROESSE/Math.tan(phi-Math.toRadians(180.0));
+                yOffset = RADIUSKREIS_GROESSE;
                 
             } else if(phi == Math.toRadians(270.0)){
                 //Unten Mitte
                 xOffset = 0.0;
-                yOffset = GROESSE;
+                yOffset = RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(270.0) && phi < Math.toRadians(315.0)){
                 //Seite 7
-                xOffset = -GROESSE*Math.tan(phi-Math.toRadians(270.0));
-                yOffset = GROESSE;
+                xOffset = -RADIUSKREIS_GROESSE*Math.tan(phi-Math.toRadians(270.0));
+                yOffset = RADIUSKREIS_GROESSE;
                 
             } else if(phi == Math.toRadians(315.0)){
                 //Unten Links
-                xOffset = -GROESSE;
-                yOffset = GROESSE;
+                xOffset = -RADIUSKREIS_GROESSE;
+                yOffset = RADIUSKREIS_GROESSE;
                 
             } else if (phi > Math.toRadians(315.0) && phi < Math.toRadians(360.0)){
                 //Seite 8
-                xOffset = -GROESSE;
-                yOffset = GROESSE/Math.tan(phi-Math.toRadians(270.0));
+                xOffset = -RADIUSKREIS_GROESSE;
+                yOffset = RADIUSKREIS_GROESSE/Math.tan(phi-Math.toRadians(270.0));
             }
 
         } else {
@@ -212,5 +280,4 @@ public class PfeileDarstellung extends JLabel {
         g.dispose();
         temp.dispose();
     }
-
 }

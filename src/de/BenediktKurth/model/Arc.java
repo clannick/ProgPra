@@ -223,6 +223,4 @@ public final class Arc extends IDBase {
     public Vector2D getPositionTarget() {
         return positionTarget;
     }
-
-    
 }

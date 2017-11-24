@@ -26,5 +26,4 @@ public class DateiFehlerException extends Exception {
     public DateiFehlerException(String nachricht){
         super(nachricht);
     }
-    
 }

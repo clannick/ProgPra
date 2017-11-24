@@ -102,6 +102,8 @@ public abstract class IDBase {
      * Methode zum setzen der Farbe eines Objektes.
      * Auswahl aus FarbenEnum.
      * 
+     * @param meineFarbe    Neue Farbe des Objektes (Auswahl aus FarbenEnum).
+     * 
      * @since 1.0
      * 
      * @see FarbenEnum

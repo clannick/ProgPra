@@ -24,6 +24,4 @@ public class MatrixException extends Exception {
     public MatrixException(String nachricht){
         super(nachricht);
     }
-    
 }
-

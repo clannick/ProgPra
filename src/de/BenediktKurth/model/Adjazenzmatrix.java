@@ -693,7 +693,4 @@ public final class Adjazenzmatrix {
         }
         return rueckgabe; 
     }
-    
-
-
 }

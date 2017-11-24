@@ -35,7 +35,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private File pnmlDatei;
+    private final File pnmlDatei;
 
     /**
      * Dies ist eine Referenz zum XML Parser. Diese Referenz wird durch die
@@ -100,7 +100,8 @@ public final class PNMLParser {
      * Diese Methode öffnet die PNML Datei als Eingabestrom und initialisiert
      * den XML Parser.
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
      */
@@ -120,9 +121,10 @@ public final class PNMLParser {
     /**
      * Diese Methode liest die XML Datei und delegiert die gefundenen XML
      * Elemente an die entsprechenden Methoden.
-     * 
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
-     * 
+     *
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
+     *
      * @since 1.0
      */
     public final void parse() throws DateiFehlerException {
@@ -137,12 +139,18 @@ public final class PNMLParser {
                     case XMLStreamConstants.END_ELEMENT:
                         String name = event.asEndElement().getName().toString()
                                 .toLowerCase();
-                        if (name.equals("token")) {
-                            isToken = false;
-                        } else if (name.equals("name")) {
-                            isName = false;
-                        } else if (name.equals("value")) {
-                            isValue = false;
+                        switch (name) {
+                            case "token":
+                                isToken = false;
+                                break;
+                            case "name":
+                                isName = false;
+                                break;
+                            case "value":
+                                isValue = false;
+                                break;
+                            default:
+                                break;
                         }
                         break;
                     case XMLStreamConstants.CHARACTERS:
@@ -172,26 +180,38 @@ public final class PNMLParser {
      * delegiert wird.
      *
      * @param event {@link XMLEvent}
-     * 
+     *
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
+     *
      * @since 1.0
      */
-    private void handleStartEvent(final XMLEvent event) {
+    private void handleStartEvent(final XMLEvent event) throws DateiFehlerException {
         StartElement element = event.asStartElement();
-        if (element.getName().toString().toLowerCase().equals("transition")) {
-            handleTransition(element);
-        } else if (element.getName().toString().toLowerCase().equals("place")) {
-            handlePlace(element);
-        } else if (element.getName().toString().toLowerCase().equals("arc")) {
-            handleArc(element);
-        } else if (element.getName().toString().toLowerCase().equals("name")) {
-            isName = true;
-        } else if (element.getName().toString().toLowerCase()
-                .equals("position")) {
-            handlePosition(element);
-        } else if (element.getName().toString().toLowerCase().equals("token")) {
-            isToken = true;
-        } else if (element.getName().toString().toLowerCase().equals("value")) {
-            isValue = true;
+        switch (element.getName().toString().toLowerCase()) {
+            case "transition":
+                handleTransition(element);
+                break;
+            case "place":
+                handlePlace(element);
+                break;
+            case "arc":
+                handleArc(element);
+                break;
+            case "name":
+                isName = true;
+                break;
+            case "position":
+                handlePosition(element);
+                break;
+            case "token":
+                isToken = true;
+                break;
+            case "value":
+                isValue = true;
+                break;
+            default:
+                break;
         }
     }
 
@@ -200,7 +220,7 @@ public final class PNMLParser {
      * gelesen wird.
      *
      * @param value Der gelesene Text als String
-     * 
+     *
      * @since 1.0
      */
     private void handleValue(final String value) {
@@ -215,10 +235,13 @@ public final class PNMLParser {
      * Diese Methode wird aufgerufen, wenn ein Positionselement gelesen wird.
      *
      * @param element das Positionselement
-     * 
+     *
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
+     *
      * @since 1.0
      */
-    private void handlePosition(final StartElement element) {
+    private void handlePosition(final StartElement element) throws DateiFehlerException {
         String x = null;
         String y = null;
         Iterator<?> attributes = element.getAttributes();
@@ -233,7 +256,7 @@ public final class PNMLParser {
         if (x != null && y != null && lastId != null) {
             setPosition(lastId, x, y);
         } else {
-            System.err.println("Unvollständige Position wurde verworfen!");
+            throw new DateiFehlerException("Unvollständige Position wurde verworfen!");
         }
     }
 
@@ -241,10 +264,13 @@ public final class PNMLParser {
      * Diese Methode wird aufgerufen, wenn ein Transitionselement gelesen wird.
      *
      * @param element das Transitionselement
-     * 
+     *
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
+     *
      * @since 1.0
      */
-    private void handleTransition(final StartElement element) {
+    private void handleTransition(final StartElement element) throws DateiFehlerException {
         String transitionId = null;
         Iterator<?> attributes = element.getAttributes();
         while (attributes.hasNext()) {
@@ -258,8 +284,9 @@ public final class PNMLParser {
             newTransition(transitionId);
             lastId = transitionId;
         } else {
-            System.err.println("Transition ohne id wurde verworfen!");
             lastId = null;
+            throw new DateiFehlerException("Transition ohne id wurde verworfen!");
+
         }
     }
 
@@ -267,7 +294,7 @@ public final class PNMLParser {
      * Diese Methode wird aufgerufen, wenn ein Stellenelement gelesen wird.
      *
      * @param element das Stellenelement
-     * 
+     *
      * @since 1.0
      */
     private void handlePlace(final StartElement element) {
@@ -284,7 +311,7 @@ public final class PNMLParser {
             newPlace(placeId);
             lastId = placeId;
         } else {
-            
+
             lastId = null;
         }
     }
@@ -294,7 +321,7 @@ public final class PNMLParser {
      * Unvollständige Kanten werden nicht berücksichtigt.
      *
      * @param element das Kantenelement
-     * 
+     *
      * @since 1.0
      */
     private void handleArc(final StartElement element) {
@@ -304,20 +331,25 @@ public final class PNMLParser {
         Iterator<?> attributes = element.getAttributes();
         while (attributes.hasNext()) {
             Attribute attr = (Attribute) attributes.next();
-            if (attr.getName().toString().toLowerCase().equals("id")) {
-                arcId = attr.getValue();
-            } else if (attr.getName().toString().toLowerCase().equals("source")) {
-                source = attr.getValue();
-            } else if (attr.getName().toString().toLowerCase().equals("target")) {
-                target = attr.getValue();
+            switch (attr.getName().toString().toLowerCase()) {
+                case "id":
+                    arcId = attr.getValue();
+                    break;
+                case "source":
+                    source = attr.getValue();
+                    break;
+                case "target":
+                    target = attr.getValue();
+                    break;
+                default:
+                    break;
             }
         }
         if (arcId != null && source != null && target != null) {
             newArc(arcId, source, target);
-        } 
-        
+        }
+
         //Kanten die nicht vollständig sind werden nicht beachtet!!!!!!!!!!!
-        
         //Die id von Kanten wird nicht gebraucht
         lastId = null;
     }
@@ -327,7 +359,7 @@ public final class PNMLParser {
      * erstellen.
      *
      * @param id Identifikationstext der Transition
-     * 
+     *
      * @since 1.0
      */
     private void newTransition(final String id) {
@@ -341,7 +373,7 @@ public final class PNMLParser {
      * erstellen.
      *
      * @param id Identifikationstext der Stelle
-     * 
+     *
      * @since 1.0
      */
     private void newPlace(final String id) {
@@ -358,7 +390,7 @@ public final class PNMLParser {
      * @param id Identifikationstext der Kante
      * @param source Identifikationstext des Startelements der Kante
      * @param target Identifikationstext des Endelements der Kante
-     * 
+     *
      * @since 1.0
      */
     private void newArc(final String id, final String source, final String target) {
@@ -379,7 +411,7 @@ public final class PNMLParser {
      * @param id Identifikationstext des Elements
      * @param x x Position des Elements
      * @param y y Position des Elements
-     * 
+     *
      * @since 1.0
      */
     private void setPosition(final String id, final String x, final String y) {
@@ -402,7 +434,7 @@ public final class PNMLParser {
      *
      * @param id Identifikationstext des Elements.
      * @param name Beschriftungstext des Elements.
-     * 
+     *
      * @since 1.0
      */
     private void setName(final String id, final String name) {
@@ -424,7 +456,7 @@ public final class PNMLParser {
      *
      * @param id Identifikationstext des Elements
      * @param marking Markierung des Elements
-     * 
+     *
      * @since 1.0
      */
     private void setMarking(final String id, final String marking) {
@@ -450,8 +482,9 @@ public final class PNMLParser {
      * ("D:\\Desktop\\ProPra\\Beispiele\\Beispiel-01.pnml")
      *
      * @return ArrayListSearchID Basisdaten der Datei
-     * 
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     *
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
      */
@@ -462,7 +495,7 @@ public final class PNMLParser {
         if (Dateiname != null) {
             //Erstlle neues 
             File pnmlDatei = new File(Dateiname);
-            
+
             //Extrahiere Dateinamen
             String testString = pnmlDatei.getName().toLowerCase();
             //Länge der Zeichenkette, damit offset für Dateiendung geprüft werden kann.
@@ -486,7 +519,7 @@ public final class PNMLParser {
             //Es wurde keine Datei übergeben
             throw new DateiFehlerException("Bitte eine Datei als Parameter angeben!");
         }
-        
+
         //Es wird das vollständige speicherArray mit allen Basisdaten der Datei zurückgegeben.
         return pnmlParser.speicherArray;
     }

@@ -4,34 +4,66 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.FarbenEnum;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 /**
- *
- * @author clannick
+ * Diese Klasse realisiert die Darstellung einer Stelle aus den Basisdatenmodel.
+ * 
+ * @author Benedikt Kurth
+ * 
+ * @version 1.0
+ * 
+ * @since 1.0
+ * 
+ * @see FarbenEnum
+ * @see Stellen
+ * @see MainWindowController
+ * @see HauptFenster
  */
 public class StellenLabel extends VerschiebbarLabel {
 
+    /**
+     * Größe des Abstandes zum Objekt, damit ein Rahmen angezeigt wird.
+     * 
+     * @since 1.0
+     */
     private final static int OFFSET = 1;
-    private boolean markiert;
-    private FarbenEnum meineFarbe;
+    
+    /**
+     * Variable für die Markierung der Stelle des Workflownetzes.
+     * 
+     * @since 1.0
+     */
+    private final boolean markiert;
+    
+    /**
+     * Farbwert für das Objekt.
+     * Auswahl aus FarbenEnum, verändert die Hintergrundfarbe des Kreises.
+     * 
+     * @since 1.0
+     */
+    private final FarbenEnum meineFarbe;
 
     public StellenLabel(Stellen basis, MainWindowController controller, HauptFenster mother) {
+        //Rufe Konstruktor von VerschiebbarLabel auf
         super(basis, controller, mother);
 
+        //Setzte Markiert (WFN) und Farbe
         this.markiert = basis.getMarkiert();
         this.meineFarbe = basis.getMeineFarbe();
         
-        
+        //Ermittle Rahmengröße inkl. Offset
         int size = IDBase.getSize() + OFFSET;
 
+        //Einrichtung der Variablen für die Position der Stelle
         int posX;
         int posY;
        
-        
+        //Überprüfe, ob ein relvantes Label vorhanden ist
         if (basis.getLabel().equals("null") || basis.getLabel().equals("")) {
             // Keine Bezeichnung für Label bzw. "null"
             posX = this.position.getX() - (size / 2);
@@ -43,7 +75,7 @@ public class StellenLabel extends VerschiebbarLabel {
         } else {
             //Stelle mit Label
             posX = this.position.getX() - (size / 2);
-            posY = this.position.getY() - ((size) / 2) ;
+            posY = this.position.getY() - (size / 2) ;
 
             super.setBounds(posX, posY, size, size + 20);
             super.setToolTipText("Stelle: ID " + basis.getId() + " Label: " + basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");

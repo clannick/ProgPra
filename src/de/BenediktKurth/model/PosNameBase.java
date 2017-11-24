@@ -109,6 +109,8 @@ public abstract class PosNameBase extends IDBase {
     /**
      * Methode zum setzen des Label eines Objektes.
      * 
+     * @param label String mit neuem Label für das Objekt.
+     * 
      * @since 1.0
      */
     public final void setLabel(String label) {

@@ -1,9 +1,11 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
+
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Vector2D;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -40,7 +42,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private Vector2D sourcePosition;
+    private final Vector2D sourcePosition;
 
     /**
      * Enthält die Position des Zieles des Striches.
@@ -49,7 +51,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private Vector2D targetPosition;
+    private final Vector2D targetPosition;
     
     /**
      * Enthält die Strecke (in pixel) zwischen zwei Objekten horizontal.
@@ -71,7 +73,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private int posX;
+    private final int posX;
     
     /**
      * Enthält die vertikale Position des einzufügenden Striches.
@@ -79,9 +81,9 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private int posY;
+    private final int posY;
 
-    private Arc basis;    
+
     /**
      * Vollstädiger Konstruktor der Klasse. 
      * Auf basis der Basisdaten der Kante im Basisdatenmodel wird eine entsprechende 
@@ -99,37 +101,52 @@ public class ArcLabel extends BasisLabel {
      * @see HauptFenster
      */
     public ArcLabel(Arc basis, MainWindowController controller, HauptFenster mother) {
+        //Rufe Konstrtukor von BasisLabel auf
         super(basis, controller, mother);
-        this.basis = basis;
-        
+       
+        //Hole Positionen von Source und Target Obejkten
         this.sourcePosition = basis.getPositionSource();
         this.targetPosition = basis.getPositionTarget();
        
+        //Berechne Bereite und Höhe des Rahmens für den Strich
         this.breite = Math.abs(sourcePosition.getX() - targetPosition.getX() )+ 2;
         this.hoehe = Math.abs(sourcePosition.getY() - targetPosition.getY() )+ 2;
 
+        //Berechne Position des Rahmens für den Strich (oberste linke Ecke)
         this.posX = Math.min(sourcePosition.getX(), targetPosition.getX()) - 1;
         this.posY = Math.min(sourcePosition.getY(), targetPosition.getY())- 1;
 
+        //Setzte Position, Größe und ToolTipText
         super.setBounds(posX, posY, breite, hoehe);
         super.setToolTipText("Arc: Von " + basis.getSource() + " nach " + basis.getTarget() + ".");
-        
-
     }
 
-    public Arc getBasis() {
-        return basis;
-    }
-
+    /**
+     * Methode setzt die Breite des Rahmes des Striches. Die Methode wird benötigt
+     * um das Verschieben per Drag-and-Drop zu ermöglichen, da die Strich-Positions
+     * Ermittlung in der paint()-Methode auf diesen Wert zurückgreift.
+     * 
+     * @param breite Neue Breite des Rahmes als integer-Wert.
+     * 
+     * @since 1.0
+     */
     public void setBreite(int breite) {
         this.breite = breite;
     }
 
+    /**
+     * Methode setzt die Höhe des Rahmes des Striches. Die Methode wird benötigt
+     * um das Verschieben per Drag-and-Drop zu ermöglichen, da die Strich-Positions
+     * Ermittlung in der paint()-Methode auf diesen Wert zurückgreift.
+     * 
+     * @param hoehe Neue Höhe des Rahmes als integer-Wert.
+     * 
+     * @since 1.0
+     */
     public void setHoehe(int hoehe) {
         this.hoehe = hoehe;
     }
 
-    
      /**
      * Überschriebene Methode der Klasse JLabel um auf Oberfläche zu zeichen.
      * Die Methode zieht je nach Quell- und Zielpositon einen Strich zwischen 
@@ -144,56 +161,58 @@ public class ArcLabel extends BasisLabel {
      */
     @Override
     public void paint(Graphics g) {
+        //Rufe Paint-Methode der super-Klasse auf
         super.paint(g);
  
+        //Umwandlung in Graphics2D um Antialiasing zu nutzen (Kantenglättung)
         Graphics2D temp = (Graphics2D) g;
         temp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-  
-        Vector2D sourcePos = sourcePosition;
-        Vector2D targetPos = targetPosition;
-  
+
+        //Setzte Farbe auf Schwart
         g.setColor(Color.black);
 
+        //Überprüfe ob es sich um eine Horizontale oder Vertikale Linie handelt, wenn ja mittig zeichnen
         if (this.getHeight()< 3 || this.getWidth() < 3) { 
-            if ( sourcePos.getX() < targetPos.getX()) {
+            if ( sourcePosition.getX() < targetPosition.getX()) {
                 //Von links nach rechts
                 g.drawLine(1, 1, this.getWidth()-1, this.getHeight() - 1);
               
-            } else if (sourcePos.getX() > targetPos.getX() ){
+            } else if (sourcePosition.getX() > targetPosition.getX() ){
                 //Von rechts nach links
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
                 
-            } else if (sourcePos.getY() < targetPos.getY() ){
+            } else if (sourcePosition.getY() < targetPosition.getY() ){
                 //Von oben nach unten 
                 g.drawLine(1, 1, this.getWidth() - 1, this.getHeight() - 1);
                 
-            } else if (sourcePos.getY() > targetPos.getY() ){
+            } else if (sourcePosition.getY() > targetPosition.getY() ){
                 //Von unten nach oben
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
             }
    
         } else {
            
-            if ((sourcePos.getX() < targetPos.getX() && (sourcePos.getY() < targetPos.getY()))){
+            //Es ist keine gerade Linie, sondern eine Diagonale von A nach B
+            if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
                 //Von oben links nach unten rechts
                 g.drawLine(0, 0, breite, hoehe);
           
-            } else if ((sourcePos.getX() > targetPos.getX() && (sourcePos.getY() < targetPos.getY()))){
+            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
                 //Von oben rechts nach unten links
                 g.drawLine(breite, 0, 0, hoehe);
 
-            } else if ((sourcePos.getX() < targetPos.getX() && (sourcePos.getY() > targetPos.getY()))){
+            } else if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
                 //Von unten links -> oben rechts
                 g.drawLine(0, hoehe, breite, 0);
 
-            } else if ((sourcePos.getX() > targetPos.getX() && (sourcePos.getY() > targetPos.getY()))){
+            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
                 //Von unten rechts -> oben links
                 g.drawLine(breite, hoehe, 0, 0);
             }
         }
 
+        //Entferne diese Grafik (Speicherplatz sparen)
         temp.dispose();
         g.dispose();
     }
-
 }
