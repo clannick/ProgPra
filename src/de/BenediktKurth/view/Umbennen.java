@@ -1,6 +1,5 @@
 package de.BenediktKurth.view;
 
-import com.sun.javafx.tk.Toolkit;
 import de.BenediktKurth.control.MainWindowController;
 
 /**

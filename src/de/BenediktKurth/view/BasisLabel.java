@@ -2,14 +2,11 @@ package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.IDBase;
-import de.BenediktKurth.model.Vector2D;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import static javax.swing.SwingConstants.TOP;
 import javax.swing.border.Border;
 
 /**

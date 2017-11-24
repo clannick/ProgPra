@@ -27,16 +27,12 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
     public T searchID (String id){
         
         T rueckgabeWert = null;
-        int i = 0;
         
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
-        while (i < this.size()){
-          
-
-            if (this.get(i).getId().equals(id)) {
-                return this.get(i);
+        for (T x: this){
+            if (x.id.equals(id)) {
+                return x;
             }
-            i++;
         }
         
         // Sollte gesuchtes Objekt nicht gefunden werden wird null zurückgegeben.
@@ -78,16 +74,12 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
     public T getWithInternID(int id){
         
         T rueckgabeWert = null;
-        int i = 0;
         
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
-        while (i < this.size()){
-            T temp = this.get(i);
-           
-            if (temp.getInterneID() == id) {
-                return temp;
-            }
-            i++;
+        for (T x: this){
+            if (x.getInterneID() == id) {
+                return x;
+            }            
         }
         
         // Sollte gesuchtes Objekt nicht gefunden werden wird null zurückgegeben.

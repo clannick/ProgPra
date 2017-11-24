@@ -4,15 +4,10 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.FarbenEnum;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
-import de.BenediktKurth.model.Vector2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import javax.swing.JLabel;
-import static javax.swing.SwingConstants.TOP;
 
 /**
  *

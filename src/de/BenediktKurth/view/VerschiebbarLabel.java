@@ -1,15 +1,10 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PosNameBase;
 import de.BenediktKurth.model.Vector2D;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-import javax.swing.JLabel;
-import javax.swing.event.MouseInputListener;
 
 /**
  *
@@ -47,7 +42,7 @@ public abstract class VerschiebbarLabel extends BasisLabel{
                     int dy = evt.getY() - point.y;
                     Vector2D test = new Vector2D(dx,dy);
                     System.out.println(dx + " " + dy);
-                    controller.verschiebeMarkierteUmOffsetTest(mother.getDarstellung(), mother.getInterneIDmarkierter(), test);
+                    controller.verschiebeMarkierteUmOffset(mother.getDarstellung(), mother.getInterneIDmarkierter(), test);
                     point = evt.getPoint();
                        
                 }

@@ -1,21 +1,12 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-import de.BenediktKurth.model.Vector2D;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.logging.Filter;
-import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Klasse zur graphischen Darstellung des Programmes.
@@ -396,11 +387,11 @@ public class HauptFenster extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void neueStelleKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueStelleKnopfActionPerformed
-        controller.newStellen();
+        controller.neueStellen();
     }//GEN-LAST:event_neueStelleKnopfActionPerformed
 
     private void neueTransitionKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueTransitionKnopfActionPerformed
-        controller.newTransition();
+        controller.neueTransition();
     }//GEN-LAST:event_neueTransitionKnopfActionPerformed
 
     private void simulationResetKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulationResetKnopfActionPerformed
@@ -409,20 +400,20 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_simulationResetKnopfActionPerformed
 
     private void speichernKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speichernKnopfActionPerformed
-        controller.speichernView();
+        controller.speichern();
 
 
     }//GEN-LAST:event_speichernKnopfActionPerformed
 
     private void groessenSchieberStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_groessenSchieberStateChanged
 
-        controller.setSize(groessenSchieber.getValue());
+        controller.setzeGlobaleGroesse(groessenSchieber.getValue());
         controller.neueDarstellungOhneTest();
 
     }//GEN-LAST:event_groessenSchieberStateChanged
 
     private void ladenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ladenKnopfActionPerformed
-        controller.ladenView();
+        controller.laden();
 
 
     }//GEN-LAST:event_ladenKnopfActionPerformed
@@ -433,7 +424,7 @@ public class HauptFenster extends javax.swing.JFrame {
 
     private void loeschenKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loeschenKnopfActionPerformed
         for (Integer x : interneIDmarkierter) {
-            controller.remove(x);
+            controller.entfernen(x);
         }
 
         interneIDmarkierter.removeAll(interneIDmarkierter);
@@ -474,7 +465,7 @@ public class HauptFenster extends javax.swing.JFrame {
     }//GEN-LAST:event_textHoeheKeyPressed
 
     private void neueVerbindungKnopfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neueVerbindungKnopfActionPerformed
-        controller.newArc(interneIDmarkierter);
+        controller.neueArc(interneIDmarkierter);
         focusZuruecksetzen();
     }//GEN-LAST:event_neueVerbindungKnopfActionPerformed
 

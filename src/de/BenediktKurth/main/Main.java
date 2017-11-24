@@ -1,14 +1,14 @@
 package de.BenediktKurth.main;
 
-import de.BenediktKurth.Exceptions.FileNotLoadException;
 import de.BenediktKurth.control.MainWindowController;
-import de.BenediktKurth.model.ArrayListSearchID;
-import de.BenediktKurth.model.IDBase;
-import de.BenediktKurth.model.PNMLParser;
 import de.BenediktKurth.view.HauptFenster;
 
 /**
- *
+ * Startmethode des Programmes.
+ * Die Methode initalisiert einen Controller und ein HauptFenster.
+ * Weiter werden die Verbindung zwischen Controller und Darstellung gesetzt und 
+ * das HauptFenster sichtbar gemacht.
+ * 
  * @author Benedikt Kurth
  *
  * @since 1.0
@@ -18,20 +18,16 @@ import de.BenediktKurth.view.HauptFenster;
 public class Main {
 
     public static void main(String[] args) {
-      
-        ArrayListSearchID<IDBase> halla = new ArrayListSearchID<>();
-        
-      
-      
-
+        //Erzeuge Controller
         MainWindowController testController = new MainWindowController();
         
+        //Erzeuge HauptFenster
         HauptFenster testWindow = new HauptFenster(testController);
-        testController.setComponents(testWindow, halla);
-     
-        testWindow.setVisible(true);
-
         
+        //Setze Referenz im Controller für das HauptFenster
+        testController.setzeKomponenten(testWindow);
+     
+        //Zeige HauptFenster
+        testWindow.setVisible(true);
     }
-
 }

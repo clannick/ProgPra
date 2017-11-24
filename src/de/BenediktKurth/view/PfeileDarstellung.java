@@ -40,8 +40,6 @@ public class PfeileDarstellung extends JLabel {
         this.FENSTER_GROESSE_X = controller.getZeichenflaecheGroesse().getX();
         this.FENSTER_GROESSE_Y = controller.getZeichenflaecheGroesse().getY();
         super.setBounds(0, 0, FENSTER_GROESSE_X, FENSTER_GROESSE_Y);
-        
-
     }
 
     /**
