@@ -1,7 +1,7 @@
 package de.BenediktKurth.control;
 
 import de.BenediktKurth.Exceptions.ArcFehlerException;
-import de.BenediktKurth.Exceptions.FileNotLoadException;
+import de.BenediktKurth.Exceptions.DateiFehlerException;
 import de.BenediktKurth.Exceptions.WorkflownetzException;
 import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
@@ -24,6 +24,8 @@ import de.BenediktKurth.view.VerschiebbarLabel;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -729,12 +731,12 @@ public class MainWindowController {
      *
      * @see IDBase
      * @see PNMLParser
-     * @see FileNotLoadException
+     * @see DateiFehlerException
      */
     public void laden() {
         //Erstelle neuen FileChooser und setze open auf cancel
-        JFileChooser chooser = null;
-        int open = -1;
+        JFileChooser chooser;
+        int open;
 
         //Wenn noch kein zuletzt genutzer Pfad gesetzt ist, öffne ohne Pfad-Referenz
         if (lastDirectory == null) {
@@ -742,7 +744,7 @@ public class MainWindowController {
         } 
         //Wenn ein zuletzt genutzer Pfad gesetzt ist, nutze diesen
         else {
-            chooser = new JFileChooser(this.lastDirectory);;
+            chooser = new JFileChooser(this.lastDirectory);
         }
         
         //Setze Dateien Filter, damit nur pnml-Dateien geöffnet werden
@@ -762,9 +764,9 @@ public class MainWindowController {
             //Öffne und lade Datei in das speicherArray
             try {
                 //Öffnet die statische Methode des PNMLParser und bekommt das SpeicherArray mit den Basisdaten
-                this.speicherArray = PNMLParser.loadAndGet(chooser.getSelectedFile().getAbsolutePath());
+                this.speicherArray = PNMLParser.ladenUndGeben(chooser.getSelectedFile().getAbsolutePath());
 
-            } catch (FileNotLoadException e) {
+            } catch (DateiFehlerException e) {
                 //Bei Fehlern soll Nutzer informiert werden
                 window.getFehleranzeigeText().setText(e.getMessage());
             }
@@ -793,7 +795,7 @@ public class MainWindowController {
     public void speichern() {
         //Erstelle neuen FileChooser und setze open auf cancel
         JFileChooser chooser;
-        int open = -1;
+        int open;
 
         //Wenn noch kein zuletzt genutzer Pfad gesetzt ist, öffne ohne Pfad-Referenz
         if (lastDirectory == null) {
@@ -809,8 +811,12 @@ public class MainWindowController {
 
         //Wenn SaveDialog ERFOLGREICH beendet wurde:
         if (open == JFileChooser.APPROVE_OPTION) {
-            //Öffnet die statische Methode des PNMLWriter und übergib Referenz auf Basisdaten und Zielpfad
-            PNMLWriter.saveFile(chooser.getSelectedFile().getAbsolutePath(), speicherArray);
+            try {
+                //Öffnet die statische Methode des PNMLWriter und übergib Referenz auf Basisdaten und Zielpfad
+                PNMLWriter.saveFile(chooser.getSelectedFile().getAbsolutePath(), speicherArray);
+            } catch (DateiFehlerException ex) {
+                window.getFehleranzeigeText().setText(ex.getMessage());
+            }
             
             //Setze zuletzt genutzer Pfad auf aktuellen Pfad
             this.lastDirectory = chooser.getSelectedFile().getPath();

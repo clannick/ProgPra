@@ -14,7 +14,7 @@ package de.BenediktKurth.Exceptions;
  * 
  * @see Exception
  */
-public class FileNotLoadException extends Exception {
+public class DateiFehlerException extends Exception {
 
     private static final long serialVersionUID = 102L;
 
@@ -23,7 +23,7 @@ public class FileNotLoadException extends Exception {
      * 
      * @param nachricht Art des Fehlers beim Laden der Datei.
      */    
-    public FileNotLoadException(String nachricht){
+    public DateiFehlerException(String nachricht){
         super(nachricht);
     }
     

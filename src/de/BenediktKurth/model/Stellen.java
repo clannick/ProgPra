@@ -1,7 +1,10 @@
 package de.BenediktKurth.model;
 
 /**
- *
+ * Diese Klasse stellt eine Stelle im Basisdatenmodel da.
+ * Es werden zusätzlich zur Position und dem Label, auch eine
+ * evtl. Markierung gespeichert.
+ * 
  * @author Benedikt Kurth
  * 
  * @since 1.0
@@ -10,6 +13,9 @@ package de.BenediktKurth.model;
  */
 public final class Stellen extends PosNameBase{
 
+    /**
+     * 
+     */
     private String markierungString;
     private Boolean markiert;
    
@@ -69,12 +75,5 @@ public final class Stellen extends PosNameBase{
     public Boolean getMarkiert(){
         return markiert;
     }
-    
-  
-    
-    @Override
-    public String toString(){
-        return super.toString() + ", " + markierungString;
-    }
-    
+
 }

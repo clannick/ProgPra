@@ -1,9 +1,11 @@
 package de.BenediktKurth.model;
 
+import de.BenediktKurth.Exceptions.DateiFehlerException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,65 +26,35 @@ import javax.xml.stream.XMLStreamWriter;
 public final class PNMLWriter {
 
     /**
-     * Diese Methode erzeugt eine Datei am angegebenen Pfad
-     * 
-     * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
-     * 
-     * @param ausgabeListe  ArrayListSearchID 
-     * 
-     *  
-     *      
-     */
-    public static void saveFile(final String fileName, ArrayListSearchID<IDBase> ausgabeListe) {
-        if (fileName != null) {
-            File pnmlDatei = new File(fileName);
-            PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);
-            pnmlWriter.startXMLDocument();
-
-            int i = 0;
-            
-            while (i < ausgabeListe.size() ){
-                if (ausgabeListe.get(i) instanceof Transition){
-                    pnmlWriter.addTransition((Transition)ausgabeListe.get(i));
-                    i++;
-                } 
-                else if (ausgabeListe.get(i) instanceof Stellen){
-                    pnmlWriter.addStellen((Stellen)ausgabeListe.get(i));
-                    i++;
-                }
-                else if (ausgabeListe.get(i) instanceof Arc){
-                    pnmlWriter.addArc((Arc)ausgabeListe.get(i));
-                    i++;
-                }
-            }
-            
-            pnmlWriter.finishXMLDocument();
-           
-        } else {
-            
-        }
-        
-        
-    }
-
-    /**
      * Dies ist eine Referenz zum Java Datei Objekt.
+     * 
+     * @since 1.0
      */
     private File            pnmlDatei;
 
     /**
      * Dies ist eine Referenz zum XML Writer. Diese Referenz wird durch die
      * Methode startXMLDocument() initialisiert.
+     * 
+     * @since 1.0
      */
     private XMLStreamWriter writer = null;
 
+    /**
+     * Dient dem schließen der zu speichernden Datei.
+     * 
+     * @since 1.0
+     */
     private FileOutputStream fos;
+    
     /**
      * Dieser Konstruktor erstellt einen neuen Writer für PNML Dateien,
      * dem die PNML Datei als Java {@link File} übergeben wird.
      * 
      * @param pnml
      *      Java {@link File} Objekt der PNML Datei
+     * 
+     * @since 1.0
      */
     public PNMLWriter(final File pnml) {
         super();
@@ -92,8 +64,12 @@ public final class PNMLWriter {
     /**
      * Diese Methode beginnt ein neues XML Dokument und initialisiert den
      * XML Writer für diese Datei.
+     * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * 
+     * @since 1.0
      */
-    public void startXMLDocument() {
+    public void startXMLDocument() throws DateiFehlerException {
         try {
             fos = new FileOutputStream(pnmlDatei);
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
@@ -104,19 +80,22 @@ public final class PNMLWriter {
             writer.writeStartElement("net");
             
         } catch (FileNotFoundException e) {
-            System.err.println("Die Datei " + pnmlDatei.getAbsolutePath()
+            throw new DateiFehlerException("Die Datei " + pnmlDatei.getAbsolutePath()
                     + " kann nicht geschrieben werden! " + e.getMessage());
-            e.printStackTrace();
+
         } catch (XMLStreamException e) {
-            System.err.println("XML Fehler: " + e.getMessage());
-            e.printStackTrace();
+            throw new DateiFehlerException("XML Fehler: " + e.getMessage());
         } 
     }
 
     /**
      * Diese Methode beendet das Schreiben eines Petrinetzes als XML Datei.
+     * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * 
+     * @since 1.0
      */
-    public void finishXMLDocument() {
+    public void finishXMLDocument() throws DateiFehlerException {
         if (writer != null) {
             try {
                 writer.writeEndElement();
@@ -125,13 +104,13 @@ public final class PNMLWriter {
                 writer.close();
                 fos.close();
             } catch (XMLStreamException e) {
-                System.err.println("XML Fehler: " + e.getMessage());
-                e.printStackTrace();
+                throw new DateiFehlerException("XML Fehler: " + e.getMessage());
+                
             } catch (IOException ex) {
-                Logger.getLogger(PNMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DateiFehlerException("Datei Fehler!");
             }
         } else {
-            System.err.println("Das Dokument wurde noch nicht gestartet!");
+            throw new DateiFehlerException("Das Dokument wurde noch nicht gestartet!");
         }
     }
 
@@ -141,8 +120,11 @@ public final class PNMLWriter {
      * 
      * @param transition    Transition
      * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * 
+     * @since 1.0
      */
-    public void addTransition(Transition transition) {
+    public void addTransition(Transition transition) throws DateiFehlerException {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "transition", "");
@@ -163,15 +145,14 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                System.err
-                        .println("Transition " + transition.getId()
+                throw new DateiFehlerException("Transition " + transition.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
-                e.printStackTrace();
+               
             }
 
         } else {
-            System.err.println("Das Dokument muss zuerst gestartet werden!");
+            throw new DateiFehlerException("Das Dokument muss zuerst gestartet werden!");
         }
     }
 
@@ -180,8 +161,12 @@ public final class PNMLWriter {
      * startXMLDocument() aufgerufen worden sein.
      * 
      * @param stelle Stellen
+     * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * 
+     * @since 1.0
      */
-    public void addStellen(Stellen stelle) {
+    public void addStellen(Stellen stelle) throws DateiFehlerException {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "place", "");
@@ -210,15 +195,14 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                System.err
-                        .println("Stelle " + stelle.getId()
+                throw new DateiFehlerException("Stelle " + stelle.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
-                e.printStackTrace();
+              
             }
 
         } else {
-            System.err.println("Das Dokument muss zuerst gestartet werden!");
+            throw new DateiFehlerException("Das Dokument muss zuerst gestartet werden!");
         }
     }
 
@@ -227,8 +211,12 @@ public final class PNMLWriter {
      * startXMLDocument() aufgerufen worden sein.
      * 
      * @param arc Arc
+     * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException
+     * 
+     * @since 1.0
      */
-    public void addArc(Arc arc) {
+    public void addArc(Arc arc) throws DateiFehlerException {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
@@ -237,15 +225,50 @@ public final class PNMLWriter {
                 writer.writeAttribute("target", arc.getTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                System.err
-                        .println("Kante " + arc.getId()
+                throw new DateiFehlerException("Kante " + arc.getId()
                                 + " konnte nicht geschrieben werden! "
                                 + e.getMessage());
-                e.printStackTrace();
+                
             }
 
         } else {
-            System.err.println("Das Dokument muss zuerst gestartet werden!");
+            throw new DateiFehlerException("Das Dokument muss zuerst gestartet werden!");
         }
     }
+    
+    /**
+     * Diese Methode erzeugt eine Datei am angegebenen Pfad
+     * 
+     * @param fileName  Enthält den Dateinpfad für die zu speichernde Datei
+     * 
+     * @param ausgabeListe  ArrayListSearchID 
+     * 
+     * @throws de.BenediktKurth.Exceptions.DateiFehlerException 
+     *  
+     * @since 1.0
+     */
+    public static void saveFile(final String fileName, ArrayListSearchID<IDBase> ausgabeListe) throws DateiFehlerException {
+        //Wenn fileName ungleich NULL        
+        if (fileName != null) {
+            //Erzeuge neue Datei und neues PNMLDatei inkl start
+            File pnmlDatei = new File(fileName);
+            PNMLWriter pnmlWriter = new PNMLWriter(pnmlDatei);
+            pnmlWriter.startXMLDocument();
+
+            //Durchlaufe ausgabeListe und starte entsprechende Funktion
+            for (IDBase x: ausgabeListe){
+                if (x instanceof Transition){
+                    pnmlWriter.addTransition((Transition)x);
+                } 
+                else if (x instanceof Stellen){
+                    pnmlWriter.addStellen((Stellen)x);
+                }
+                else if (x instanceof Arc){
+                    pnmlWriter.addArc((Arc)x);
+                }
+            }
+            //Schließe die PNML-Datei ab
+            pnmlWriter.finishXMLDocument();
+        } 
+}
 }

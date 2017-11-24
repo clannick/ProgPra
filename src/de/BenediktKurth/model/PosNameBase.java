@@ -1,32 +1,24 @@
 package de.BenediktKurth.model;
 
 /**
+ * Basisklasse für Positionen und Labels der Objekte
  * @author Benedikt Kurth
- *
- * @since 1.0
- *
+ * 
  * @version 1.0
  */
 public abstract class PosNameBase extends IDBase {
 
     /**
-     *
-     * @param label Das Label ist ein Bezeichner der im Programm genutzt wird.
-     *
-     * @param xPosition xPosition gibt die räumliche Lage des Objektes in der
-     * Horizontalen an. Es wird der am weitesten links liegende Punkt genutzt.
-     *
-     * @param yPosition yPosition gibt die räumliche Lage des Objektes in der
-     * Vertikalen an. Es wird der am weitesten oben liegende Punkt genutzt.
-     */
-    /**
-     * Label enthält den angezeigten Bezeichner des Objektes
+     * Label enthält den angezeigten Bezeichner des Objektes.
+     * 
+     * @since 1.0
      */
     private String label;
 
-
     /**
-     * position enthält die Position des Objektes als Vector2D
+     * position enthält die Position des Objektes als Vector2D.
+     * 
+     * @since 1.0
      *
      * @see Vector2D
      */
@@ -48,15 +40,15 @@ public abstract class PosNameBase extends IDBase {
     }
 
     /**
-     * Konstruktor erwarter vier Strings
+     * Konstruktor erwarter vier Strings. 
      *
-     * @param id String
+     * @param id String         ID des Objektes
      *
-     * @param label String
+     * @param label String      Label bzw. Name oder Bezeichnung des Objektes
      *
-     * @param xPosition String
+     * @param xPosition String  Position auf der x-Achse als String
      *
-     * @param yPosition String
+     * @param yPosition String  Position auf der y-Achse als String
      *
      * @since 1.0
      */
@@ -66,28 +58,74 @@ public abstract class PosNameBase extends IDBase {
         setPositionfromString(xPosition, yPosition);
     }
 
+    /**
+     * Methode gibt das Label als String zurück.
+     * 
+     * @return Label als String.
+     * 
+     * @since 1.0
+     */
     public final String getLabel() {
         return label;
     }
 
+    /**
+     * Methode gibt die x Position als String zurück.
+     * 
+     * @return x Position als String.
+     * 
+     * @since 1.0
+     */
     public final String getxPosition() {
         String rueckgabe = "" + this.position.getX();
         return rueckgabe;
     }
 
+    /**
+     * Methode gibt die y Position als String zurück.
+     * 
+     * @return y Position als String.
+     * 
+     * @since 1.0
+     */
     public final String getyPosition() {
         String rueckgabe = "" + this.position.getY();
         return rueckgabe;
     }
-
+    
+    /**
+     * Methode gibt die Position als Vector2D zurück.
+     * 
+     * @return Position als Vector2D.
+     * 
+     * @since 1.0
+     * 
+     * @see Vector2D
+     */
+    public final Vector2D getPosition() {
+        return this.position;
+    }
+    
+    /**
+     * Methode zum setzen des Label eines Objektes.
+     * 
+     * @since 1.0
+     */
     public final void setLabel(String label) {
         this.label = label;
     }
 
-    public final Vector2D getPosition() {
-        return this.position;
-    }
-
+    /**
+     * Methode setzt die Position des Objektes mit zwei integer-Werten.
+     * Die Methode überprüft ob die Werte positiv sind, ansonsten werden 
+     * die Werte auf 0 gesetzt.
+     * 
+     * @param x Integer-Wert für die x-Achse.
+     * 
+     * @param y Integer-Wert für die y-Achse.
+     * 
+     * @since 1.0
+     */
     public final void setPosition(int x, int y) {
         if (x > -1) {
                 this.position.setX(x);
@@ -102,22 +140,34 @@ public abstract class PosNameBase extends IDBase {
 
     }
 
+    /**
+     * Methode zum setzen der Position aus Strings.
+     * Die Methode wandelt String Positionen zu Integer-Werten um und setzt die Position
+     * (Vector2D).
+     * Sollte eine umwandlung nicht möglich sein, so werden die Werte auf 30,30 gestetzt.
+     * 
+     * @param xPosition x Position als String.
+     * 
+     * @param yPosition y Position als String.
+     * 
+     * @since 1.0
+     * 
+     * @see Vector2D
+     */
     public final void setPositionfromString(String xPosition, String yPosition) {
       
+        //Erzeuge neuen Vector 2D
         this.position = new Vector2D(0, 0);
+        
+        //Versuche Strings in Int zu wandeln
         try {
             int x = Integer.parseInt(xPosition);
             int y = Integer.parseInt(yPosition);
             setPosition(x,y);
 
         } catch (NumberFormatException e) {
+            //Wenn es nicht funktioniert setzte Position auf (30,30)
             setPosition(30,30);
         }
     }
-
-    @Override
-    public String toString() {
-        return id + ", " + label + ".";
-    }
-
 }
