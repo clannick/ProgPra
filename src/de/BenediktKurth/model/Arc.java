@@ -96,8 +96,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
-            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).gibPosition();
+            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).gibPosition();
             
         }
     }
@@ -129,8 +129,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.searchID(source)).getPosition();
-            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).getPosition();
+            this.positionSource = ((PosNameBase)tempListe.searchID(source)).gibPosition();
+            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).gibPosition();
             
         }
     }
@@ -183,7 +183,7 @@ public final class Arc extends IDBase {
      * 
      * @return Liefert den String mit der Quelle (Source) des Pfeils zurück.
      */
-    public String getSource() {
+    public String gibSource() {
         return source;
     }
 
@@ -194,7 +194,7 @@ public final class Arc extends IDBase {
      * 
      * @return Liefert den String mit dem Ziel (Target) des Pfeils zurück.
      */
-    public String getTarget() {
+    public String gibTarget() {
         return target;
     }
 
@@ -207,7 +207,7 @@ public final class Arc extends IDBase {
      * 
      * @see Vector2D
      */
-    public Vector2D getPositionSource() {
+    public Vector2D gibPositionSource() {
         return positionSource;
     }
 
@@ -220,7 +220,7 @@ public final class Arc extends IDBase {
      * 
      * @see Vector2D
      */
-    public Vector2D getPositionTarget() {
+    public Vector2D gibPositionTarget() {
         return positionTarget;
     }
 }

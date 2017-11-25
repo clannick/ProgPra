@@ -63,7 +63,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see IDBase
      */
-    private final double RADIUSKREIS_GROESSE = IDBase.getSize() / 2;
+    private final double RADIUSKREIS_GROESSE = IDBase.gibGroesse() / 2;
     
     /**
      * Pfeilgröße in relation zur Größe der Objekte.
@@ -72,7 +72,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see IDBase
      */
-    private final double PFEIL_GROESSE = IDBase.getSize() / 3;
+    private final double PFEIL_GROESSE = IDBase.gibGroesse() / 3;
     
     /**
      * Referenz auf Zeilobjekt. Wird benötigt da je nach Objekt eine andere Berechnung
@@ -97,12 +97,12 @@ public class PfeileDarstellung extends JLabel {
         super();
         
         //Setzte Position und ermittle Target
-        this.sourcePosition = arc.getPositionSource();
-        this.targetPosition = arc.getPositionTarget();
-        this.target = controller.sucheMitID(arc.getTarget());
+        this.sourcePosition = arc.gibPositionSource();
+        this.targetPosition = arc.gibPositionTarget();
+        this.target = controller.sucheMitID(arc.gibTarget());
      
         //Setze Rahmen über gesamte Arbeitsflächengröße
-        super.setBounds(0, 0, controller.getZeichenflaecheGroesse().getX(), controller.getZeichenflaecheGroesse().getY());
+        super.setBounds(0, 0, controller.getZeichenflaecheGroesse().gibX(), controller.getZeichenflaecheGroesse().gibY());
     }
 
     /**
@@ -129,10 +129,10 @@ public class PfeileDarstellung extends JLabel {
         temp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Hol x und y Werte
-        double xSource = sourcePosition.getX();
-        double ySource = sourcePosition.getY();
-        double xTarget = targetPosition.getX();
-        double yTarget = targetPosition.getY();
+        double xSource = sourcePosition.gibX();
+        double ySource = sourcePosition.gibY();
+        double xTarget = targetPosition.gibX();
+        double yTarget = targetPosition.gibY();
 
         //Berechne Winkel
         double phi = Math.atan((yTarget - ySource) / (xTarget - xSource));

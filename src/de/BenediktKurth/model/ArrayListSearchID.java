@@ -72,7 +72,7 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
     public boolean add(T eingabeObjekt){
        
         //Überprüfe ob interne ID bereitsvorhanden
-        if (!idExist(eingabeObjekt.getId())){
+        if (!idExist(eingabeObjekt.gibId())){
             //Wenn noch nicht vorhanden, hinzufügen und true zurück
             super.add(eingabeObjekt);
             return true;
@@ -90,14 +90,14 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
      * 
      * @return Gibt bei erfolg gesuchtes Objekt zurück, ansonsten NULL.
      */
-    public T getWithInternID(int interneID){
+    public T gibMitInternID(int interneID){
         
         //Initalisiere Rückgabe-Wert
         T rueckgabeWert = null;
         
         // Gehe die Liste so lange durch bis ID gefunden oder Liste zu ende
         for (T x: this){
-            if (x.getInterneID() == interneID) {
+            if (x.gibInterneID() == interneID) {
                 return x;
             }            
         }

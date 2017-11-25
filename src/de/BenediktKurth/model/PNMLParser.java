@@ -424,7 +424,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof PosNameBase) {
             PosNameBase temp;
             temp = (PosNameBase) gesuchtesObjekt;
-            temp.setPositionfromString(x, y);
+            temp.setzePositionfromString(x, y);
         }
     }
 
@@ -446,7 +446,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof PosNameBase) {
             PosNameBase temp;
             temp = (PosNameBase) gesuchtesObjekt;
-            temp.setLabel(name);
+            temp.setzeLabel(name);
         }
     }
 
@@ -469,7 +469,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof Stellen) {
             Stellen temp;
             temp = (Stellen) gesuchtesObjekt;
-            temp.setInitialMarking(marking);
+            temp.setzeInitialMarking(marking);
         }
     }
 

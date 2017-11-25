@@ -16,8 +16,6 @@ package de.BenediktKurth.Exceptions;
  */
 public class ArcFehlerException extends Exception {
 
-    private static final long serialVersionUID = 101L;
-
     /**
      * Kontruktor gibt nur Nachricht an super-Klasse (Exception) weiter.
      * 

@@ -13,8 +13,6 @@ package de.BenediktKurth.Exceptions;
  * @see Exception
  */
 public class MatrixException extends Exception {
-
-    private static final long serialVersionUID = 103L;
     
     /**
      * Kontruktor gibt nur Nachricht an super-Klasse (Exception) weiter.

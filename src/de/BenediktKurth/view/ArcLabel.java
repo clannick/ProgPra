@@ -105,20 +105,20 @@ public class ArcLabel extends BasisLabel {
         super(basis, controller, mother);
        
         //Hole Positionen von Source und Target Obejkten
-        this.sourcePosition = basis.getPositionSource();
-        this.targetPosition = basis.getPositionTarget();
+        this.sourcePosition = basis.gibPositionSource();
+        this.targetPosition = basis.gibPositionTarget();
        
         //Berechne Bereite und Höhe des Rahmens für den Strich
-        this.breite = Math.abs(sourcePosition.getX() - targetPosition.getX() )+ 2;
-        this.hoehe = Math.abs(sourcePosition.getY() - targetPosition.getY() )+ 2;
+        this.breite = Math.abs(sourcePosition.gibX() - targetPosition.gibX() )+ 2;
+        this.hoehe = Math.abs(sourcePosition.gibY() - targetPosition.gibY() )+ 2;
 
         //Berechne Position des Rahmens für den Strich (oberste linke Ecke)
-        this.posX = Math.min(sourcePosition.getX(), targetPosition.getX()) - 1;
-        this.posY = Math.min(sourcePosition.getY(), targetPosition.getY())- 1;
+        this.posX = Math.min(sourcePosition.gibX(), targetPosition.gibX()) - 1;
+        this.posY = Math.min(sourcePosition.gibY(), targetPosition.gibY())- 1;
 
         //Setzte Position, Größe und ToolTipText
         super.setBounds(posX, posY, breite, hoehe);
-        super.setToolTipText("Arc: Von " + basis.getSource() + " nach " + basis.getTarget() + ".");
+        super.setToolTipText("Arc: Von " + basis.gibSource() + " nach " + basis.gibTarget() + ".");
     }
 
     /**
@@ -130,7 +130,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    public void setBreite(int breite) {
+    public void setzeBreite(int breite) {
         this.breite = breite;
     }
 
@@ -143,7 +143,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    public void setHoehe(int hoehe) {
+    public void setzeHoehe(int hoehe) {
         this.hoehe = hoehe;
     }
 
@@ -173,19 +173,19 @@ public class ArcLabel extends BasisLabel {
 
         //Überprüfe ob es sich um eine Horizontale oder Vertikale Linie handelt, wenn ja mittig zeichnen
         if (this.getHeight()< 3 || this.getWidth() < 3) { 
-            if ( sourcePosition.getX() < targetPosition.getX()) {
+            if ( sourcePosition.gibX() < targetPosition.gibX()) {
                 //Von links nach rechts
                 g.drawLine(1, 1, this.getWidth()-1, this.getHeight() - 1);
               
-            } else if (sourcePosition.getX() > targetPosition.getX() ){
+            } else if (sourcePosition.gibX() > targetPosition.gibX() ){
                 //Von rechts nach links
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
                 
-            } else if (sourcePosition.getY() < targetPosition.getY() ){
+            } else if (sourcePosition.gibY() < targetPosition.gibY() ){
                 //Von oben nach unten 
                 g.drawLine(1, 1, this.getWidth() - 1, this.getHeight() - 1);
                 
-            } else if (sourcePosition.getY() > targetPosition.getY() ){
+            } else if (sourcePosition.gibY() > targetPosition.gibY() ){
                 //Von unten nach oben
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
             }
@@ -193,19 +193,19 @@ public class ArcLabel extends BasisLabel {
         } else {
            
             //Es ist keine gerade Linie, sondern eine Diagonale von A nach B
-            if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
+            if ((sourcePosition.gibX() < targetPosition.gibX() && (sourcePosition.gibY() < targetPosition.gibY()))){
                 //Von oben links nach unten rechts
                 g.drawLine(0, 0, breite, hoehe);
           
-            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
+            } else if ((sourcePosition.gibX() > targetPosition.gibX() && (sourcePosition.gibY() < targetPosition.gibY()))){
                 //Von oben rechts nach unten links
                 g.drawLine(breite, 0, 0, hoehe);
 
-            } else if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
+            } else if ((sourcePosition.gibX() < targetPosition.gibX() && (sourcePosition.gibY() > targetPosition.gibY()))){
                 //Von unten links -> oben rechts
                 g.drawLine(0, hoehe, breite, 0);
 
-            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
+            } else if ((sourcePosition.gibX() > targetPosition.gibX() && (sourcePosition.gibY() > targetPosition.gibY()))){
                 //Von unten rechts -> oben links
                 g.drawLine(breite, hoehe, 0, 0);
             }

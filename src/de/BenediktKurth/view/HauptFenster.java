@@ -40,7 +40,7 @@ public class HauptFenster extends javax.swing.JFrame {
      */
     private final MainWindowController controller;
 
-    private ArrayList<JLabel> darstellungen = new ArrayList<>();
+    private volatile ArrayList<JLabel> darstellungen = new ArrayList<>();
 
     public final int screenHeight;
     public final int screenWidth;

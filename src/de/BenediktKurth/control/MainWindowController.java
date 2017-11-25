@@ -27,7 +27,6 @@ import de.BenediktKurth.view.VerschiebbarLabel;
 import java.awt.Dimension;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -66,7 +65,7 @@ public class MainWindowController {
      *
      * @since 1.0
      */
-    private HauptFenster window;
+    private HauptFenster fenster;
 
     /**
      * Internes Speicherarray mit den Basisdaten aller Stellen, Transitions und
@@ -74,28 +73,28 @@ public class MainWindowController {
      *
      * @since 1.0
      */
-    private ArrayListSearchID<IDBase> speicherArray;
+    private volatile ArrayListSearchID<IDBase> speicherArray;
 
     /**
      * Interne Adjazenzmatrix zur Prüfung des Workflownetzes.
      *
      * @since 1.0
      */
-    private Adjazenzmatrix adjazenzMatrix;
+    private volatile Adjazenzmatrix adjazenzMatrix;
 
     /**
      * Interner boolean, gibt an ob es sich um eien Workflownetz handelt.
      *
      * @since 1.0
      */
-    private boolean isWorkflownetz;
+    private boolean istWorkflownetz;
 
     /**
      * Interne String Variable für den zuletzt genutzen Ordner-Pfad.
      *
      * @since 1.0
      */
-    private String lastDirectory;
+    private String zuLetztGenutzterDateiPfad;
 
     // 2. Konstruktor                      //////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -128,7 +127,7 @@ public class MainWindowController {
      */
     public void setzeKomponenten(HauptFenster window) {
         //Initalisiere und setze Referenz auf das HauptFenster des Programmes.
-        this.window = window;
+        this.fenster = window;
 
         //Initalisiere und setze Referenz auf neues Speicherarray für die Basisdaten.
         this.speicherArray = new ArrayListSearchID<>();
@@ -137,10 +136,10 @@ public class MainWindowController {
         this.adjazenzMatrix = new Adjazenzmatrix(this.speicherArray);
 
         //Initalisiere und setze Prüfvariable des Worklflownetzes.
-        this.isWorkflownetz = false;
+        this.istWorkflownetz = false;
 
         //Initalisiere zuletzt genutzen Ordner-Pfad.
-        this.lastDirectory = null;
+        this.zuLetztGenutzterDateiPfad = null;
     }
 
     // 3. Erzeuge neue Objekte                      //////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +208,7 @@ public class MainWindowController {
             try {
                 //Wirft Exception
                 //Kante(Arc) bekommt Source- und Target-IDs und eine Referenz auf das SpeicherArray zwecks Prüfung.
-                Arc temp = new Arc(speicherArray.getWithInternID(source).getId(), speicherArray.getWithInternID(target).getId(), speicherArray);
+                Arc temp = new Arc(speicherArray.gibMitInternID(source).gibId(), speicherArray.gibMitInternID(target).gibId(), speicherArray);
 
                 // Füge Kante (Arc)dem speicherArray hinzu, sofern er erfolgreich erzeugt werden konnte.
                 speicherArray.add(temp);
@@ -219,12 +218,12 @@ public class MainWindowController {
 
             } catch (ArcFehlerException ex) {
                 //Nutzer wird über Fehler informiert.
-                window.getFehleranzeigeText().setText(ex.getMessage());
+                fenster.getFehleranzeigeText().setText(ex.getMessage());
             }
 
         } else {
             //Nutzer wird aufgefordert 2 unterschiedliche Objekte zu markieren.
-            window.getFehleranzeigeText().setText("Bitte eine Stelle und eine Transition auswählen!");
+            fenster.getFehleranzeigeText().setText("Bitte eine Stelle und eine Transition auswählen!");
         }
 
     }
@@ -247,7 +246,7 @@ public class MainWindowController {
         boolean bedingung1 = interneIDmarkierter.size() == 1;
 
         //Prüfe ob markiertes Objekt keine Kante(Arc) ist.
-        boolean bedingung2 = speicherArray.getWithInternID(interneIDmarkierter.get(0)) instanceof Arc;
+        boolean bedingung2 = speicherArray.gibMitInternID(interneIDmarkierter.get(0)) instanceof Arc;
 
         //Sollten beide Bedingunen erfüllt sein, so bennene Objekt um.
         if (bedingung1 && !bedingung2) {
@@ -259,11 +258,11 @@ public class MainWindowController {
 
             //Erzeuge neues Frame (Umbennen), mit Refrenz auf interne ID, aktuellem Label,
             //Controllerreferenz und Anzeigegröße des Desktops.
-            Umbennen test = new Umbennen(temp, label, this, window.screenHeight, window.screenWidth);
+            Umbennen test = new Umbennen(temp, label, this, fenster.screenHeight, fenster.screenWidth);
 
         } else {
             //Sollte einer der beiden Bedingungen nicht erfüllt sein, so informiere Nutzer.
-            window.getFehleranzeigeText().setText("Bitte nur eine Transition oder Stelle auswählen!");
+            fenster.getFehleranzeigeText().setText("Bitte nur eine Transition oder Stelle auswählen!");
         }
     }
 
@@ -278,7 +277,7 @@ public class MainWindowController {
      */
     public void entfernen(int interneID) {
         //Hole Objekt mit der internen ID als Referenz
-        IDBase temp = this.speicherArray.getWithInternID(interneID);
+        IDBase temp = this.speicherArray.gibMitInternID(interneID);
 
         //Entferne Objekt mit hilfe der Referenz aus dem SpeicherArray
         this.speicherArray.remove(temp);
@@ -309,8 +308,8 @@ public class MainWindowController {
     public void verschiebeMarkierteUmOffset(ArrayList<JLabel> darstellungen, ArrayList<Integer> markierte, Vector2D offset) {
 
         //Entnehme der Vector2D die X und Y Werte.
-        int offsetX = offset.getX();
-        int offsetY = offset.getY();
+        int offsetX = offset.gibX();
+        int offsetY = offset.gibY();
 
         //Wichtig erst Verschiebbar, dann Pfeile. Sonst falsche Darstellung!!!!!!!!!!
         //Durchlaufe alle Darstellungen       
@@ -322,7 +321,7 @@ public class MainWindowController {
                 //Hilfsvariable um festzustellen, ob Objekt markiert war. (Focus)
                 boolean istMarkiert = false;
                 //Hilfsvariable interneID des derzeitigen Objektes
-                int interneID = ((VerschiebbarLabel) x).getInterneID();
+                int interneID = ((VerschiebbarLabel) x).gibInterneID();
 
                 //Durchlaufe alle markierten Obejkte und guck ob es dieses ist.
                 for (Integer z : markierte) {
@@ -357,27 +356,27 @@ public class MainWindowController {
                     }
 
                     //Sollte X oder Y größer als die maximale Arbeitsflächen Höhe oder Breite sein, begrenze sie
-                    if (neuX > window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize()) {
-                        Double temp = window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize();
+                    if (neuX > fenster.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.gibGroesse()) {
+                        Double temp = fenster.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.gibGroesse();
                         neuX = temp.intValue();
                     }
 
-                    if (neuY > window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize()) {
-                        Double temp = window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize();
+                    if (neuY > fenster.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.gibGroesse()) {
+                        Double temp = fenster.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.gibGroesse();
                         neuY = temp.intValue();
                     }
 
-                    //Setze View auf neue X / Y Werte und behalte alte Breite und Höhe
-                    x.setBounds(neuX, neuY, altBreite, altHoehe);
-
+                    //Setze View auf neue X / Y Werte
+                    x.setLocation(neuX, neuY);
+                    
                     //Explizite Typumwandlung, um interne ID zu ermitteln
                     VerschiebbarLabel xTemp2 = (VerschiebbarLabel) x;
 
                     //Hole Referenz auf dieses Objekt in den Basisdaten
-                    PosNameBase posNameTemp = (PosNameBase) speicherArray.getWithInternID(xTemp2.getInterneID());
+                    PosNameBase posNameTemp = (PosNameBase) speicherArray.gibMitInternID(xTemp2.gibInterneID());
 
                     //Ändere Basisdaten des Objektes (Mittelpunkt des Objektes!!!!!)
-                    posNameTemp.setPosition(neuX + (altBreite / 2), neuY + (IDBase.getSize() / 2));
+                    posNameTemp.setzePosition(neuX + (altBreite / 2), neuY + (IDBase.gibGroesse() / 2));
                 }
             }
         }
@@ -389,29 +388,29 @@ public class MainWindowController {
                 //Keine Kantendarstellung
             } else {
                 //Hole akteulle Kante aus den Basisdaten, um deren Source und Target Pos zu ermitteln
-                Arc temp = (Arc) speicherArray.getWithInternID(((ArcLabel) x).getInterneID());
-                Vector2D sourcePosition = temp.getPositionSource();
-                Vector2D targetPosition = temp.getPositionTarget();
+                Arc temp = (Arc) speicherArray.gibMitInternID(((ArcLabel) x).gibInterneID());
+                Vector2D sourcePosition = temp.gibPositionSource();
+                Vector2D targetPosition = temp.gibPositionTarget();
 
                 //Berechne Breite und Höhe der Kante
-                int breite = Math.abs(sourcePosition.getX() - targetPosition.getX()) + 2;
-                int hoehe = Math.abs(sourcePosition.getY() - targetPosition.getY()) + 2;
+                int breite = Math.abs(sourcePosition.gibX() - targetPosition.gibX()) + 2;
+                int hoehe = Math.abs(sourcePosition.gibY() - targetPosition.gibY()) + 2;
 
                 //Ermittle Position der Kante (obenerste linke Ecke)
-                int posX = Math.min(sourcePosition.getX(), targetPosition.getX()) - 1;
-                int posY = Math.min(sourcePosition.getY(), targetPosition.getY()) - 1;
+                int posX = Math.min(sourcePosition.gibX(), targetPosition.gibX()) - 1;
+                int posY = Math.min(sourcePosition.gibY(), targetPosition.gibY()) - 1;
 
                 //Setze Kantendarstellung auf neue Werte
                 x.setBounds(posX, posY, breite, hoehe);
 
                 //Setze neue Breite und Höhe der Darstellung (fuer Paint Methode)
-                ((ArcLabel) x).setBreite(breite);
-                ((ArcLabel) x).setHoehe(hoehe);
+                ((ArcLabel) x).setzeBreite(breite);
+                ((ArcLabel) x).setzeHoehe(hoehe);
             }
         });
 
         //Zeichne Darstellung neu (Pfeilspitzen)
-        window.getZeichenflaeche().repaint();
+        fenster.getZeichenflaeche().repaint();
     }
 
     /**
@@ -424,14 +423,14 @@ public class MainWindowController {
      * @param label String mit dem neuen Label des Objektes
      */
     public void umbennenLabel(int interneID, String label) {
-        IDBase temp = speicherArray.getWithInternID(interneID);
+        IDBase temp = speicherArray.gibMitInternID(interneID);
 
         //Prüfe ob es Objekt mit inteneID überhaupt gibt
         if (temp != null) {
             //Prüfe ob das Objekt überhaupt ein Label hat (PosNameBase)
-            if (speicherArray.getWithInternID(interneID) instanceof PosNameBase) {
+            if (speicherArray.gibMitInternID(interneID) instanceof PosNameBase) {
                 //Wenn ja, dann ändere das Label
-                ((PosNameBase) speicherArray.getWithInternID(interneID)).setLabel(label);
+                ((PosNameBase) speicherArray.gibMitInternID(interneID)).setzeLabel(label);
             }
         }
     }
@@ -450,7 +449,7 @@ public class MainWindowController {
      */
     public void setzeGlobaleGroesse(int faktor) {
         //Rufe statische Methode auf
-        IDBase.setSize(faktor);
+        IDBase.setzeGroesse(faktor);
     }
 
     // 5. Workflownetz und Simulation                      //////////////////////////////////////////////////////////////////////////////////////////
@@ -471,14 +470,14 @@ public class MainWindowController {
         try {
             if (adjazenzMatrix.pruefeWorkflownetz()) {
                 //Keine Fehler -> Nutzer wird informiert
-                window.getFehleranzeigeText().setText("Keine Fehler.");
-                window.getFehleranzeigeGross().setText("Es ist ein Workflownetz.");
-                this.isWorkflownetz = true;
+                fenster.getFehleranzeigeText().setText("Keine Fehler.");
+                fenster.getFehleranzeigeGross().setText("Es ist ein Workflownetz.");
+                this.istWorkflownetz = true;
 
                 boolean warWasMarkiert = false;
                 for (IDBase x : this.speicherArray) {
                     if (x instanceof Stellen) {
-                        if (((Stellen) (x)).getMarkiert()) {
+                        if (((Stellen) (x)).gibMarkiert()) {
                             warWasMarkiert = true;
                             break;
                         }
@@ -494,9 +493,9 @@ public class MainWindowController {
             }
         } catch (WorkflownetzException ex) {
             //Fehler -> Nutzer wird informiert
-            window.getFehleranzeigeText().setText(ex.getMessage());
-            window.getFehleranzeigeGross().setText("Es ist kein Workflownetz.");
-            this.isWorkflownetz = false;
+            fenster.getFehleranzeigeText().setText(ex.getMessage());
+            fenster.getFehleranzeigeGross().setText("Es ist kein Workflownetz.");
+            this.istWorkflownetz = false;
             simualtionZurucksetzen();
         }
 
@@ -515,28 +514,28 @@ public class MainWindowController {
      */
     public void simuliereSicheresWorklflownetz(java.awt.event.MouseEvent evt, int interneID) {
         //Ist Transition rot?
-        boolean bedingungEins = speicherArray.getWithInternID(interneID).getMeineFarbe() == FarbenEnum.rot;
+        boolean bedingungEins = speicherArray.gibMitInternID(interneID).gibMeineFarbe() == FarbenEnum.rot;
         //Ist ausgewähltes Objekt eine Stelle oder Kante?
-        boolean bedingungZwei = speicherArray.getWithInternID(interneID) instanceof Stellen
-                || speicherArray.getWithInternID(interneID) instanceof Arc;
+        boolean bedingungZwei = speicherArray.gibMitInternID(interneID) instanceof Stellen
+                || speicherArray.gibMitInternID(interneID) instanceof Arc;
 
         if ((bedingungEins || bedingungZwei)) {
             //Rote oder keine Transition
-            window.getFehleranzeigeText().setText("Simulation nicht möglich, bitte wähle Sie eine nicht rote Transition aus.");
+            fenster.getFehleranzeigeText().setText("Simulation nicht möglich, bitte wähle Sie eine nicht rote Transition aus.");
 
         } else {
             //Simulation möglich:
-            window.getFehleranzeigeText().setText("Keine Fehler.");
+            fenster.getFehleranzeigeText().setText("Keine Fehler.");
             //Bestimme Nachfolger,Vorgänger und aktuelle Position. Initalisiere Stellenzähler
-            Transition jetziger = (Transition) speicherArray.getWithInternID(interneID);
-            ArrayList<Integer> listeNachfolger = adjazenzMatrix.getNachfolger(interneID);
-            ArrayList<Integer> listeVorgaenger = adjazenzMatrix.getVorganger(interneID);
+            Transition jetziger = (Transition) speicherArray.gibMitInternID(interneID);
+            ArrayList<Integer> listeNachfolger = adjazenzMatrix.gibNachfolger(interneID);
+            ArrayList<Integer> listeVorgaenger = adjazenzMatrix.gibVorganger(interneID);
             int anzahlMarkierterStellen = 0;
 
             //Zähle die Anfangsmarken auf allen Vorgängerstellen
             for (Integer x : listeVorgaenger) {
-                Stellen temp = (Stellen) speicherArray.getWithInternID(x);
-                if (temp.getMarkiert()) {
+                Stellen temp = (Stellen) speicherArray.gibMitInternID(x);
+                if (temp.gibMarkiert()) {
                     anzahlMarkierterStellen++;
                 }
             }
@@ -549,9 +548,9 @@ public class MainWindowController {
                 boolean warBereitsMarkiert = false;
 
                 for (Integer x : listeNachfolger) {
-                    IDBase temp = speicherArray.getWithInternID(x);
+                    IDBase temp = speicherArray.gibMitInternID(x);
                     if (temp instanceof Stellen) {
-                        if (((Stellen) temp).getMarkiert()) {
+                        if (((Stellen) temp).gibMarkiert()) {
                             if (x != interneID) {
                                 warBereitsMarkiert = true;
                             }
@@ -562,12 +561,12 @@ public class MainWindowController {
 
                 //Wenn alle Marken auf Vorgängerstellen gesetzt?
                 if (!(listeVorgaenger.size() == anzahlMarkierterStellen)) {
-                    jetziger.setMeineFarbe(FarbenEnum.rot);
-                    window.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Deadlock vorliegt.");
+                    jetziger.setzeMeineFarbe(FarbenEnum.rot);
+                    fenster.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Deadlock vorliegt.");
 
                 } else if (warBereitsMarkiert) {
-                    jetziger.setMeineFarbe(FarbenEnum.rot);
-                    window.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Kontakt vorliegt.");
+                    jetziger.setzeMeineFarbe(FarbenEnum.rot);
+                    fenster.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Kontakt vorliegt.");
 
                 } else {
 
@@ -575,23 +574,23 @@ public class MainWindowController {
 
                     //Finde Nachfolger (Transition) der Nachfolger (Stellen)
                     for (Integer x : listeNachfolger) {
-                        listeNachNachfolger.add(adjazenzMatrix.getNachfolger(x));
+                        listeNachNachfolger.add(adjazenzMatrix.gibNachfolger(x));
                     }
                     for (Integer x : listeVorgaenger) {
-                        Stellen temp = (Stellen) speicherArray.getWithInternID(x);
-                        temp.setMarkiert(false);
+                        Stellen temp = (Stellen) speicherArray.gibMitInternID(x);
+                        temp.sezetMarkiert(false);
                     }
                     for (IDBase x : speicherArray) {
                         if (x instanceof Transition) {
-                            if ((x.getMeineFarbe().equals(FarbenEnum.rot))) {
+                            if ((x.gibMeineFarbe().equals(FarbenEnum.rot))) {
 
                             } else {
-                                ArrayList<Integer> jetzigeVorganger = adjazenzMatrix.getVorganger(x.getInterneID());
+                                ArrayList<Integer> jetzigeVorganger = adjazenzMatrix.gibVorganger(x.gibInterneID());
                                 boolean alleGesetzt = true;
                                 for (Integer y : jetzigeVorganger) {
-                                    IDBase temp = speicherArray.getWithInternID(y);
+                                    IDBase temp = speicherArray.gibMitInternID(y);
                                     if (temp instanceof Stellen) {
-                                        if (!((Stellen) temp).getMarkiert()) {
+                                        if (!((Stellen) temp).gibMarkiert()) {
                                             alleGesetzt = false;
                                         }
                                     }
@@ -599,49 +598,49 @@ public class MainWindowController {
                                 if (alleGesetzt) {
 
                                 } else {
-                                    x.setMeineFarbe(FarbenEnum.weiss);
+                                    x.setzeMeineFarbe(FarbenEnum.weiss);
                                 }
                             }
                         }
                     }
 
-                    jetziger.setMeineFarbe(FarbenEnum.gelb);
+                    jetziger.setzeMeineFarbe(FarbenEnum.gelb);
 
                     for (Integer x : listeNachfolger) {
-                        Stellen temp = (Stellen) speicherArray.getWithInternID(x);
-                        temp.setMarkiert(true);
-                        if (x == adjazenzMatrix.getEnde().get(0).getInterneID()) {
-                            window.getFehleranzeigeText().setText("Ende erreicht!");
+                        Stellen temp = (Stellen) speicherArray.gibMitInternID(x);
+                        temp.sezetMarkiert(true);
+                        if (x == adjazenzMatrix.gibEnde().get(0).gibInterneID()) {
+                            fenster.getFehleranzeigeText().setText("Ende erreicht!");
                         }
                     }
 
                     //Setze Nachfolgermarkierung
                     for (Integer x : listeNachfolger) {
-                        ((Stellen) speicherArray.getWithInternID(x)).setMarkiert(true);
+                        ((Stellen) speicherArray.gibMitInternID(x)).sezetMarkiert(true);
                     }
 
                     for (ArrayList<Integer> x : listeNachNachfolger) {
                         for (Integer y : x) {
-                            IDBase temp = speicherArray.getWithInternID(y);
+                            IDBase temp = speicherArray.gibMitInternID(y);
 
-                            ArrayList<Integer> jetzigeVorganger = adjazenzMatrix.getVorganger(y);
+                            ArrayList<Integer> jetzigeVorganger = adjazenzMatrix.gibVorganger(y);
 
                             boolean alleMarkiert = true;
 
                             for (Integer z : jetzigeVorganger) {
-                                IDBase temp2 = speicherArray.getWithInternID(z);
+                                IDBase temp2 = speicherArray.gibMitInternID(z);
                                 if (temp2 instanceof Stellen) {
-                                    if (!((Stellen) temp2).getMarkiert()) {
+                                    if (!((Stellen) temp2).gibMarkiert()) {
                                         alleMarkiert = false;
                                     }
                                 }
                             }
                             if (temp instanceof Transition) {
                                 if (alleMarkiert) {
-                                    ((Transition) temp).setMeineFarbe(FarbenEnum.gruen);
+                                    ((Transition) temp).setzeMeineFarbe(FarbenEnum.gruen);
                                 } else {
-                                    ((Transition) temp).setMeineFarbe(FarbenEnum.rot);
-                                    window.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Deadlock vorliegt.");
+                                    ((Transition) temp).setzeMeineFarbe(FarbenEnum.rot);
+                                    fenster.getFehleranzeigeText().setText("Simulation nicht möglich, da ein Deadlock vorliegt.");
                                 }
 
                             }
@@ -667,28 +666,28 @@ public class MainWindowController {
         //Durchlaufe SpeicherArray und setzte Markierungen und Farbe zurück
         for (IDBase x : this.speicherArray) {
             if (x instanceof PosNameBase) {
-                ((PosNameBase) x).setMeineFarbe(FarbenEnum.weiss);
+                ((PosNameBase) x).setzeMeineFarbe(FarbenEnum.weiss);
                 if (x instanceof Stellen) {
-                    ((Stellen) x).setMarkiert(false);
+                    ((Stellen) x).sezetMarkiert(false);
                 }
             }
         }
         
         //Prüfe ob es sich um ein Workflownetz handelt.
-        if (this.isWorkflownetz) {
+        if (this.istWorkflownetz) {
             //Wenn ja:
             //Hole Anfang mit hilfe der Adjazenmatrix
-            Stellen temp = this.adjazenzMatrix.getAnfang().get(0);
+            Stellen temp = this.adjazenzMatrix.gibAnfang().get(0);
             
             //Setze Markierung für den Anfang
-            temp.setMarkiert(true);
+            temp.sezetMarkiert(true);
 
             //Hole alle Nachfolger des Anfanges (Es muss sich um Transition handeln)
-            ArrayList<Integer> nachfolger = adjazenzMatrix.getNachfolger(temp.getInterneID());
+            ArrayList<Integer> nachfolger = adjazenzMatrix.gibNachfolger(temp.gibInterneID());
 
             //Durchlaufe alle Nachfolger und setzt deren Farbe auf gruen
             for (Integer x : nachfolger) {
-                this.speicherArray.getWithInternID(x).setMeineFarbe(FarbenEnum.gruen);
+                this.speicherArray.gibMitInternID(x).setzeMeineFarbe(FarbenEnum.gruen);
             }
         }
 
@@ -707,19 +706,19 @@ public class MainWindowController {
             //Prüfe ob aktuelles Objekt eine Stelle ist
             if (x instanceof Stellen) {
                 //Wenn ja, prüfe ob diese auch eine Markierung hat
-                if (((Stellen) x).getMarkiert()) {
+                if (((Stellen) x).gibMarkiert()) {
                     //Wenn beides ja, dann entnehme interne ID und suche Nachfolger
-                    int interneID = x.getInterneID();
-                    ArrayList<Integer> nachfolger = this.adjazenzMatrix.getNachfolger(interneID);
+                    int interneID = x.gibInterneID();
+                    ArrayList<Integer> nachfolger = this.adjazenzMatrix.gibNachfolger(interneID);
 
                     //Durchlaufe alle Nachfolger des aktuellen Objektes (Stelle)
                     for (Integer y : nachfolger) {
                         //Entnehme Basisdaten-Objekt mithilfe der internen ID
-                        IDBase temp = this.speicherArray.getWithInternID(y);
+                        IDBase temp = this.speicherArray.gibMitInternID(y);
                         
                         //Wenn es sich um eine Transition handelt, so färbe diese gruen
                         if (temp instanceof Transition) {
-                            temp.setMeineFarbe(FarbenEnum.gruen);
+                            temp.setzeMeineFarbe(FarbenEnum.gruen);
                         }
                     }
                 }
@@ -747,12 +746,12 @@ public class MainWindowController {
         int open;
 
         //Wenn noch kein zuletzt genutzer Pfad gesetzt ist, öffne ohne Pfad-Referenz
-        if (lastDirectory == null) {
+        if (zuLetztGenutzterDateiPfad == null) {
             chooser = new JFileChooser();
         } 
         //Wenn ein zuletzt genutzer Pfad gesetzt ist, nutze diesen
         else {
-            chooser = new JFileChooser(this.lastDirectory);
+            chooser = new JFileChooser(this.zuLetztGenutzterDateiPfad);
         }
         
         //Setze Dateien Filter, damit nur pnml-Dateien geöffnet werden
@@ -767,7 +766,7 @@ public class MainWindowController {
         if (open == JFileChooser.APPROVE_OPTION) {
 
             //Setzte Counter auf 0
-            IDBase.resetIdCounter();
+            IDBase.zuruecksetzenIdCounter();
 
             //Öffne und lade Datei in das speicherArray
             try {
@@ -776,14 +775,14 @@ public class MainWindowController {
 
             } catch (DateiFehlerException e) {
                 //Bei Fehlern soll Nutzer informiert werden
-                window.getFehleranzeigeText().setText(e.getMessage());
+                fenster.getFehleranzeigeText().setText(e.getMessage());
             }
 
             //Setze zuletzt genutzer Pfad auf aktuellen Pfad
-            this.lastDirectory = chooser.getSelectedFile().getPath();
+            this.zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
 
             //Ermittle und setze benötige Arbeitsfläche der zu ladenden Datei
-            window.getZeichenflaeche().setPreferredSize(findeGroesse());
+            fenster.getZeichenflaeche().setPreferredSize(findeGroesse());
             
             //Erzeuge Darstellung und prüfe auf Workflownetz
             neueDarstellungMitTest();
@@ -806,12 +805,12 @@ public class MainWindowController {
         int open;
 
         //Wenn noch kein zuletzt genutzer Pfad gesetzt ist, öffne ohne Pfad-Referenz
-        if (lastDirectory == null) {
+        if (zuLetztGenutzterDateiPfad == null) {
             chooser = new JFileChooser();
         } 
         //Wenn ein zuletzt genutzer Pfad gesetzt ist, nutze diesen
         else {
-            chooser = new JFileChooser(this.lastDirectory);
+            chooser = new JFileChooser(this.zuLetztGenutzterDateiPfad);
         }
 
         //Rufe Methode show auf um den "fertigen" SaveDialog aufzurufen
@@ -823,11 +822,11 @@ public class MainWindowController {
                 //Öffnet die statische Methode des PNMLWriter und übergib Referenz auf Basisdaten und Zielpfad
                 PNMLWriter.saveFile(chooser.getSelectedFile().getAbsolutePath(), speicherArray);
             } catch (DateiFehlerException ex) {
-                window.getFehleranzeigeText().setText(ex.getMessage());
+                fenster.getFehleranzeigeText().setText(ex.getMessage());
             }
             
             //Setze zuletzt genutzer Pfad auf aktuellen Pfad
-            this.lastDirectory = chooser.getSelectedFile().getPath();
+            this.zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
         }
     }
 
@@ -853,19 +852,19 @@ public class MainWindowController {
         for (IDBase x : this.speicherArray) {
             if (x instanceof Stellen) {
                 //Erstelle Stellendarstellung
-                JLabel stellenLabel = new StellenLabel((Stellen) x, this, window);
+                JLabel stellenLabel = new StellenLabel((Stellen) x, this, fenster);
 
                 darstellungen.add(stellenLabel);
 
             } else if (x instanceof Transition) {
                 //Erstelle Transitiondarstellung
-                JLabel transitionLabel = new TransitionLabel((Transition) x, this, window);
+                JLabel transitionLabel = new TransitionLabel((Transition) x, this, fenster);
 
                 darstellungen.add(transitionLabel);
 
             } else if (x instanceof Arc) {
                 //Erstelle Kantendarstellung
-                JLabel arcLabel = new ArcLabel((Arc) x, this, window);
+                JLabel arcLabel = new ArcLabel((Arc) x, this, fenster);
                 PfeileDarstellung pfeil = new PfeileDarstellung((Arc) x, this);
 
                 darstellungen.add(arcLabel);
@@ -948,16 +947,16 @@ public class MainWindowController {
      */
     public void neueDarstellungOhneTest() {
         //Entferne alle Objekte von der Zeichenfläche
-        window.getZeichenflaeche().removeAll();
+        fenster.getZeichenflaeche().removeAll();
                 
         //Erzeuge neue Darstellung und ersetze alte
-        erzeugeDarstellung(window.getDarstellung());
+        erzeugeDarstellung(fenster.getDarstellung());
         
         //Setze Objekte auf Zeichenfläche
-        setzteDarstellung(window.getZeichenflaeche(), window.getDarstellung());
+        setzteDarstellung(fenster.getZeichenflaeche(), fenster.getDarstellung());
         
         //Zeichne Zeichenfläche neu
-        window.getZeichenflaeche().repaint();
+        fenster.getZeichenflaeche().repaint();
     }
 
     // 8. Hilfs- und "Außen" Funktionen                      //////////////////////////////////////////////////////////////////////////////////////////
@@ -991,11 +990,11 @@ public class MainWindowController {
                 Arc arcTemp = (Arc) x;
                 
                 //Entnehme ID der Kante (soll die selbe bleiben)
-                String id = arcTemp.getId();
+                String id = arcTemp.gibId();
                 
                 //Entnehme Source- und Targetstring
-                String source = arcTemp.getSource();
-                String target = arcTemp.getTarget();
+                String source = arcTemp.gibSource();
+                String target = arcTemp.gibTarget();
 
                 //Versuche die Kante zu erzeugen
                 try {
@@ -1008,7 +1007,7 @@ public class MainWindowController {
                 } catch (ArcFehlerException ex) {
                     //Kante konnte nicht erstellt werden, da Source oder Target nicht mehr existieren,
                     //informiere Nutze
-                    window.getFehleranzeigeText().setText("Es wurde ein oder mehrere Pfeile entfernt");
+                    fenster.getFehleranzeigeText().setText("Es wurde ein oder mehrere Pfeile entfernt");
                 }
             }
          
@@ -1027,7 +1026,7 @@ public class MainWindowController {
      * @return  True: Objekt ist eine Transition, False: Objekt ist keine Transition
      */
     public boolean istTransition(int interneID) {
-        return speicherArray.getWithInternID(interneID) instanceof Transition;
+        return speicherArray.gibMitInternID(interneID) instanceof Transition;
     }
 
     /**
@@ -1044,9 +1043,9 @@ public class MainWindowController {
         String rueckgabe = "";
         
         //Prüfe ob Objekt ein eigenes Label hat
-        if (speicherArray.getWithInternID(interneID) instanceof PosNameBase) {
+        if (speicherArray.gibMitInternID(interneID) instanceof PosNameBase) {
             //Wenn ja, dann setz das eigene Label als Rückgabe-Wert
-            rueckgabe = ((PosNameBase) speicherArray.getWithInternID(interneID)).getLabel();
+            rueckgabe = ((PosNameBase) speicherArray.gibMitInternID(interneID)).gibLabel();
         }
         
         return rueckgabe;
@@ -1083,8 +1082,8 @@ public class MainWindowController {
             //Prüfe ob aktuelles Objekt eine eigene Position hat 
             if (x instanceof PosNameBase) {
                 //Hole X und Y Koodinaten und rechne IDBase.size hinzu
-                int tempX = ((PosNameBase) x).getPosition().getX() + IDBase.getSize();
-                int tempY = ((PosNameBase) x).getPosition().getY() + IDBase.getSize();
+                int tempX = ((PosNameBase) x).gibPosition().gibX() + IDBase.gibGroesse();
+                int tempY = ((PosNameBase) x).gibPosition().gibY() + IDBase.gibGroesse();
                 
                 //Sollte aktuelle Koordinate "größer" sein als alte, nutze neue Koordinate
                 if (tempX > maxX) {
@@ -1113,8 +1112,8 @@ public class MainWindowController {
      */
     public Vector2D getZeichenflaecheGroesse() {
         //Hole Größe der Zeichenfläche
-        int x = (int) window.getZeichenflaeche().getPreferredSize().getWidth();
-        int y = (int) window.getZeichenflaeche().getPreferredSize().getHeight();
+        int x = (int) fenster.getZeichenflaeche().getPreferredSize().getWidth();
+        int y = (int) fenster.getZeichenflaeche().getPreferredSize().getHeight();
         
         //Gib neuen Vector2D mit Breite und Höhe zurück
         return new Vector2D(x, y);

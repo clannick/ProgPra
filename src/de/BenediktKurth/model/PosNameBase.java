@@ -55,7 +55,7 @@ public abstract class PosNameBase extends IDBase {
     PosNameBase(String id, String label, String xPosition, String yPosition) {
         super(id);
         this.label = label;
-        setPositionfromString(xPosition, yPosition);
+        setzePositionfromString(xPosition, yPosition);
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final String getLabel() {
+    public final String gibLabel() {
         return label;
     }
 
@@ -76,8 +76,8 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final String getxPosition() {
-        String rueckgabe = "" + this.position.getX();
+    public final String gibXPosition() {
+        String rueckgabe = "" + this.position.gibX();
         return rueckgabe;
     }
 
@@ -88,8 +88,8 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final String getyPosition() {
-        String rueckgabe = "" + this.position.getY();
+    public final String gibYPosition() {
+        String rueckgabe = "" + this.position.gibY();
         return rueckgabe;
     }
     
@@ -102,7 +102,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @see Vector2D
      */
-    public final Vector2D getPosition() {
+    public final Vector2D gibPosition() {
         return this.position;
     }
     
@@ -113,7 +113,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final void setLabel(String label) {
+    public final void setzeLabel(String label) {
         this.label = label;
     }
 
@@ -128,16 +128,16 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final void setPosition(int x, int y) {
+    public final void setzePosition(int x, int y) {
         if (x > -1) {
-                this.position.setX(x);
+                this.position.setzeX(x);
         } else {
-                this.position.setX(0);
+                this.position.setzeX(0);
             }
         if (y > -1) {
-                this.position.setY(y);
+                this.position.setzeY(y);
         } else {
-                this.position.setY(0);
+                this.position.setzeY(0);
             }
 
     }
@@ -156,7 +156,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @see Vector2D
      */
-    public final void setPositionfromString(String xPosition, String yPosition) {
+    public final void setzePositionfromString(String xPosition, String yPosition) {
       
         //Erzeuge neuen Vector 2D
         this.position = new Vector2D(0, 0);
@@ -165,11 +165,11 @@ public abstract class PosNameBase extends IDBase {
         try {
             int x = Integer.parseInt(xPosition);
             int y = Integer.parseInt(yPosition);
-            setPosition(x,y);
+            setzePosition(x,y);
 
         } catch (NumberFormatException e) {
             //Wenn es nicht funktioniert setzte Position auf (30,30)
-            setPosition(30,30);
+            setzePosition(30,30);
         }
     }
 }

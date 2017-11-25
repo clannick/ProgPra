@@ -67,7 +67,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @since 1.0
      */
-    protected boolean isMarkiert = false;
+    protected boolean isMarkiert;
 
     /**
      * Wird als Referenzwert für VerschiebbareLabels benötigt. Da
@@ -79,7 +79,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @see Point
      */
-    protected Point point = new Point(0, 0);
+    protected volatile Point punkt;
 
     /**
      * Vollständiger Konstruktor mit Initalisierung. Erhält Referenz des Basisdatenmodel (speichert
@@ -97,9 +97,13 @@ public abstract class BasisLabel extends JLabel {
      */
     public BasisLabel(IDBase basis, MainWindowController controller, HauptFenster mother) {
         //Hole alle benötigten Basisdaten und setzte Referenzen.
-        this.interneID = basis.getInterneID();
+        this.interneID = basis.gibInterneID();
         this.controller = controller;
         this.mother = mother;
+        
+        //Initalisiere Hilfsvariablen
+        this.punkt = new Point(0, 0);
+        this.isMarkiert = false;
 
         //Setzte JLabel EIgenschaften für Layout und Mouseanzeige
         super.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -124,7 +128,7 @@ public abstract class BasisLabel extends JLabel {
                     //Wurde das erste Objekt markiert oder sollen mehrere Objekte markiert werden
                     if (evt.isControlDown() || mother.getInterneIDmarkierter().isEmpty()) {
                         //Setzte focus dieses Objektes
-                        setFocusAndBorder(interneID);
+                        setzeFocusAndBorder(interneID);
                         //Lasse neue Darstellung erzeugen
                         controller.neueDarstellungOhneTest();
 
@@ -133,14 +137,14 @@ public abstract class BasisLabel extends JLabel {
                         //Setze Fokus aller anderen Objekte zurück
                         mother.focusZuruecksetzen();
                         //Setzte focus dieses Objektes
-                        setFocusAndBorder(interneID);
+                        setzeFocusAndBorder(interneID);
                         //Lasse neue Darstellung erzeugen
                         controller.neueDarstellungOhneTest();
                     }
                     //Wurde die rechte Maustaste gedrückt?  
                 } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     //Nutzer möchte Workflownetz simulieren
-                    controller.simuliereSicheresWorklflownetz(evt, getInterneID());
+                    controller.simuliereSicheresWorklflownetz(evt, gibInterneID());
                 }
             }
 
@@ -148,7 +152,7 @@ public abstract class BasisLabel extends JLabel {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 //Setze aktuellen Punkt der Maus
-                point = evt.getPoint();
+                punkt = evt.getPoint();
             }
         });
     }
@@ -160,7 +164,7 @@ public abstract class BasisLabel extends JLabel {
      * 
      * @param interneID Interne-ID des Objektes
      */
-    private void setFocusAndBorder(int interneID) {
+    private void setzeFocusAndBorder(int interneID) {
         //Setze diesen Rahmen
         super.setBorder(markiertUmrandung);
         //Füge dieses Objekt der Markiertenliste hinzu
@@ -174,8 +178,7 @@ public abstract class BasisLabel extends JLabel {
      * 
      * @since 1.0
      */
-    public final int getInterneID() {
+    public final int gibInterneID() {
         return this.interneID;
     }
-
 }

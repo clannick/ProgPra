@@ -17,6 +17,13 @@ import de.BenediktKurth.view.HauptFenster;
  */
 public class Main {
 
+    /**
+     * Startmethode des Programmes. 
+     * 
+     * @param args Startparameter des Programmes. (Es werden keine Unterstützt)
+     * 
+     * @since 1.0
+     */
     public static void main(String[] args) {
         //Erzeuge Controller
         MainWindowController testController = new MainWindowController();

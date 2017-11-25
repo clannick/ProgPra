@@ -127,24 +127,24 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "transition", "");
-                writer.writeAttribute("id", transition.getId());
+                writer.writeAttribute("id", transition.gibId());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(transition.getLabel());
+                writer.writeCharacters(transition.gibLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "graphics", "");
                 writer.writeStartElement("", "position", "");
-                writer.writeAttribute("x", transition.getxPosition());
-                writer.writeAttribute("y", transition.getyPosition());
+                writer.writeAttribute("x", transition.gibXPosition());
+                writer.writeAttribute("y", transition.gibYPosition());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Transition " + transition.getId()
+                throw new DateiFehlerException("Transition " + transition.gibId()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -170,32 +170,32 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "place", "");
-                writer.writeAttribute("id", stelle.getId());
+                writer.writeAttribute("id", stelle.gibId());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(stelle.getLabel());
+                writer.writeCharacters(stelle.gibLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "initialMarking", "");
                 writer.writeStartElement("", "token", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(stelle.getMarkierungString());
+                writer.writeCharacters(stelle.gibMarkierungString());
                 writer.writeEndElement();
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "graphics", "");
                 writer.writeStartElement("", "position", "");
-                writer.writeAttribute("x", stelle.getxPosition());
-                writer.writeAttribute("y", stelle.getyPosition());
+                writer.writeAttribute("x", stelle.gibXPosition());
+                writer.writeAttribute("y", stelle.gibYPosition());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Stelle " + stelle.getId()
+                throw new DateiFehlerException("Stelle " + stelle.gibId()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -221,12 +221,12 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
-                writer.writeAttribute("id", arc.getId());
-                writer.writeAttribute("source", arc.getSource());
-                writer.writeAttribute("target", arc.getTarget());
+                writer.writeAttribute("id", arc.gibId());
+                writer.writeAttribute("source", arc.gibSource());
+                writer.writeAttribute("target", arc.gibTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Kante " + arc.getId()
+                throw new DateiFehlerException("Kante " + arc.gibId()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 

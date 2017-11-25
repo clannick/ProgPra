@@ -67,7 +67,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public void setInitialMarking(String initialMarking) {
+    public void setzeInitialMarking(String initialMarking) {
         //Setzte neuen markierungsString
         this.markierungString = initialMarking;
         
@@ -85,7 +85,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public void setMarkiert(boolean flag){
+    public void sezetMarkiert(boolean flag){
         //Setzte markiert auf flag 
         this.markiert = flag;
         
@@ -105,10 +105,18 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public String getMarkierungString() {
+    public String gibMarkierungString() {
         return markierungString;
     } 
-    public Boolean getMarkiert(){
+    
+    /**
+     * Diese Methode gibt den Stauts von Markiert zurück.
+     * 
+     * @since 1.0
+     * 
+     * @return  True: Stelle ist markiert. False: Stell ist nicht markiert.
+     */
+    public Boolean gibMarkiert(){
         return markiert;
     }
 }

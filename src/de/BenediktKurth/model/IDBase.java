@@ -42,7 +42,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */    
-    private static int              size = 50;
+    private static int              groesse = 50;
     
     /**
      * Farbwert des Objektes. Für Arc derzeit nutzlos (evtl. später).
@@ -59,7 +59,7 @@ public abstract class IDBase {
      * @since 1.0
      */
     public IDBase () {
-        Integer temp = getIdCounter();
+        Integer temp = gibIdCounter();
         this.id = temp.toString();
         this.interneID = temp;
     }
@@ -73,7 +73,7 @@ public abstract class IDBase {
      */
     public IDBase(String id) {
         this.id = id;
-        this.interneID = getIdCounter();
+        this.interneID = gibIdCounter();
     }
     
     /**
@@ -82,7 +82,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public final static void resetIdCounter(){
+    public final static void zuruecksetzenIdCounter(){
        IDBase.idCounter = 0; 
     } 
 
@@ -93,9 +93,9 @@ public abstract class IDBase {
      * 
      * @param faktor Faktor mit dem miltipliziert werden soll ( x * 50 )
      */
-    public final static void setSize(int faktor){
+    public final static void setzeGroesse(int faktor){
         float temp = faktor/100.0f;
-        IDBase.size = (int)(50 * temp);
+        IDBase.groesse = (int)(50 * temp);
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class IDBase {
      * 
      * @see FarbenEnum
      */
-    public void setMeineFarbe(FarbenEnum meineFarbe) {
+    public void setzeMeineFarbe(FarbenEnum meineFarbe) {
         this.meineFarbe = meineFarbe;
     }
     
@@ -121,7 +121,7 @@ public abstract class IDBase {
      * 
      * @see FarbenEnum
      */
-    public FarbenEnum getMeineFarbe() {
+    public FarbenEnum gibMeineFarbe() {
         return meineFarbe;
     }
 
@@ -132,8 +132,8 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die Größe der Darstellung.
      */
-    public final static int getSize(){
-        return IDBase.size;
+    public final static int gibGroesse(){
+        return IDBase.groesse;
     }
     
     /**
@@ -143,7 +143,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */
-    public final int getInterneID(){
+    public final int gibInterneID(){
         return this.interneID;
     }   
 
@@ -155,7 +155,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */    
-    public final String getId() {
+    public final String gibId() {
         return id;
     }
 
@@ -167,7 +167,7 @@ public abstract class IDBase {
      * 
      * @return int   IdCounter der Struktur
      */
-    public final static int getIdCounter() {
+    public final static int gibIdCounter() {
         int temp = IDBase.idCounter;
         IDBase.idCounter++;
         return temp;

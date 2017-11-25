@@ -51,19 +51,19 @@ public class TransitionLabel extends VerschiebbarLabel {
         super(basis, controller, mother);
         
         //Setzte Farbe
-        this.meineFarbe = basis.getMeineFarbe();
+        this.meineFarbe = basis.gibMeineFarbe();
         
         //Ermittle Größe und Position des Objektes
-        int size = IDBase.getSize() + 21;
-        int posX = this.position.getX() - (size / 2);
-        int posY = this.position.getY() - ((size-20) / 2);
+        int size = IDBase.gibGroesse() + 21;
+        int posX = this.position.gibX() - (size / 2);
+        int posY = this.position.gibY() - ((size-20) / 2);
         
         //Setze Objektgröße und Position
         super.setBounds(posX, posY, size, size);
         
         //Setze Text der Transition und Mausover-Text
-        super.setText(basis.getLabel());
-        super.setToolTipText("Transition: ID " + basis.getId() + " Label "+ basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")" );
+        super.setText(basis.gibLabel());
+        super.setToolTipText("Transition: ID " + basis.gibId() + " Label "+ basis.gibLabel() + " (x:" + this.position.gibX() + "/y:" + this.position.gibY() + ")" );
 
         //Setze Ausrichtung innerhalb des Objektes
         super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -109,11 +109,11 @@ public class TransitionLabel extends VerschiebbarLabel {
         }
        
         //Zeichne einen farbigen ausgefülltes Viereck
-        g.fillRect(10, 0, IDBase.getSize(), IDBase.getSize());
+        g.fillRect(10, 0, IDBase.gibGroesse(), IDBase.gibGroesse());
         
         //Setze Farbe auf Schwarz und zeichne einen leeres Viereck
         g.setColor(Color.black);
-        g.drawRect(10, 0, IDBase.getSize(), IDBase.getSize());
+        g.drawRect(10, 0, IDBase.gibGroesse(), IDBase.gibGroesse());
         
         //Vernichte Grafik
         g.dispose();

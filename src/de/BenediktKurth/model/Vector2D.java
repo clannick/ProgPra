@@ -49,7 +49,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public void setX(int x) {
+    public void setzeX(int x) {
         this.x = x;
     }
 
@@ -60,7 +60,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public void setY(int y) {
+    public void setzeY(int y) {
         this.y = y;
     }
 
@@ -71,7 +71,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public int getX() {
+    public int gibX() {
         return x;
     }
 
@@ -82,7 +82,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public int getY() {
+    public int gibY() {
         return y;
     }
 }

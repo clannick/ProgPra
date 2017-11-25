@@ -16,8 +16,6 @@ package de.BenediktKurth.Exceptions;
  */
 public class DateiFehlerException extends Exception {
 
-    private static final long serialVersionUID = 102L;
-
     /**
      * Kontruktor gibt nur Nachricht an super-Klasse (Exception) weiter.
      * 

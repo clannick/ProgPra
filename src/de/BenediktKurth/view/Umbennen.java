@@ -36,7 +36,18 @@ public class Umbennen extends JFrame {
      */
     private final int interneID;
 
-    
+    /**
+     * Vollständiger Konstruktor. 
+     * 
+     * @param interneID     Referenz auf die interne ID des Objektes
+     * @param label         Neues Label für Objekt
+     * @param controller    Referenz auf Controller
+     * @param screenHeight  Dektophöhe
+     * @param screenWidth   Desktopbreite
+     * 
+     * @since 1.0
+     * 
+     */
     public Umbennen(int interneID, String label, MainWindowController controller,int screenHeight, int screenWidth) {
         this.controller = controller;
         this.interneID = interneID;

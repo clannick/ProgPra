@@ -69,42 +69,42 @@ public class StellenLabel extends VerschiebbarLabel {
         super(basis, controller, mother);
 
         //Setzte Markiert (WFN) und Farbe
-        this.markiert = basis.getMarkiert();
-        this.meineFarbe = basis.getMeineFarbe();
+        this.markiert = basis.gibMarkiert();
+        this.meineFarbe = basis.gibMeineFarbe();
         
         //Ermittle Rahmengröße inkl. Offset
-        int size = IDBase.getSize() + OFFSET;
+        int size = IDBase.gibGroesse() + OFFSET;
 
         //Einrichtung der Variablen für die Position der Stelle
         int posX;
         int posY;
        
         //Überprüfe, ob ein relvantes Label vorhanden ist
-        if (basis.getLabel().equals("null") || basis.getLabel().equals("")) {
+        if (basis.gibLabel().equals("null") || basis.gibLabel().equals("")) {
             // Keine Bezeichnung für Label bzw. "null"
-            posX = this.position.getX() - (size / 2);
-            posY = this.position.getY() - (size / 2);
+            posX = this.position.gibX() - (size / 2);
+            posY = this.position.gibY() - (size / 2);
             
             //Setze Objektgröße und Position
             super.setBounds(posX, posY, size, size);
             
             //Setze Mausover-Text
-            super.setToolTipText("Stelle: " + basis.getId() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
+            super.setToolTipText("Stelle: " + basis.gibId() + " (x:" + this.position.gibX() + "/y:" + this.position.gibY() + ")");
 
             
         } else {
             //Stelle mit Label
-            posX = this.position.getX() - (size / 2);
-            posY = this.position.getY() - (size / 2) ;
+            posX = this.position.gibX() - (size / 2);
+            posY = this.position.gibY() - (size / 2) ;
 
             //Setze Objektgröße und Position
             super.setBounds(posX, posY, size, size + 20);
             
             //Setze Mausover-Text
-            super.setToolTipText("Stelle: ID " + basis.getId() + " Label: " + basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
+            super.setToolTipText("Stelle: ID " + basis.gibId() + " Label: " + basis.gibLabel() + " (x:" + this.position.gibX() + "/y:" + this.position.gibY() + ")");
             
             //Setze Text des Objektes
-            super.setText(basis.getLabel());
+            super.setText(basis.gibLabel());
 
             //Setze Ausrichtung innerhalb des Objektes
             super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -158,17 +158,17 @@ public class StellenLabel extends VerschiebbarLabel {
         }
 
         //Zeichne einen farbigen ausgefüllten Kreis
-        g.fillOval(posOffset, posOffset, IDBase.getSize(), IDBase.getSize());
+        g.fillOval(posOffset, posOffset, IDBase.gibGroesse(), IDBase.gibGroesse());
         
         //Setze Farbe auf Schwarz und zeichne einen leeren Kreis
         g.setColor(Color.black);
-        g.drawOval(posOffset, posOffset, IDBase.getSize(), IDBase.getSize());
+        g.drawOval(posOffset, posOffset, IDBase.gibGroesse(), IDBase.gibGroesse());
         
         //Wenn Markierung des WFN gesetzt ist, setzt einen Punkt in die mitte des Kreises
         if (markiert) {
             //Definiere Punktgröße, dazu abhänig ist die Position
-            int punktGroesse=  IDBase.getSize() / 8;
-            int size = (IDBase.getSize() + OFFSET) / 2;
+            int punktGroesse=  IDBase.gibGroesse() / 8;
+            int size = (IDBase.gibGroesse() + OFFSET) / 2;
             size -= punktGroesse / 2;
 
             //Zeichne ausgefüllten Punkt
