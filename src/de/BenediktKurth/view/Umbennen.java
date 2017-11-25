@@ -2,25 +2,48 @@ package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
 
+import javax.swing.JFrame;
+
 /**
- *
- * @author clannick
+ * Diese Klasse realisiert einen Nutzerdialog zum Umbennen von Objekten. Der Nutzer
+ * wird durch ein neues Frame aufgefordert einen neuen Namen (Label) für das Objekt zu vergeben.
+ * Er kann jedoch die Aktion abbrechen, dann wird der Name (Label) nicht geändert.
+ * 
+ * @author Benedikt Kurth
+ * 
+ * @version 1.0
+ * 
+ * @since 1.0
+ * 
+ * @see JFrame
  */
-public class Umbennen extends javax.swing.JFrame {
+public class Umbennen extends JFrame {
+
+    /**
+     * Enthält den Controller für diese Klasse
+     *
+     * @since 1.0
+     * 
+     * @see MainWindowController
+     */
+    private final MainWindowController controller;
+    
+    /**
+     * Interne ID des Objektes das umbennant werden soll.
+     *
+     * @since 1.0
+     * 
+     */
+    private final int interneID;
 
     
-    private final MainWindowController controller;
-    private final int interneID;
-    /**
-     * Creates new form Umbennen
-     */
     public Umbennen(int interneID, String label, MainWindowController controller,int screenHeight, int screenWidth) {
         this.controller = controller;
         this.interneID = interneID;
         initComponents();
-        super.setBounds((screenWidth/2)-60, (screenHeight/2)-125, 250, 120);
+        super.setBounds((screenWidth/2) - 125, (screenHeight/2) - 60, 250, 120);
         super.setResizable(false);
-        super.setSize(200, 120);
+        super.setSize(250, 120);
         super.setLayout(null);
         textFeld.setText(label);
         super.setVisible(true);

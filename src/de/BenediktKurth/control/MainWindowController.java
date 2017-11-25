@@ -348,22 +348,22 @@ public class MainWindowController {
                     int neuX = altX + offsetX;
                     int neuY = altY + offsetY;
 
-                    //Sollte X oder Y kleiner 0 + IDBase.Size / 2, setze es auf diesen Wert
-                    if (neuX < 0 + IDBase.getSize() / 2) {
-                        neuX = 0 + IDBase.getSize() / 2;
+                    //Sollte X oder Y kleiner 0, setze es auf diesen Wert
+                    if (neuX < 0) {
+                        neuX = 0;
                     }
-                    if (neuY < 0 + IDBase.getSize() / 2) {
-                        neuY = 0 + IDBase.getSize() / 2;
+                    if (neuY < 0) {
+                        neuY = 0;
                     }
 
                     //Sollte X oder Y größer als die maximale Arbeitsflächen Höhe oder Breite sein, begrenze sie
-                    if (neuX > window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize() / 2) {
-                        Double temp = window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize() / 2;
+                    if (neuX > window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize()) {
+                        Double temp = window.getZeichenflaeche().getPreferredSize().getWidth() - IDBase.getSize();
                         neuX = temp.intValue();
                     }
 
-                    if (neuY > window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize() / 2) {
-                        Double temp = window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize() / 2;
+                    if (neuY > window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize()) {
+                        Double temp = window.getZeichenflaeche().getPreferredSize().getHeight() - IDBase.getSize();
                         neuY = temp.intValue();
                     }
 
@@ -376,7 +376,7 @@ public class MainWindowController {
                     //Hole Referenz auf dieses Objekt in den Basisdaten
                     PosNameBase posNameTemp = (PosNameBase) speicherArray.getWithInternID(xTemp2.getInterneID());
 
-                    //Ändere Basisdaten des Objektes
+                    //Ändere Basisdaten des Objektes (Mittelpunkt des Objektes!!!!!)
                     posNameTemp.setPosition(neuX + (altBreite / 2), neuY + (IDBase.getSize() / 2));
                 }
             }

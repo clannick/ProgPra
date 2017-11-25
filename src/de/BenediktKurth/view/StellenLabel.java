@@ -48,6 +48,22 @@ public class StellenLabel extends VerschiebbarLabel {
      */
     private final FarbenEnum meineFarbe;
 
+    /**
+     * Vollständiger Konstruktor. Erhält Referenz des Basisdatenmodel (speichert
+     * diese aber nicht), weiter wird der Klasse "sein" Kontroller und das
+     * HauptFenster mitgeteilt. Es wird auch überprüft, ob das Objekt markiert ist.
+     * Konstruktor setzt die Farbe des Objektes.
+     * 
+     * @since 1.0
+     * 
+     * @param basis Referenz auf Basisdatenmodel.    
+     * @param controller Referenz auf Kontroller.
+     * @param mother Referenz auf HauptFenster.
+     *
+     * @see MainWindowController
+     * @see HauptFenster
+     * @see Stellen
+     */
     public StellenLabel(Stellen basis, MainWindowController controller, HauptFenster mother) {
         //Rufe Konstruktor von VerschiebbarLabel auf
         super(basis, controller, mother);
@@ -68,7 +84,11 @@ public class StellenLabel extends VerschiebbarLabel {
             // Keine Bezeichnung für Label bzw. "null"
             posX = this.position.getX() - (size / 2);
             posY = this.position.getY() - (size / 2);
+            
+            //Setze Objektgröße und Position
             super.setBounds(posX, posY, size, size);
+            
+            //Setze Mausover-Text
             super.setToolTipText("Stelle: " + basis.getId() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
 
             
@@ -77,27 +97,45 @@ public class StellenLabel extends VerschiebbarLabel {
             posX = this.position.getX() - (size / 2);
             posY = this.position.getY() - (size / 2) ;
 
+            //Setze Objektgröße und Position
             super.setBounds(posX, posY, size, size + 20);
+            
+            //Setze Mausover-Text
             super.setToolTipText("Stelle: ID " + basis.getId() + " Label: " + basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")");
             
+            //Setze Text des Objektes
             super.setText(basis.getLabel());
 
+            //Setze Ausrichtung innerhalb des Objektes
             super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             super.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-
             super.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         }
 
     }
 
+    /**
+     * Diese Methode überschreibt die paint Mehtode der Superklasse, damit Stellen
+     * gezeichnet werden.
+     * 
+     * @since 1.0
+     * 
+     * @param g     Referenz auf Grafik (s. JavaDoc)
+     * 
+     */
     @Override
     public void paint(Graphics g) {
+        //Paintmethode JLabel, für sichere Konsitenz
         super.paint(g);
+        
+        //Kantenglättung
         Graphics2D temp = (Graphics2D) g;
         temp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int pos = OFFSET / 2;
-
+        //Verschiebung des Kreises,wegen größerem Rahmen
+        int posOffset = OFFSET / 2;
+        
+        //Setze Farbe des Objektes
         switch (meineFarbe) {
             case weiss:
                 g.setColor(Color.white);
@@ -119,16 +157,24 @@ public class StellenLabel extends VerschiebbarLabel {
                 break;
         }
 
-        g.fillOval(pos, pos, IDBase.getSize(), IDBase.getSize());
+        //Zeichne einen farbigen ausgefüllten Kreis
+        g.fillOval(posOffset, posOffset, IDBase.getSize(), IDBase.getSize());
+        
+        //Setze Farbe auf Schwarz und zeichne einen leeren Kreis
         g.setColor(Color.black);
-        g.drawOval(pos, pos, IDBase.getSize(), IDBase.getSize());
+        g.drawOval(posOffset, posOffset, IDBase.getSize(), IDBase.getSize());
+        
+        //Wenn Markierung des WFN gesetzt ist, setzt einen Punkt in die mitte des Kreises
         if (markiert) {
+            //Definiere Punktgröße, dazu abhänig ist die Position
+            int punktGroesse=  IDBase.getSize() / 8;
             int size = (IDBase.getSize() + OFFSET) / 2;
-            int kreisGroesse = IDBase.getSize() / 8;
-            size -= kreisGroesse / 2;
+            size -= punktGroesse / 2;
 
-            g.fillOval(size, size, kreisGroesse, kreisGroesse);
+            //Zeichne ausgefüllten Punkt
+            g.fillOval(size, size, punktGroesse, punktGroesse);
         }
+        //Vernichte Grafik
         temp.dispose();
         g.dispose();
     }

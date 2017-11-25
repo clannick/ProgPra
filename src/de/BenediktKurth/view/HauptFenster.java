@@ -34,6 +34,8 @@ public class HauptFenster extends javax.swing.JFrame {
     /**
      * Enthält den Controller für diese Klasse
      *
+     * @since 1.0
+     * 
      * @see MainWindowController
      */
     private final MainWindowController controller;

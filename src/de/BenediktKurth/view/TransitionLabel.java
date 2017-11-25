@@ -8,40 +8,85 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- *
- * @author clannick
+ * Diese Klasse realisiert die Darstellung einer Transition aus den Basisdatenmodel.
+ * 
+ * @author Benedikt Kurth
+ * 
+ * @version 1.0
+ * 
+ * @since 1.0
+ * 
+ * @see FarbenEnum
+ * @see Transition
+ * @see MainWindowController
+ * @see HauptFenster
  */
 public class TransitionLabel extends VerschiebbarLabel {
-
-    private FarbenEnum meineFarbe;
+    
+    /**
+     * Farbwert für das Objekt.
+     * Auswahl aus FarbenEnum, verändert die Hintergrundfarbe des Kreises.
+     * 
+     * @since 1.0
+     */
+    private final FarbenEnum meineFarbe;
    
+    /**
+     * Vollständiger Konstruktor. Erhält Referenz des Basisdatenmodel (speichert
+     * diese aber nicht), weiter wird der Klasse "sein" Kontroller und das
+     * HauptFenster mitgeteilt. Konstruktor setzt die Farbe des Objektes.
+     * 
+     * @since 1.0
+     * 
+     * @param basis Referenz auf Basisdatenmodel.    
+     * @param controller Referenz auf Kontroller.
+     * @param mother Referenz auf HauptFenster.
+     * 
+     * @see MainWindowController
+     * @see HauptFenster
+     * @see Transition
+     */
     public TransitionLabel(Transition basis, MainWindowController controller, HauptFenster mother) {
+        //Rufe Konstruktor von VerschiebbarLabel auf
         super(basis, controller, mother);
-        super.setText(basis.getLabel());
-               
+        
+        //Setzte Farbe
         this.meineFarbe = basis.getMeineFarbe();
         
+        //Ermittle Größe und Position des Objektes
         int size = IDBase.getSize() + 21;
         int posX = this.position.getX() - (size / 2);
         int posY = this.position.getY() - ((size-20) / 2);
         
-            
-        super.setText(basis.getLabel());
-        super.setToolTipText("Transition: ID " + basis.getId() + " Label "+ basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")" );
-       
+        //Setze Objektgröße und Position
         super.setBounds(posX, posY, size, size);
         
+        //Setze Text der Transition und Mausover-Text
+        super.setText(basis.getLabel());
+        super.setToolTipText("Transition: ID " + basis.getId() + " Label "+ basis.getLabel() + " (x:" + this.position.getX() + "/y:" + this.position.getY() + ")" );
+
+        //Setze Ausrichtung innerhalb des Objektes
         super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         super.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        
         super.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
     }
 
+    /**
+     * Diese Methode überschreibt die paint Mehtode der Superklasse, damit Transitions
+     * gezeichnet werden.
+     * 
+     * @since 1.0
+     * 
+     * @param g     Referenz auf Grafik (s. JavaDoc)
+     * 
+     */
     @Override
     public void paint(Graphics g) {
+        //Paintmethode JLabel, für sichere Konsitenz
         super.paint(g);
         
+        //Setze Farbe des Objektes
         switch (meineFarbe){
             case weiss:
                 g.setColor(Color.white);
@@ -63,9 +108,14 @@ public class TransitionLabel extends VerschiebbarLabel {
                 break;
         }
        
+        //Zeichne einen farbigen ausgefülltes Viereck
         g.fillRect(10, 0, IDBase.getSize(), IDBase.getSize());
+        
+        //Setze Farbe auf Schwarz und zeichne einen leeres Viereck
         g.setColor(Color.black);
         g.drawRect(10, 0, IDBase.getSize(), IDBase.getSize());
+        
+        //Vernichte Grafik
         g.dispose();
     }
 }
