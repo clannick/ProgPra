@@ -7,8 +7,6 @@ import java.util.ArrayList;
  *  Diese Klasse ist die Basis des Basisdatenmodels. Es können alle Supklassen von 
  *  IDBase genutzt werden.
  *
- * Plannung: - Exceptions
- *
  * @author Benedikt Kurth
  *
  * @since 1.0
@@ -28,7 +26,7 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
      * @param   id    Gesuchte ID
      * @return        Gibt das gesuchte Objekt (IDBase) anhand seiner ID zurück
      */
-    public T searchID (String id){
+    public T sucheID (String id){
         
         T rueckgabeWert = null;
         
@@ -50,14 +48,13 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
      * 
      * @return True: Objekt gefunden, False: Objekt nicht gefunden.
      */
-    public boolean idExist(String id) {
+    public boolean existiertID(String id) {
         //Hole T-Objekt mit ID
-        T temp = searchID(id);
+        T temp = sucheID(id);
 
         //Wenn nicht vorhanden dann false
         return temp != null;
     }
-    
     
     /**
      * Methode lässt nur ungleiche ID´s der Objekte zu.
@@ -66,13 +63,13 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
      * @param eingabeObjekt Enthält die einzufügende Datei
      * 
      * @return  true, wenn ID einmalig
-     *          false, wenn ID vorhanden
+     *          false, wenn ID bereits vorhanden
      */
     @Override
     public boolean add(T eingabeObjekt){
        
         //Überprüfe ob interne ID bereitsvorhanden
-        if (!idExist(eingabeObjekt.gibId())){
+        if (!existiertID(eingabeObjekt.gibID())){
             //Wenn noch nicht vorhanden, hinzufügen und true zurück
             super.add(eingabeObjekt);
             return true;

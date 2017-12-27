@@ -15,7 +15,7 @@ import javax.swing.border.Border;
  * Klasse stellt Basis für die Objekt-Darstellung dar. Enthält alle Grundwert
  * und Funktionaltitäten der Objekte.
  *
- * @author clannick
+ * @author Benedikt Kurth
  *
  * @since 1.0
  *

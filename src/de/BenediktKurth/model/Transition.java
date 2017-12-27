@@ -11,7 +11,6 @@ package de.BenediktKurth.model;
  */
 public final class Transition extends PosNameBase{
 
-
     /**
      * Leerer Konstruktor. Es wird der Konstruktor von IDBase aufgrufen.
      * 

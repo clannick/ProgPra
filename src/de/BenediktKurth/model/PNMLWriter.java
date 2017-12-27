@@ -1,6 +1,6 @@
 package de.BenediktKurth.model;
 
-import de.BenediktKurth.Exceptions.DateiFehlerException;
+import de.BenediktKurth.myExceptions.DateiFehlerException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +61,7 @@ public final class PNMLWriter {
      * Diese Methode beginnt ein neues XML Dokument und initialisiert den XML
      * Writer für diese Datei.
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -88,7 +88,7 @@ public final class PNMLWriter {
     /**
      * Diese Methode beendet das Schreiben eines Petrinetzes als XML Datei.
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -118,7 +118,7 @@ public final class PNMLWriter {
      *
      * @param transition Transition
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -127,7 +127,7 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "transition", "");
-                writer.writeAttribute("id", transition.gibId());
+                writer.writeAttribute("id", transition.gibID());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
@@ -144,7 +144,7 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Transition " + transition.gibId()
+                throw new DateiFehlerException("Transition " + transition.gibID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -161,7 +161,7 @@ public final class PNMLWriter {
      *
      * @param stelle Stellen
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -170,7 +170,7 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "place", "");
-                writer.writeAttribute("id", stelle.gibId());
+                writer.writeAttribute("id", stelle.gibID());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
@@ -195,7 +195,7 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Stelle " + stelle.gibId()
+                throw new DateiFehlerException("Stelle " + stelle.gibID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -212,7 +212,7 @@ public final class PNMLWriter {
      *
      * @param arc Arc
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -221,12 +221,12 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
-                writer.writeAttribute("id", arc.gibId());
+                writer.writeAttribute("id", arc.gibID());
                 writer.writeAttribute("source", arc.gibSource());
                 writer.writeAttribute("target", arc.gibTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Kante " + arc.gibId()
+                throw new DateiFehlerException("Kante " + arc.gibID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -244,7 +244,7 @@ public final class PNMLWriter {
      *
      * @param ausgabeListe ArrayListSearchID
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0

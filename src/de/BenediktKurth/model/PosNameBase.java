@@ -2,9 +2,12 @@ package de.BenediktKurth.model;
 
 /**
  * Basisklasse für Positionen und Labels der Objekte
+ * 
  * @author Benedikt Kurth
  * 
  * @version 1.0
+ * 
+ * @since 1.0
  */
 public abstract class PosNameBase extends IDBase {
 
@@ -35,7 +38,7 @@ public abstract class PosNameBase extends IDBase {
         super();
 
         this.label = "null";
-        this.position = new Vector2D(30, 30);
+        this.position = new Vector2D(100, 100);
 
     }
 
@@ -129,15 +132,17 @@ public abstract class PosNameBase extends IDBase {
      * @since 1.0
      */
     public final void setzePosition(int x, int y) {
-        if (x > -1) {
-                this.position.setzeX(x);
+       
+        if (x > 0) {
+                position.setzeX(x);
         } else {
-                this.position.setzeX(0);
+                position.setzeX(0);
             }
-        if (y > -1) {
-                this.position.setzeY(y);
+        
+        if (y > 0) {
+                position.setzeY(y);
         } else {
-                this.position.setzeY(0);
+                position.setzeY(0);
             }
 
     }
@@ -168,8 +173,8 @@ public abstract class PosNameBase extends IDBase {
             setzePosition(x,y);
 
         } catch (NumberFormatException e) {
-            //Wenn es nicht funktioniert setzte Position auf (30,30)
-            setzePosition(30,30);
+            //Wenn es nicht funktioniert setzte Position auf (100,100)
+            setzePosition(50,50);
         }
     }
 }

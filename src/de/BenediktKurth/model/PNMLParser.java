@@ -1,7 +1,7 @@
 package de.BenediktKurth.model;
 
-import de.BenediktKurth.Exceptions.ArcFehlerException;
-import de.BenediktKurth.Exceptions.DateiFehlerException;
+import de.BenediktKurth.myExceptions.ArcFehlerException;
+import de.BenediktKurth.myExceptions.DateiFehlerException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,7 +100,7 @@ public final class PNMLParser {
      * Diese Methode öffnet die PNML Datei als Eingabestrom und initialisiert
      * den XML Parser.
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -122,7 +122,7 @@ public final class PNMLParser {
      * Diese Methode liest die XML Datei und delegiert die gefundenen XML
      * Elemente an die entsprechenden Methoden.
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -181,7 +181,7 @@ public final class PNMLParser {
      *
      * @param event {@link XMLEvent}
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -236,7 +236,7 @@ public final class PNMLParser {
      *
      * @param element das Positionselement
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -265,7 +265,7 @@ public final class PNMLParser {
      *
      * @param element das Transitionselement
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -417,7 +417,7 @@ public final class PNMLParser {
     private void setPosition(final String id, final String x, final String y) {
 
         //Findet das gesuchte Objekt mit searchID
-        IDBase gesuchtesObjekt = speicherArray.searchID(id);
+        IDBase gesuchtesObjekt = speicherArray.sucheID(id);
 
         // Wenn das gefunden Objekt eine Instanze von GeruestLabel ist und damit 
         // x und y Positionswerte hat, so setze diese, ansonsten tue nichts
@@ -439,7 +439,7 @@ public final class PNMLParser {
      */
     private void setName(final String id, final String name) {
         //Findet das gesuchte Objekt mit searchID
-        IDBase gesuchtesObjekt = speicherArray.searchID(id);
+        IDBase gesuchtesObjekt = speicherArray.sucheID(id);
 
         // Wenn das gefunden Objekt eine Instanze von GeruestLabel ist und damit 
         // einen Label (Namen) hat, so setze diesen, ansonsten tue nichts
@@ -462,7 +462,7 @@ public final class PNMLParser {
     private void setMarking(final String id, final String marking) {
 
         //Findet das gesuchte Objekt mit searchID
-        IDBase gesuchtesObjekt = speicherArray.searchID(id);
+        IDBase gesuchtesObjekt = speicherArray.sucheID(id);
 
         // Wenn das gefunden Objekt eine Instanze von GeruestLabel ist und damit 
         // einen Label (Namen) hat, so setze diesen, ansonsten tue nichts
@@ -483,7 +483,7 @@ public final class PNMLParser {
      *
      * @return ArrayListSearchID Basisdaten der Datei
      *
-     * @throws de.BenediktKurth.Exceptions.DateiFehlerException Methode wirft
+     * @throws de.BenediktKurth.myExceptions.DateiFehlerException Methode wirft
      * DateiFehlerException und informiert den Nutzer.
      *
      * @since 1.0
@@ -500,9 +500,12 @@ public final class PNMLParser {
             String testString = pnmlDatei.getName().toLowerCase();
             //Länge der Zeichenkette, damit offset für Dateiendung geprüft werden kann.
             int testStringLaenge = testString.length();
-            //Schneide letzten teil des Dateinames ab (Dateiendung)
-            testString = testString.substring(testStringLaenge - 5, testStringLaenge);
-
+            
+            if (testStringLaenge > 5){
+                //Schneide letzten teil des Dateinames ab (Dateiendung)
+                testString = testString.substring(testStringLaenge - 5, testStringLaenge);    
+            }
+            
             //Wenn eine Datei existiert und sie mit ".pnml" endet
             if (pnmlDatei.exists() && testString.equals(".pnml")) {
                 //Erzeuge Parser und führe entsprechende Aktionen aus

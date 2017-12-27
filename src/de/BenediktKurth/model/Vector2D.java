@@ -5,7 +5,7 @@ package de.BenediktKurth.model;
  * 
  * Einfache Klasse mit Getter und Setter Methoden für 2 Integer Werten.
  * 
- * @author clannick
+ * @author Benedikt Kurth
  * 
  * @version 1.0
  * 

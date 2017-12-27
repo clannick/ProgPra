@@ -6,8 +6,6 @@ import java.util.ArrayList;
  *  Die Funktionalität einer ArrayListe wird durch die Funktion einfuegen erweitert. 
  *  Diese Klasse ist eine reine Hilfsklasse.
  *
- * Plannung: - Exceptions
- *
  * @author Benedikt Kurth
  *
  * @since 1.0
@@ -15,8 +13,6 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public final class ArrayListCheckAdd extends ArrayList<Integer>{
-
-    private static final long serialVersionUID = 403L;
 
     /**
      * Die Methode nimmt einen int-Wert entgegen und prüft Liste ob der int-Wert

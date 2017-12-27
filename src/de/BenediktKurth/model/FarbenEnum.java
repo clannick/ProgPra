@@ -3,7 +3,7 @@ package de.BenediktKurth.model;
 /**
  * Hilfsklasse zur Einschränkung der Farbauswahl.
  *
- * @author clannick
+ * @author Benedikt Kurth
  * 
  * @since 1.0
  * 

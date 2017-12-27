@@ -82,7 +82,6 @@ public class PfeileDarstellung extends JLabel {
      */
     private final IDBase target;
 
-
     /**
      * Vollständigert Konstruktor. Erhält Referenzen auf "seine" Kante aus den Basisdaten
      * und dem Kontroller.

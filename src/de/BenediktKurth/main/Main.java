@@ -2,6 +2,7 @@ package de.BenediktKurth.main;
 
 import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.view.HauptFenster;
+import javax.swing.SwingUtilities;
 
 /**
  * Startmethode des Programmes.
@@ -25,6 +26,8 @@ public class Main {
      * @since 1.0
      */
     public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
         //Erzeuge Controller
         MainWindowController testController = new MainWindowController();
         
@@ -36,5 +39,11 @@ public class Main {
      
         //Zeige HauptFenster
         testWindow.setVisible(true);
+      }
+    });
+          
+
+
+
     }
 }

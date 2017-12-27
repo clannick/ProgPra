@@ -27,9 +27,8 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */    
-    protected final int             interneID;
+    protected final int              interneID;
 
-    
     /**
      * Interne ID für alle Objekte des Basisdatenmodels. Kann von außen nicht beinflusst werden.
      * 
@@ -155,7 +154,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */    
-    public final String gibId() {
+    public final String gibID() {
         return id;
     }
 
@@ -168,8 +167,31 @@ public abstract class IDBase {
      * @return int   IdCounter der Struktur
      */
     public final static int gibIdCounter() {
-        int temp = IDBase.idCounter;
-        IDBase.idCounter++;
+        int temp = IDBase.idCounter++;
+        
         return temp;
+    }
+    
+    /**
+     * Diese Method gibt den IdCounter der Klasse (Static) zurück.
+     * 
+     * @since 1.0
+     * 
+     * @return int   IdCounter der Struktur
+     */
+    public final static int gibIdCounterOhneHochzaehlen() {
+        return IDBase.idCounter;
+    }
+    
+    /**
+     * Diese Method setzt den IdCounter der Klasse (Static).
+     * Achtung Methode nicht leichtsinig nutzen! Kann Programm zum Absturz bringen!
+     * 
+     * @param iDCounter Int-Wert auf den der IDCounter gesetzt werden soll.
+     * 
+     * @since 1.0
+     */
+    public final static void setzteIDCounter(int iDCounter) {
+        IDBase.idCounter = iDCounter;
     }
 }

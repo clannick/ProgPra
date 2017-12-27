@@ -83,7 +83,6 @@ public class ArcLabel extends BasisLabel {
      */
     private final int posY;
 
-
     /**
      * Vollstädiger Konstruktor der Klasse. 
      * Auf basis der Basisdaten der Kante im Basisdatenmodel wird eine entsprechende 

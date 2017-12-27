@@ -1,16 +1,12 @@
 package de.BenediktKurth.model;
 
-import de.BenediktKurth.Exceptions.ArcFehlerException;
+import de.BenediktKurth.myExceptions.ArcFehlerException;
 
 /**
  * Diese Klasse stellt einen Pfeil da. Als Variablen hat ein Pfeil seine ID,
  * seinen Ursprung und sein Ziel, weiter hat er eine Darstellung. (reine
- * Datenträgerklasse, keine Funktionalitäten nur getter/setter)
- *
- * Plannung:    - Exceptions 
- *              - Prüfung Source/Target set 
- *              - JLabel Darstellung
- *
+ * Datenträgerklasse, keine Funktionalitäten nur getter/setter).
+ * 
  * @author Benedikt Kurth
  *
  * @since 1.0
@@ -96,8 +92,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.searchID(source)).gibPosition();
-            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).gibPosition();
+            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
+            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
             
         }
     }
@@ -129,8 +125,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.searchID(source)).gibPosition();
-            this.positionTarget = ((PosNameBase)tempListe.searchID(target)).gibPosition();
+            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
+            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
             
         }
     }
@@ -152,7 +148,7 @@ public final class Arc extends IDBase {
      * @return boolean  True: Pfeil könnte eingefügt werden.
      *                  False: Pfeil kann aus o.g. Gründen nicht eingefügt werden.
      * 
-     * @throws de.BenediktKurth.Exceptions.ArcFehlerException Der Pfeil konnte nicht 
+     * @throws de.BenediktKurth.myExceptions.ArcFehlerException Der Pfeil konnte nicht 
      *          zwischen den gewünschten Objekten erstellt werden.
      * 
      * @see ArrayListSearchID
@@ -162,10 +158,10 @@ public final class Arc extends IDBase {
                                         ArrayListSearchID<IDBase> tempListe) 
                                         throws ArcFehlerException{
         
-        Boolean vonSnachT = ((tempListe.searchID(source) instanceof Stellen) &&
-                            (tempListe.searchID(target) instanceof Transition));
-        Boolean vonTnachS = ((tempListe.searchID(source) instanceof Transition) &&
-                            (tempListe.searchID(target) instanceof Stellen));
+        Boolean vonSnachT = ((tempListe.sucheID(source) instanceof Stellen) &&
+                            (tempListe.sucheID(target) instanceof Transition));
+        Boolean vonTnachS = ((tempListe.sucheID(source) instanceof Transition) &&
+                            (tempListe.sucheID(target) instanceof Stellen));
         
         if (vonSnachT || vonTnachS){
             return true;

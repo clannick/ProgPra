@@ -52,6 +52,7 @@ public abstract class VerschiebbarLabel extends BasisLabel{
         //Setzte Position des Objektes
         this.position = new Vector2D(basis.gibPosition().gibX(), basis.gibPosition().gibY());
         
+        
         //Füge MouseMotionListner hinzu für Drag-and-Drop Verschieben der Objekte
         super.addMouseMotionListener(new MouseMotionAdapter() {
             //Maus wird bei gedrückter linker Maustaste bewegt
@@ -60,15 +61,12 @@ public abstract class VerschiebbarLabel extends BasisLabel{
                 //Ist dieses Objekt markiert?
                 if (isMarkiert) {
                     //Berechne differenz von ursprunglicher Position und der jetzigen
+                   
                     int dx = evt.getX() - punkt.x;
                     int dy = evt.getY() - punkt.y;
-                    
-                    //Setzte die ursprunglichen auf die jetzige
-                    punkt = evt.getPoint();                    
-                    
+
                     //Erzeuge entsprechenden Vector2D und rufe Methode des Kontrollers auf
-                    Vector2D test = new Vector2D(dx,dy);
-                    controller.verschiebeMarkierteUmOffset(mother.getDarstellung(), mother.getInterneIDmarkierter(), test);
+                    controller.verschiebeMarkierteUmOffset(mother.getDarstellung(), mother.getInterneIDmarkierter(), new Vector2D(dx,dy));
                 }
             }
         });

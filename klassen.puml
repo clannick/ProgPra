@@ -1,0 +1,208 @@
+@startuml
+abstract class de.BenediktKurth.model.IDBase
+abstract class de.BenediktKurth.model.PosNameBase
+abstract class de.BenediktKurth.view.BasisLabel
+abstract class de.BenediktKurth.view.VerschiebbarLabel
+annotation java.lang.Override
+annotation java.lang.SuppressWarnings
+class com.sun.java.swing.plaf.windows.resources.windows
+class de.BenediktKurth.Exceptions.ArcFehlerException
+class de.BenediktKurth.Exceptions.DateiFehlerException
+class de.BenediktKurth.Exceptions.MatrixException
+class de.BenediktKurth.Exceptions.WorkflownetzException
+class de.BenediktKurth.control.MainWindowController
+class de.BenediktKurth.main.Main
+class de.BenediktKurth.model.Adjazenzmatrix
+class de.BenediktKurth.model.Arc
+class de.BenediktKurth.model.ArrayListCheckAdd
+class de.BenediktKurth.model.ArrayListSearchID
+class de.BenediktKurth.model.PNMLParser
+class de.BenediktKurth.model.PNMLWriter
+class de.BenediktKurth.model.Stellen
+class de.BenediktKurth.model.Transition
+class de.BenediktKurth.model.Vector2D
+class de.BenediktKurth.view.ArcLabel
+class de.BenediktKurth.view.HauptFenster
+class de.BenediktKurth.view.PfeileDarstellung
+class de.BenediktKurth.view.StellenLabel
+class de.BenediktKurth.view.TransitionLabel
+class de.BenediktKurth.view.Umbenennen
+class java.awt.Color
+class java.awt.Dimension
+class java.awt.Graphics
+class java.awt.Graphics2D
+class java.awt.Point
+class java.awt.Polygon
+class java.awt.RenderingHints
+class java.awt.Toolkit
+class java.awt.event.KeyEvent
+class java.awt.event.MouseEvent
+class java.awt.event.MouseMotionAdapter
+class java.io.File
+class java.io.FileInputStream
+class java.io.FileNotFoundException
+class java.io.FileOutputStream
+class java.io.IOException
+class java.io.InputStream
+class java.lang.Exception
+class java.util.ArrayList
+class java.util.Iterator
+class java.util.ListIterator
+class javax.swing.BorderFactory
+class javax.swing.JFileChooser
+class javax.swing.JFrame
+class javax.swing.JLabel
+class javax.swing.JLayeredPane
+class javax.swing.JTextField
+class javax.swing.border.Border
+class javax.swing.filechooser.FileNameExtensionFilter
+class javax.xml.stream.XMLEventReader
+class javax.xml.stream.XMLInputFactory
+class javax.xml.stream.XMLOutputFactory
+class javax.xml.stream.XMLStreamConstants
+class javax.xml.stream.XMLStreamException
+class javax.xml.stream.XMLStreamWriter
+class javax.xml.stream.events.Attribute
+class javax.xml.stream.events.Characters
+class javax.xml.stream.events.StartElement
+class javax.xml.stream.events.XMLEvent
+enum de.BenediktKurth.model.FarbenEnum
+de.BenediktKurth.model.PosNameBase --|> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.BasisLabel ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.BasisLabel ..> java.lang.Override
+de.BenediktKurth.view.BasisLabel ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.BasisLabel ..> java.awt.Color
+de.BenediktKurth.view.BasisLabel ..> java.awt.Point
+de.BenediktKurth.view.BasisLabel ..> java.awt.event.MouseEvent
+de.BenediktKurth.view.BasisLabel ..> javax.swing.BorderFactory
+de.BenediktKurth.view.BasisLabel --|> javax.swing.JLabel
+de.BenediktKurth.view.BasisLabel ..> javax.swing.border.Border
+de.BenediktKurth.view.VerschiebbarLabel ..> de.BenediktKurth.model.PosNameBase
+de.BenediktKurth.view.VerschiebbarLabel --|> de.BenediktKurth.view.BasisLabel
+de.BenediktKurth.view.VerschiebbarLabel ..> java.lang.Override
+de.BenediktKurth.view.VerschiebbarLabel ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.VerschiebbarLabel ..> de.BenediktKurth.model.Vector2D
+de.BenediktKurth.view.VerschiebbarLabel ..> java.awt.event.MouseEvent
+de.BenediktKurth.view.VerschiebbarLabel ..> java.awt.event.MouseMotionAdapter
+de.BenediktKurth.Exceptions.ArcFehlerException --|> java.lang.Exception
+de.BenediktKurth.Exceptions.DateiFehlerException --|> java.lang.Exception
+de.BenediktKurth.Exceptions.MatrixException --|> java.lang.Exception
+de.BenediktKurth.Exceptions.WorkflownetzException --|> java.lang.Exception
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.PosNameBase
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.VerschiebbarLabel
+de.BenediktKurth.control.MainWindowController ..> com.sun.java.swing.plaf.windows.resources.windows
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.Exceptions.ArcFehlerException
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.Exceptions.DateiFehlerException
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.Exceptions.WorkflownetzException
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.Adjazenzmatrix
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.Arc
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.ArrayListSearchID
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.PNMLParser
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.PNMLWriter
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.Stellen
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.Transition
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.Vector2D
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.ArcLabel
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.HauptFenster
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.PfeileDarstellung
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.StellenLabel
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.TransitionLabel
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.view.Umbenennen
+de.BenediktKurth.control.MainWindowController ..> java.awt.Dimension
+de.BenediktKurth.control.MainWindowController ..> java.util.ArrayList
+de.BenediktKurth.control.MainWindowController ..> javax.swing.JFileChooser
+de.BenediktKurth.control.MainWindowController ..> javax.swing.JLabel
+de.BenediktKurth.control.MainWindowController ..> javax.swing.JLayeredPane
+de.BenediktKurth.control.MainWindowController ..> javax.swing.filechooser.FileNameExtensionFilter
+de.BenediktKurth.control.MainWindowController ..> de.BenediktKurth.model.FarbenEnum
+de.BenediktKurth.main.Main ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.main.Main ..> de.BenediktKurth.view.HauptFenster
+de.BenediktKurth.model.Adjazenzmatrix ..> de.BenediktKurth.Exceptions.WorkflownetzException
+de.BenediktKurth.model.Adjazenzmatrix ..> java.util.ArrayList
+de.BenediktKurth.model.Adjazenzmatrix ..> java.util.ListIterator
+de.BenediktKurth.model.Arc --|> de.BenediktKurth.model.IDBase
+de.BenediktKurth.model.Arc ..> de.BenediktKurth.Exceptions.ArcFehlerException
+de.BenediktKurth.model.ArrayListCheckAdd --|> java.util.ArrayList
+de.BenediktKurth.model.ArrayListSearchID ..> java.lang.Override
+de.BenediktKurth.model.ArrayListSearchID --|> java.util.ArrayList
+de.BenediktKurth.model.PNMLParser ..> de.BenediktKurth.Exceptions.ArcFehlerException
+de.BenediktKurth.model.PNMLParser ..> de.BenediktKurth.Exceptions.DateiFehlerException
+de.BenediktKurth.model.PNMLParser ..> java.io.File
+de.BenediktKurth.model.PNMLParser ..> java.io.FileInputStream
+de.BenediktKurth.model.PNMLParser ..> java.io.FileNotFoundException
+de.BenediktKurth.model.PNMLParser ..> java.io.InputStream
+de.BenediktKurth.model.PNMLParser ..> java.util.Iterator
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.XMLEventReader
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.XMLInputFactory
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.XMLStreamConstants
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.XMLStreamException
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.events.Attribute
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.events.Characters
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.events.StartElement
+de.BenediktKurth.model.PNMLParser ..> javax.xml.stream.events.XMLEvent
+de.BenediktKurth.model.PNMLWriter ..> de.BenediktKurth.Exceptions.DateiFehlerException
+de.BenediktKurth.model.PNMLWriter ..> java.io.File
+de.BenediktKurth.model.PNMLWriter ..> java.io.FileNotFoundException
+de.BenediktKurth.model.PNMLWriter ..> java.io.FileOutputStream
+de.BenediktKurth.model.PNMLWriter ..> java.io.IOException
+de.BenediktKurth.model.PNMLWriter ..> javax.xml.stream.XMLOutputFactory
+de.BenediktKurth.model.PNMLWriter ..> javax.xml.stream.XMLStreamException
+de.BenediktKurth.model.PNMLWriter ..> javax.xml.stream.XMLStreamWriter
+de.BenediktKurth.model.Stellen --|> de.BenediktKurth.model.PosNameBase
+de.BenediktKurth.model.Transition --|> de.BenediktKurth.model.PosNameBase
+de.BenediktKurth.view.ArcLabel ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.ArcLabel --|> de.BenediktKurth.view.BasisLabel
+de.BenediktKurth.view.ArcLabel ..> java.lang.Override
+de.BenediktKurth.view.ArcLabel ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.ArcLabel ..> de.BenediktKurth.model.Arc
+de.BenediktKurth.view.ArcLabel ..> de.BenediktKurth.model.Vector2D
+de.BenediktKurth.view.ArcLabel ..> java.awt.Color
+de.BenediktKurth.view.ArcLabel ..> java.awt.Graphics
+de.BenediktKurth.view.ArcLabel ..> java.awt.Graphics2D
+de.BenediktKurth.view.ArcLabel ..> java.awt.RenderingHints
+de.BenediktKurth.view.HauptFenster ..> java.lang.SuppressWarnings
+de.BenediktKurth.view.HauptFenster ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.HauptFenster ..> java.awt.Dimension
+de.BenediktKurth.view.HauptFenster ..> java.awt.Toolkit
+de.BenediktKurth.view.HauptFenster ..> java.awt.event.KeyEvent
+de.BenediktKurth.view.HauptFenster ..> java.util.ArrayList
+de.BenediktKurth.view.HauptFenster --|> javax.swing.JFrame
+de.BenediktKurth.view.HauptFenster ..> javax.swing.JLabel
+de.BenediktKurth.view.HauptFenster ..> javax.swing.JLayeredPane
+de.BenediktKurth.view.HauptFenster ..> javax.swing.JTextField
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.PfeileDarstellung ..> java.lang.Override
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.model.Arc
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.model.Stellen
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.model.Transition
+de.BenediktKurth.view.PfeileDarstellung ..> de.BenediktKurth.model.Vector2D
+de.BenediktKurth.view.PfeileDarstellung ..> java.awt.Color
+de.BenediktKurth.view.PfeileDarstellung ..> java.awt.Graphics
+de.BenediktKurth.view.PfeileDarstellung ..> java.awt.Graphics2D
+de.BenediktKurth.view.PfeileDarstellung ..> java.awt.Polygon
+de.BenediktKurth.view.PfeileDarstellung ..> java.awt.RenderingHints
+de.BenediktKurth.view.PfeileDarstellung --|> javax.swing.JLabel
+de.BenediktKurth.view.StellenLabel ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.StellenLabel --|> de.BenediktKurth.view.VerschiebbarLabel
+de.BenediktKurth.view.StellenLabel ..> java.lang.Override
+de.BenediktKurth.view.StellenLabel ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.StellenLabel ..> de.BenediktKurth.model.Stellen
+de.BenediktKurth.view.StellenLabel ..> java.awt.Color
+de.BenediktKurth.view.StellenLabel ..> java.awt.Graphics
+de.BenediktKurth.view.StellenLabel ..> java.awt.Graphics2D
+de.BenediktKurth.view.StellenLabel ..> java.awt.RenderingHints
+de.BenediktKurth.view.StellenLabel ..> de.BenediktKurth.model.FarbenEnum
+de.BenediktKurth.view.TransitionLabel ..> de.BenediktKurth.model.IDBase
+de.BenediktKurth.view.TransitionLabel --|> de.BenediktKurth.view.VerschiebbarLabel
+de.BenediktKurth.view.TransitionLabel ..> java.lang.Override
+de.BenediktKurth.view.TransitionLabel ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.TransitionLabel ..> de.BenediktKurth.model.Transition
+de.BenediktKurth.view.TransitionLabel ..> java.awt.Color
+de.BenediktKurth.view.TransitionLabel ..> java.awt.Graphics
+de.BenediktKurth.view.TransitionLabel ..> de.BenediktKurth.model.FarbenEnum
+de.BenediktKurth.view.Umbenennen ..> java.lang.SuppressWarnings
+de.BenediktKurth.view.Umbenennen ..> de.BenediktKurth.control.MainWindowController
+de.BenediktKurth.view.Umbenennen --|> javax.swing.JFrame
+@enduml

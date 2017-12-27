@@ -85,7 +85,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public void sezetMarkiert(boolean flag){
+    public void setzeMarkiert(boolean flag){
         //Setzte markiert auf flag 
         this.markiert = flag;
         

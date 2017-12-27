@@ -89,7 +89,7 @@ public class StellenLabel extends VerschiebbarLabel {
             super.setBounds(posX, posY, size, size);
             
             //Setze Mausover-Text
-            super.setToolTipText("Stelle: " + basis.gibId() + " (x:" + this.position.gibX() + "/y:" + this.position.gibY() + ")");
+            super.setToolTipText("Stelle: " + basis.gibID());
 
             
         } else {
@@ -101,7 +101,7 @@ public class StellenLabel extends VerschiebbarLabel {
             super.setBounds(posX, posY, size, size + 20);
             
             //Setze Mausover-Text
-            super.setToolTipText("Stelle: ID " + basis.gibId() + " Label: " + basis.gibLabel() + " (x:" + this.position.gibX() + "/y:" + this.position.gibY() + ")");
+            super.setToolTipText("Stelle: " + basis.gibID() + " Label: " + basis.gibLabel() );
             
             //Setze Text des Objektes
             super.setText(basis.gibLabel());
