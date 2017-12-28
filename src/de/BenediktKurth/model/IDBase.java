@@ -81,7 +81,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public final static void zuruecksetzenIdCounter(){
+    public static void zuruecksetzenIdCounter(){
        IDBase.idCounter = 0; 
     } 
 
@@ -92,7 +92,7 @@ public abstract class IDBase {
      * 
      * @param faktor Faktor mit dem miltipliziert werden soll ( x * 50 )
      */
-    public final static void setzeGroesse(int faktor){
+    public static void setzeGroesse(int faktor){
         float temp = faktor/100.0f;
         IDBase.groesse = (int)(50 * temp);
     }
@@ -131,7 +131,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die Größe der Darstellung.
      */
-    public final static int gibGroesse(){
+    public static int gibGroesse(){
         return IDBase.groesse;
     }
     
@@ -142,7 +142,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */
-    public final int gibInterneID(){
+    public int gibInterneID(){
         return this.interneID;
     }   
 
@@ -154,7 +154,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */    
-    public final String gibID() {
+    public String gibID() {
         return id;
     }
 
@@ -166,7 +166,7 @@ public abstract class IDBase {
      * 
      * @return int   IdCounter der Struktur
      */
-    public final static int gibIdCounter() {
+    public static int gibIdCounter() {
         int temp = IDBase.idCounter++;
         
         return temp;
@@ -179,7 +179,7 @@ public abstract class IDBase {
      * 
      * @return int   IdCounter der Struktur
      */
-    public final static int gibIdCounterOhneHochzaehlen() {
+    public static int gibIdCounterOhneHochzaehlen() {
         return IDBase.idCounter;
     }
     
@@ -191,7 +191,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public final static void setzteIDCounter(int iDCounter) {
+    public static void setzteIDCounter(int iDCounter) {
         IDBase.idCounter = iDCounter;
     }
 }

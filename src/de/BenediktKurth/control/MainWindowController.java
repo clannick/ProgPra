@@ -24,7 +24,6 @@ import de.BenediktKurth.view.Umbenennen;
 import de.BenediktKurth.view.VerschiebbarLabel;
 import java.awt.Dimension;
 import java.util.ArrayList;
-
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -95,7 +94,7 @@ public class MainWindowController {
 
     // 2. Konstruktor                              //////////////////////////////////////////////////////////////////////////////////////////
     /**
-     * Leerer Konstruktor zur Initalizierung des Controllers.
+     * Konstruktor zur Initalizierung des Controllers.
      *
      * @since 1.0
      */
@@ -817,14 +816,14 @@ public class MainWindowController {
      */
     private void simulationFortsetzen() {
         //Durchlaufe SpeicherArray
-        for (IDBase x : this.speicherArray) {
+        for (IDBase x : speicherArray) {
             //Prüfe ob aktuelles Objekt eine Stelle ist
             if (x instanceof Stellen) {
                 //Wenn ja, prüfe ob diese auch eine Markierung hat
                 if (((Stellen) x).gibMarkiert()) {
                     //Wenn beides ja, dann entnehme interne ID und suche Nachfolger
                     int interneID = x.gibInterneID();
-                    ArrayList<Integer> nachfolger = this.adjazenzMatrix.gibNachfolger(interneID);
+                    ArrayList<Integer> nachfolger = adjazenzMatrix.gibNachfolger(interneID);
 
                     //Prüfvariable ob es schaltbare Transition gibt
                     boolean nichtSchaltbar = true;
@@ -952,10 +951,16 @@ public class MainWindowController {
                     int breite = (int) groesseArbeitsfläche.getWidth();
                     int hohe = (int) groesseArbeitsfläche.getHeight();
                     fenster.getZeichenflaeche().setPreferredSize(groesseArbeitsfläche);
+                    
                     //Umwandlung in String durch + ""
                     fenster.getTextBreite().setText(breite + "");
                     fenster.getTextHoehe().setText(hohe + "");
 
+                    
+                    //Leer Stelle wird benötigt um evtl interneID Fehler aufzufangen, der IDCounter wird +1 gezählt.
+                    Stellen leerStelle = new Stellen();
+                    leerStelle = null;
+                    
                     //Erzeuge Darstellung und prüfe auf Workflownetz
                     neueDarstellungMitTest();
                     fenster.getZeichenflaeche().repaint();
@@ -1180,7 +1185,7 @@ public class MainWindowController {
         ArrayListSearchID<IDBase> neuesSpeicherArray = new ArrayListSearchID<>();
 
         //Durchlaufe altes SpeicherArray
-        for (IDBase x : this.speicherArray) {
+        for (IDBase x : speicherArray) {
             //Prüfe ob aktuelles Objekt keine Kante ist
             if (!(x instanceof Arc)) {
                 //Ja, Objekt einfach unverändert übernehmen
@@ -1205,7 +1210,7 @@ public class MainWindowController {
             }
         }
         //Überschreibe altes SpeicherArray
-        this.speicherArray = neuesSpeicherArray;
+        speicherArray = neuesSpeicherArray;
     }
 
     /**
