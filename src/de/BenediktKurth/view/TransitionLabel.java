@@ -59,7 +59,7 @@ public class TransitionLabel extends VerschiebbarLabel {
         int posX = this.position.gibX() - (size / 2);
         int posY = this.position.gibY() - ((size - 20) / 2);
 
-        if (basis.gibLabel().equals("null") || basis.gibLabel().equals("")) {
+        if (basis.gibLabel().equals("null") || basis.gibLabel().isEmpty()) {
             //Ohne Text
 
             //Setze Objektgröße und Position

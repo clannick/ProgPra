@@ -26,24 +26,21 @@ public class Main {
      * @since 1.0
      */
     public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        //Erzeuge Controller
-        MainWindowController testController = new MainWindowController();
-        
-        //Erzeuge HauptFenster
-        HauptFenster testWindow = new HauptFenster(testController);
-        
-        //Setze Referenz im Controller für das HauptFenster
-        testController.setzeKomponenten(testWindow);
-     
-        //Zeige HauptFenster
-        testWindow.setVisible(true);
-      }
-    });
-          
+        SwingUtilities.invokeLater(new Runnable() {
+          @Override
+          public void run() {
+            //Erzeuge Controller
+            MainWindowController testController = new MainWindowController();
 
+            //Erzeuge HauptFenster
+            HauptFenster testWindow = new HauptFenster(testController);
 
+            //Setze Referenz im Controller für das HauptFenster
+            testController.setzeKomponenten(testWindow);
 
+            //Zeige HauptFenster
+            testWindow.setVisible(true);
+          }
+        });
     }
 }

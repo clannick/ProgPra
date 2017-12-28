@@ -102,4 +102,17 @@ public final class ArrayListSearchID<T extends IDBase> extends ArrayList<T> {
         // Sollte gesuchtes Objekt nicht gefunden werden wird null zurückgegeben.
         return rueckgabeWert;       
     }
+
+    /**
+     * Diese Methode ruft die clone()-Methode der super Klasse auf. Die Methode wird
+     * nicht verwendet.
+     * 
+     * @return  Gibt ein Object-Objekt zurück.
+     * 
+     * @since 1.0
+     */
+    @Override
+    public Object clone() {
+        return super.clone();
+    }
 }

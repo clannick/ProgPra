@@ -46,4 +46,17 @@ public final class ArrayListCheckAdd extends ArrayList<Integer>{
         
         return true;
     }
+
+    /**
+     * Diese Methode ruft die clone()-Methode der super Klasse auf. Die Methode wird
+     * nicht verwendet.
+     * 
+     * @return  Gibt ein Object-Objekt zurück.
+     * 
+     * @since 1.0
+     */
+    @Override
+    public Object clone() {
+        return super.clone();
+    }
 }

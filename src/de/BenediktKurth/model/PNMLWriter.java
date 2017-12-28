@@ -1,12 +1,10 @@
 package de.BenediktKurth.model;
 
 import de.BenediktKurth.myExceptions.DateiFehlerException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;

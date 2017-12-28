@@ -4,7 +4,6 @@ import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.FarbenEnum;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -80,7 +79,7 @@ public class StellenLabel extends VerschiebbarLabel {
         int posY;
        
         //Überprüfe, ob ein relvantes Label vorhanden ist
-        if (basis.gibLabel().equals("null") || basis.gibLabel().equals("")) {
+        if (basis.gibLabel().equals("null") || basis.gibLabel().isEmpty()) {
             // Keine Bezeichnung für Label bzw. "null"
             posX = this.position.gibX() - (size / 2);
             posY = this.position.gibY() - (size / 2);

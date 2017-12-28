@@ -1,19 +1,16 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.Stellen;
 import de.BenediktKurth.model.Transition;
 import de.BenediktKurth.model.Vector2D;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
-
 import javax.swing.JLabel;
 
 /**
@@ -138,11 +135,11 @@ public class PfeileDarstellung extends JLabel {
         
         //Wenn Target links von Source, dann 180° hinzu addieren
         if (xTarget < xSource) {
-            phi = phi + Math.PI;
+            phi += Math.PI;
         }
         double phiInGrad = Math.toRadians(360.0);
         //Winkel Positiv machen
-        phi = phi + Math.PI * 2;
+        phi += Math.PI * 2;
         
         //Wenn Winkel größer 360 Grad dann -360 Grad
         if (phi >= phiInGrad) {

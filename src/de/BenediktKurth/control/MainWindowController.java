@@ -1,31 +1,28 @@
 package de.BenediktKurth.control;
 
-import de.BenediktKurth.myExceptions.ArcFehlerException;
-import de.BenediktKurth.myExceptions.DateiFehlerException;
-import de.BenediktKurth.myExceptions.WorkflownetzException;
-
 import de.BenediktKurth.model.Adjazenzmatrix;
 import de.BenediktKurth.model.Arc;
 import de.BenediktKurth.model.ArrayListSearchID;
-import de.BenediktKurth.model.PosNameBase;
-import de.BenediktKurth.model.Stellen;
-import de.BenediktKurth.model.Transition;
 import de.BenediktKurth.model.FarbenEnum;
 import de.BenediktKurth.model.IDBase;
 import de.BenediktKurth.model.PNMLParser;
 import de.BenediktKurth.model.PNMLWriter;
+import de.BenediktKurth.model.PosNameBase;
+import de.BenediktKurth.model.Stellen;
+import de.BenediktKurth.model.Transition;
 import de.BenediktKurth.model.Vector2D;
-
+import de.BenediktKurth.myExceptions.ArcFehlerException;
+import de.BenediktKurth.myExceptions.DateiFehlerException;
+import de.BenediktKurth.myExceptions.WorkflownetzException;
 import de.BenediktKurth.view.ArcLabel;
+import de.BenediktKurth.view.BasisLabel;
 import de.BenediktKurth.view.HauptFenster;
 import de.BenediktKurth.view.PfeileDarstellung;
 import de.BenediktKurth.view.StellenLabel;
 import de.BenediktKurth.view.TransitionLabel;
 import de.BenediktKurth.view.Umbenennen;
 import de.BenediktKurth.view.VerschiebbarLabel;
-
 import java.awt.Dimension;
-
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -308,24 +305,22 @@ public class MainWindowController {
             fenster.getFehleranzeigeGross().setText("");
             IDBase.zuruecksetzenIdCounter();
         } else {
-            
-            if (speicherArray.size() == 1){
+
+            if (speicherArray.size() == 1) {
                 IDBase temp2 = speicherArray.get(0);
-                if (temp2 instanceof Stellen){
+                if (temp2 instanceof Stellen) {
                     ((Stellen) temp2).setzeMarkiert(true);
                     istWorkflownetz = true;
                     fenster.getFehleranzeigeText().setText("Keine Fehler.");
                     fenster.getFehleranzeigeGross().setText("Es ist ein Workflownetz.");
                 }
-            } else{
-               //Erzeuge neue Darstellung mit Prüfung auf Workflownetz
-            neueDarstellungMitTest(); //Simulation auf null
-        simulationZurucksetzen();
+            } else {
+                //Erzeuge neue Darstellung mit Prüfung auf Workflownetz
+                neueDarstellungMitTest();
+                //Simulation auf null
+                simulationZurucksetzen();
             }
-            
         }
-        
-        
     }
 
     /**
@@ -357,7 +352,7 @@ public class MainWindowController {
                 //Hilfsvariable um festzustellen, ob Objekt markiert war. (Focus)
                 boolean istMarkiert = false;
                 //Hilfsvariable interneID des derzeitigen Objektes
-                int interneID = ((VerschiebbarLabel) x).gibInterneID();
+                int interneID = ((BasisLabel) x).gibInterneID();
 
                 //Durchlaufe alle markierten Obejkte und guck ob es dieses ist.
                 for (Integer z : markierte) {
@@ -424,7 +419,7 @@ public class MainWindowController {
                 //Keine Kantendarstellung
             } else {
                 //Hole akteulle Kante aus den Basisdaten, um deren Source und Target Pos zu ermitteln
-                Arc temp = (Arc) speicherArray.gibMitInternID(((ArcLabel) x).gibInterneID());
+                Arc temp = (Arc) speicherArray.gibMitInternID(((BasisLabel) x).gibInterneID());
                 Vector2D sourcePosition = temp.gibPositionSource();
                 Vector2D targetPosition = temp.gibPositionTarget();
 
@@ -564,7 +559,7 @@ public class MainWindowController {
             //Eine Simulation ist nicht möglich, da kein WFN: Nutzer informieren!
             fenster.getFehleranzeigeText().setText("Es handelt sich um kein Workflownetz, daher ist auch keine Simulation moeglich.");
         } else {
-            //Test generell moeglich
+            //Test generell moeglich -> Hol Objekt mit Vorgängern und Nachfolgern
             IDBase objekt = speicherArray.gibMitInternID(interneID);
             ArrayList<Integer> nachfolger = adjazenzMatrix.gibNachfolger(interneID);
             ArrayList<Integer> vorgaenger = adjazenzMatrix.gibVorgaenger(interneID);
@@ -629,17 +624,25 @@ public class MainWindowController {
                             bisherErsetzteNachfolger++;
                             temp.setzeMarkiert(true);
 
+                            //Durchlaufe alle Transition und setzte aktive auf gruen und andere weiß
                             for (IDBase h : speicherArray) {
                                 if (h instanceof Transition) {
+                                    //Alle Vorgänger ( Stellen ) der aktuellen Transition
                                     ArrayList<Integer> vorgaengerIntern = adjazenzMatrix.gibVorgaenger(h.gibInterneID());
+                                    
+                                    //Hilfsvariable (True alle markiert, false min. eine Stelle nicht markiert
                                     boolean flag = true;
+                                    
+                                    //Durchlaufe alle Vorgänger
                                     for (Integer y : vorgaengerIntern) {
                                         Stellen temp2 = (Stellen) speicherArray.gibMitInternID(y);
                                         if (!temp2.gibMarkiert()) {
+                                            //Stelle war nicht markiert - > setzt flag
                                             flag = false;
                                         }
                                     }
 
+                                    //Setzte Farbe
                                     if (flag) {
                                         h.setzeMeineFarbe(FarbenEnum.gruen);
                                     } else {
@@ -648,21 +651,20 @@ public class MainWindowController {
                                 }
                             }
 
+                            //Ende ist erreicht
                             if (x == interneIDEndstelle) {
                                 fenster.getFehleranzeigeText().setText("Das Ende der Simulation, wurde erreicht.");
                                 temp.setzeMeineFarbe(FarbenEnum.gruen);
 
+                            //Simmulation ohne Fehler durchgelaufen    
                             } else {
                                 fenster.getFehleranzeigeText().setText("Keine Fehler.");
                             }
-
                         }
-
                     }
 
                     //Hilfsvariable, um herauszufinden ob das Netz noch aktive "Posten" hat.
                     boolean gibtEsGrueneTransitions = false;
-                    
 
                     //Durchlaufe das SpeicherArray und filter Stellen und Transition
                     for (IDBase x : speicherArray) {
@@ -674,18 +676,23 @@ public class MainWindowController {
                         }
                     }
 
-                    if ( !gibtEsGrueneTransitions && lagEinKontaktVor){
+                    //Prüfung auf Deadlocks (überschreibt "Keine Fehler") mit Kontakt direkt 
+                    if (!gibtEsGrueneTransitions && lagEinKontaktVor) {
                         fenster.getFehleranzeigeText().setText("Kontakt mit Deadlock!");
                         adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
-                    } else if (!gibtEsGrueneTransitions && !adjazenzMatrix.gibEnde().get(0).gibMarkiert()){
+                    } else if (!gibtEsGrueneTransitions && !adjazenzMatrix.gibEnde().get(0).gibMarkiert()) {
+                        //Es gibt keine schaltbaren Transition und ende nicht markiert -> Deadlock!
                         fenster.getFehleranzeigeText().setText("Deadlock!");
                         adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
                     }
-                        /*
-                        //boolean gibtEsNochMarkierungen = false;
-                        //boolean aktiveDinge = (gibtEsGrueneTransitions || gibtEsNochMarkierungen);
-                        //Wenn min eine Stelle noch eine Marke trägt (exkl. Endmarkierung)
+
+                    /*
                     
+                    //Evtl weitere Prüfung auf unsicheres Workflownetz (aktive Transition/Stellen obwohl ende erreicht
+                    boolean gibtEsNochMarkierungen = false;
+                    boolean aktiveDinge = (gibtEsGrueneTransitions || gibtEsNochMarkierungen);
+                    //Wenn min eine Stelle noch eine Marke trägt (exkl. Endmarkierung)
+                    for (IDBase x : speicherArray) {
                         if (x instanceof Stellen) {
                             if (((Stellen) x).gibMarkiert()) {
                                 if (x.gibInterneID() != interneIDEndstelle) {
@@ -693,18 +700,20 @@ public class MainWindowController {
                                 }
                             }
                         }
-                    
-                        if (!gibtEsGrueneTransitions && !adjazenzMatrix.gibEnde().get(0).gibMarkiert()) {
-                            //Es gibt keine gruenen also schaltbare Transitions und Ende wurde nicht erreicht
-                            fenster.getFehleranzeigeText().setText("Deadlock! Das Ende der Simulation, kann nicht erreicht werden.");
-                            adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
-                        } else if (aktiveDinge && adjazenzMatrix.gibEnde().get(0).gibMarkiert() && !lagEinKontaktVor) {
-                            //Unsicheres Workflownetz da Ende zwar erreicht, aber noch aktive Transition oder Stellenmarkierungen vorhanden sind.
-                            fenster.getFehleranzeigeText().setText("Unsicheres Workflownetz. Es gibt noch aktive Transition oder markierte Stellen, obwohl das Ende erreicht wurde.");
-                            adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
-                        }
+                    }
+                    if (!gibtEsGrueneTransitions && !adjazenzMatrix.gibEnde().get(0).gibMarkiert()) {
+                        //Es gibt keine gruenen also schaltbare Transitions und Ende wurde nicht erreicht
+                        fenster.getFehleranzeigeText().setText("Deadlock! Das Ende der Simulation, kann nicht erreicht werden.");
+                        adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
+                    } else if (aktiveDinge && adjazenzMatrix.gibEnde().get(0).gibMarkiert() && !lagEinKontaktVor) {
+                        //Unsicheres Workflownetz da Ende zwar erreicht, aber noch aktive Transition oder Stellenmarkierungen vorhanden sind.
+                        fenster.getFehleranzeigeText().setText("Unsicheres Workflownetz. Es gibt noch aktive Transition oder markierte Stellen, obwohl das Ende erreicht wurde.");
+                        adjazenzMatrix.gibEnde().get(0).setzeMeineFarbe(FarbenEnum.rot);
+                    }
 
-                        */
+                    */
+                    
+                    //neue Darstellung, Test nicht notwendig!
                     neueDarstellungOhneTest();
                 }
             }
@@ -728,7 +737,7 @@ public class MainWindowController {
         //Durchlaufe SpeicherArray und setzte Markierungen und Farbe zurück
         for (IDBase x : speicherArray) {
             if (x instanceof PosNameBase) {
-                ((PosNameBase) x).setzeMeineFarbe(FarbenEnum.weiss);
+                x.setzeMeineFarbe(FarbenEnum.weiss);
                 if (x instanceof Stellen) {
                     ((Stellen) x).setzeMarkiert(false);
                 }
@@ -899,7 +908,7 @@ public class MainWindowController {
         //zwischenspeicher Basisdaten
         ArrayListSearchID<IDBase> zwischenSpeicher = speicherArray;
         int zwischenSpeicherIDGroesse = IDBase.gibIdCounterOhneHochzaehlen();
-        
+
         //Erstelle neuen FileChooser und setze open auf cancel
         JFileChooser chooser;
         int open;
@@ -924,13 +933,15 @@ public class MainWindowController {
         if (open == JFileChooser.APPROVE_OPTION) {
 
             //Setze zuletzt genutzer Pfad auf aktuellen Pfad
-            zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
+            if (!chooser.getSelectedFile().getPath().isEmpty()) {
+                zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
+            }
 
             //Öffne und lade Datei in das speicherArray
             try {
                 //Setzte Counter auf 0
                 IDBase.zuruecksetzenIdCounter();
-                
+
                 //Öffnet die statische Methode des PNMLParser und bekommt das SpeicherArray mit den Basisdaten
                 speicherArray = PNMLParser.ladenUndGeben(chooser.getSelectedFile().getAbsolutePath());
 
@@ -995,14 +1006,16 @@ public class MainWindowController {
         //Wenn SaveDialog ERFOLGREICH beendet wurde:
         if (open == JFileChooser.APPROVE_OPTION) {
             //Setze zuletzt genutzer Pfad auf aktuellen Pfad
-            zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
+            if (!chooser.getSelectedFile().getPath().isEmpty()) {
+                zuLetztGenutzterDateiPfad = chooser.getSelectedFile().getPath();
+            }
 
             //Dateipfad extrahieren
             String absoluterDateiPfad = chooser.getSelectedFile().getAbsolutePath();
 
             //Wenn Dateiendung != ".pnml" setzte sie
             if (!absoluterDateiPfad.endsWith(".pnml")) {
-                absoluterDateiPfad = absoluterDateiPfad + ".pnml";
+                absoluterDateiPfad += ".pnml";
             }
 
             try {
@@ -1050,7 +1063,7 @@ public class MainWindowController {
             }
         }
         //Durchlaufe alle Basisdaten und suche Kanten/Arc
-        for (IDBase x : speicherArray) {    
+        for (IDBase x : speicherArray) {
             if (x instanceof Arc) {
                 //Erstelle Kantendarstellung
                 JLabel arcLabel = new ArcLabel((Arc) x, this, fenster);
@@ -1178,25 +1191,16 @@ public class MainWindowController {
                 //Explizieter Typcast auf Arc
                 Arc arcTemp = (Arc) x;
 
-                //Entnehme ID der Kante (soll die selbe bleiben)
-                String id = arcTemp.gibID();
-
                 //Entnehme Source- und Targetstring
                 String source = arcTemp.gibSource();
                 String target = arcTemp.gibTarget();
 
-                //Versuche die Kante zu erzeugen
-                try {
-                    //Wirft Exception
-                    Arc neuArc = new Arc(id, source, target, this.speicherArray);
-
-                    //Füge "richtge" Kante dem neuen SpeicherArray hinzu
-                    neuesSpeicherArray.add(neuArc);
-
-                } catch (ArcFehlerException ex) {
-                    //Kante konnte nicht erstellt werden, da Source oder Target nicht mehr existieren,
-                    //informiere Nutze
-                    fenster.getFehleranzeigeText().setText("Es wurde ein oder mehrere Pfeile entfernt");
+                //Überprüfe ob Source und Target noch existieren, wenn nicht Info an Nutzer
+                if (speicherArray.existiertID(source)
+                        && speicherArray.existiertID(target)) {
+                    neuesSpeicherArray.add(x);
+                } else {
+                    fenster.getFehleranzeigeText().setText("Es wurde ein oder mehrere Kanten entfernt");
                 }
             }
         }
@@ -1347,7 +1351,7 @@ public class MainWindowController {
      * verschieben.
      *
      * @param interneID Interne ID des Objektes das verschoben werden soll.
-     * 
+     *
      * @since 1.0
      */
     private void verschiebeAufFreiePosition(int interneID) {
@@ -1360,7 +1364,7 @@ public class MainWindowController {
             //Extrahiere x und y aus Objekt
             PosNameBase temp = (PosNameBase) zuVerschieben;
             int posX = temp.gibPosition().gibX();
-            int posY = temp.gibPosition().gibX();
+            int posY = temp.gibPosition().gibY();
 
             //Sicherung für nur ein Objekt, ansonsten Endlosschleife
             boolean gibtEsObjektDa = true;

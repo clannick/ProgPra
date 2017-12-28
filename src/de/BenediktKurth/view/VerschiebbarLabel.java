@@ -1,10 +1,8 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-
 import de.BenediktKurth.model.PosNameBase;
 import de.BenediktKurth.model.Vector2D;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 

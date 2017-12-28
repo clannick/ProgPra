@@ -1,13 +1,11 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 /**
@@ -254,6 +252,7 @@ public class HauptFenster extends JFrame {
      */
     private void setzeObjekteLayout() {
 
+        //Initalisiere variablen
         groessenSchieber = new JSlider();
         fehleranzeigeGross = new JLabel();
         simulationResetKnopf = new JButton();
@@ -278,17 +277,18 @@ public class HauptFenster extends JFrame {
         neuKnopf = new JButton();
         reserve = new JButton();
 
+        //Setze Fensterwerte
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Benedikt Kurth 5254540");
+        setTitle("5254540_kurth_benedikt");
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(700, 700));
-        setName("Benedikt_Kurth_5254540");
+        setName("5254540_kurth_benedikt");
         setFocusable(true);
 
         //Größenschieber für globale Darstellung
         groessenSchieber.setMaximum(200);
         groessenSchieber.setMinimum(10);
-        groessenSchieber.setToolTipText("<- verkleinern | vergrößern ->");
+        groessenSchieber.setToolTipText("<- verkleinern | vergroeßern ->");
         groessenSchieber.setValue(100);
         groessenSchieber.setMaximumSize(new java.awt.Dimension(79, 30));
         groessenSchieber.setMinimumSize(new java.awt.Dimension(79, 30));
@@ -324,7 +324,7 @@ public class HauptFenster extends JFrame {
             }
         });
 
-        loeschenKnopf.setText("Löschen");
+        loeschenKnopf.setText("Loeschen");
         loeschenKnopf.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,6 +351,20 @@ public class HauptFenster extends JFrame {
             }
         });
 
+        //Dient einem evtl erweitern des Programmes
+        reserve.setVisible(false);
+        reserve.setText("reserve");
+        reserve.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reserveKnopf(evt);
+            }
+
+            private void reserveKnopf(ActionEvent evt) {
+                //Reserve Methode
+            }
+        });
+        
         neuKnopf.setText("Neu");
         neuKnopf.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -374,17 +388,8 @@ public class HauptFenster extends JFrame {
                 ladenKnopf(evt);
             }
         });
-        
-        reserve.setVisible(false);
-        reserve.setText("reserve");
-        reserve.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ladenKnopf(evt);
-            }
-        });
 
-        //Teiler für Menu
+        //Teiler für Menustruktur
         obererTeiler.setRequestFocusEnabled(false);
         untererTeiler.setRequestFocusEnabled(false);
 
@@ -408,10 +413,10 @@ public class HauptFenster extends JFrame {
         });
 
         //Beschriftungen
-        hoeheText.setText("Höhe");
+        hoeheText.setText("Hoehe");
         breiteText.setText("Breite");
-        groessenText.setText("Größe");
-        arbeitsflaecheText.setText("Arbeitsfläche");
+        groessenText.setText("Groeße");
+        arbeitsflaecheText.setText("Arbeitsflaeche");
         fehleranzeigeGross.setFont(new java.awt.Font("Tahoma", 0, 12));
         fehleranzeigeText.setFont(new java.awt.Font("Tahoma", 0, 14));
         eingabeFeldBreite.setText("1500");
@@ -430,6 +435,8 @@ public class HauptFenster extends JFrame {
             }
         });
         zeichenflaeche.setLayout(null);
+        
+        //Füge dem Scrollbaren-Fenster die Zeichfläche hinzu
         scrollFenster.setViewportView(zeichenflaeche);
 
         //Layout setzen mit GroupLayout (erstellt von FormEditor)
@@ -658,7 +665,13 @@ public class HauptFenster extends JFrame {
      * @param evt Info über Aktion des Nutzers (wird nicht verwendet)
      */
     private void loeschenKnopf(java.awt.event.ActionEvent evt) {
+        ArrayList<Integer> tempListe = new ArrayList<>();
+        
         for (Integer x : interneIDmarkierter) {
+            tempListe.add(x);
+        } 
+        
+        for (Integer x : tempListe) {
             controller.entfernen(x);
         }
         focusZuruecksetzen();

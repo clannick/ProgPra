@@ -1,7 +1,6 @@
 package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;

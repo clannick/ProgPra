@@ -2,14 +2,11 @@ package de.BenediktKurth.model;
 
 import de.BenediktKurth.myExceptions.ArcFehlerException;
 import de.BenediktKurth.myExceptions.DateiFehlerException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 import java.util.Iterator;
-
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -105,7 +102,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    public final void initParser() throws DateiFehlerException {
+    public void initParser() throws DateiFehlerException {
         //Versuche Datei zu öffnen und versuche aus Datei zu lesen
         try {
             InputStream dateiEingabeStrom = new FileInputStream(this.pnmlDatei);
@@ -127,7 +124,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    public final void parse() throws DateiFehlerException {
+    public void parse() throws DateiFehlerException {
         //Solange xmlParser Datenvorhanden, entnehme sie.
         while (xmlParser.hasNext()) {
             try {

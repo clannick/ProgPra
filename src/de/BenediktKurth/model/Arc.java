@@ -58,7 +58,6 @@ public final class Arc extends IDBase {
         super();
         this.source = "null";
         this.target = "null";
-        
     }
     
     /**
@@ -94,9 +93,11 @@ public final class Arc extends IDBase {
             //Setze Positionen von Source und Target
             this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
             this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
-            
+        } else {
+            throw new ArcFehlerException("");
         }
     }
+    
     /**
      * Fast Vollständiger Konstrukter: Es werden nicht alle benötigten Daten eingegeben.
      * Die ID wird von IDBase erzeugt und von einer intern
@@ -127,7 +128,8 @@ public final class Arc extends IDBase {
             //Setze Positionen von Source und Target
             this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
             this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
-            
+        } else {
+            throw new ArcFehlerException("");
         }
     }
     

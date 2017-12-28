@@ -1,7 +1,6 @@
 package de.BenediktKurth.model;
 
 import de.BenediktKurth.myExceptions.WorkflownetzException;
-
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -123,7 +122,7 @@ public final class Adjazenzmatrix {
      * @return Boolean True: es wurde etwas verändert. False: es wurde nur die
      * alte Matrix gelöscht.
      */
-    public final boolean aktualisieren(ArrayListSearchID<IDBase> basisDatenArray) {
+    public boolean aktualisieren(ArrayListSearchID<IDBase> basisDatenArray) {
 
         // Rückgabewert ist true, wenn basisDatenArray nicht leer ist.
         if (basisDatenArray.isEmpty()) {
@@ -683,14 +682,5 @@ public final class Adjazenzmatrix {
             }    
         }
         return rueckgabe;
-    }
-
-    public void printMatrix() {
-        for (boolean[] matrix1 : matrix) {
-            for (int j = 0; j < matrix.length; j++) {
-                System.out.print(matrix1[j] + " ");
-            }
-            System.out.println("");
-        }
     }
 }

@@ -2,11 +2,9 @@ package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
 import de.BenediktKurth.model.IDBase;
-
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -179,6 +177,6 @@ public abstract class BasisLabel extends JLabel {
      * @since 1.0
      */
     public final int gibInterneID() {
-        return this.interneID;
+        return interneID;
     }
 }
