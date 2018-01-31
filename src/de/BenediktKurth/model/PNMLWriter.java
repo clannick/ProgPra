@@ -25,7 +25,7 @@ public final class PNMLWriter {
      *
      * @since 1.0
      */
-    private final File pnmlDatei;
+    private final File                          pnmlDatei;
 
     /**
      * Dies ist eine Referenz zum XML Writer. Diese Referenz wird durch die
@@ -33,14 +33,14 @@ public final class PNMLWriter {
      *
      * @since 1.0
      */
-    private XMLStreamWriter writer = null;
+    private XMLStreamWriter                     writer = null;
 
     /**
      * Dient dem schließen der zu speichernden Datei.
      *
      * @since 1.0
      */
-    private FileOutputStream fos;
+    private FileOutputStream                    fos;
 
     /**
      * Dieser Konstruktor erstellt einen neuen Writer für PNML Dateien, dem die
@@ -125,11 +125,11 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "transition", "");
-                writer.writeAttribute("id", transition.gibID());
+                writer.writeAttribute("id", transition.getID());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(transition.gibLabel());
+                writer.writeCharacters(transition.getLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
@@ -142,7 +142,7 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Transition " + transition.gibID()
+                throw new DateiFehlerException("Transition " + transition.getID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -168,18 +168,18 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "place", "");
-                writer.writeAttribute("id", stelle.gibID());
+                writer.writeAttribute("id", stelle.getID());
 
                 writer.writeStartElement("", "name", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(stelle.gibLabel());
+                writer.writeCharacters(stelle.getLabel());
                 writer.writeEndElement();
                 writer.writeEndElement();
 
                 writer.writeStartElement("", "initialMarking", "");
                 writer.writeStartElement("", "token", "");
                 writer.writeStartElement("", "value", "");
-                writer.writeCharacters(stelle.gibMarkierungString());
+                writer.writeCharacters(stelle.getMarkierungString());
                 writer.writeEndElement();
                 writer.writeEndElement();
                 writer.writeEndElement();
@@ -193,7 +193,7 @@ public final class PNMLWriter {
 
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Stelle " + stelle.gibID()
+                throw new DateiFehlerException("Stelle " + stelle.getID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 
@@ -219,12 +219,12 @@ public final class PNMLWriter {
         if (writer != null) {
             try {
                 writer.writeStartElement("", "arc", "");
-                writer.writeAttribute("id", arc.gibID());
-                writer.writeAttribute("source", arc.gibSource());
-                writer.writeAttribute("target", arc.gibTarget());
+                writer.writeAttribute("id", arc.getID());
+                writer.writeAttribute("source", arc.getSource());
+                writer.writeAttribute("target", arc.getTarget());
                 writer.writeEndElement();
             } catch (XMLStreamException e) {
-                throw new DateiFehlerException("Kante " + arc.gibID()
+                throw new DateiFehlerException("Kante " + arc.getID()
                         + " konnte nicht geschrieben werden! "
                         + e.getMessage());
 

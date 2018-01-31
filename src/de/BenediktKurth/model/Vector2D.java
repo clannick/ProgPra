@@ -19,14 +19,14 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    private int x;
+    private int         x;
     
     /**
      * Integer-Wert für die y Koordinate
      * 
      * @since 1.0
      */
-    private int y;
+    private int         y;
     
     /**
      * Vollständiger Kostruktor mit klarem Anfangszustand.
@@ -49,7 +49,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public void setzeX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
 
@@ -60,7 +60,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public void setzeY(int y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -71,7 +71,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public int gibX() {
+    public int getX() {
         return x;
     }
 
@@ -82,7 +82,7 @@ public class Vector2D {
      * 
      * @since 1.0
      */
-    public int gibY() {
+    public int getY() {
         return y;
     }
 }

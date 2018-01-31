@@ -29,28 +29,28 @@ public final class Adjazenzmatrix {
      *
      * @since 1.0
      */
-    private boolean[][] matrix;
+    private boolean[][]             matrix;
 
     /**
      * Zähler für alle Stellen und Transitions im Workflownetz.
      *
      * @since 1.0
      */
-    private int gesamtZaehler;
+    private int                     gesamtZaehler;
 
     /**
      * Zähler für alle Stellen im Workflownetz.
      *
      * @since 1.0
      */
-    private int stellenZaehler;
+    private int                     stellenZaehler;
 
     /**
      * Zähler für alle Transitions im Workflownetz.
      *
      * @since 1.0
      */
-    private int transitionZaehler;
+    private int                     transitionZaehler;
 
     /**
      * Typsichere ArrayList auf Arc-Objekts.
@@ -59,7 +59,7 @@ public final class Adjazenzmatrix {
      *
      * @see ArrayListSearchID
      */
-    private ArrayListSearchID<Arc> arcListe;
+    private ArrayListSearchID<Arc>  arcListe;
 
     /**
      * Typsichere ArrayList auf IDBase-Objekts, enthält die Basisdaten des
@@ -79,7 +79,7 @@ public final class Adjazenzmatrix {
      *
      * @see java.util.ArrayList
      */
-    private ArrayList<Integer> besuchtePunkteHin;
+    private ArrayList<Integer>         besuchtePunkteHin;
 
     /**
      * Hilfsliste (Rekursion) Liste mit allen besuchten Knoten auf dem Rückweg
@@ -89,7 +89,7 @@ public final class Adjazenzmatrix {
      *
      * @see java.util.ArrayList
      */
-    private ArrayList<Integer> besuchtePunkteHer;
+    private ArrayList<Integer>         besuchtePunkteHer;
 
     /**
      * Der Kontruktor überprüft, ob eine nicht leere Basisdatenmenge übergeben
@@ -140,8 +140,8 @@ public final class Adjazenzmatrix {
         //Kanten aus.
         for (IDBase x : gesamtListe) {
             //Ermittle die höchste Interne ID
-            if (x.gibInterneID() > hohsteInterneID) {
-                hohsteInterneID = x.gibInterneID();
+            if (x.getInterneID() > hohsteInterneID) {
+                hohsteInterneID = x.getInterneID();
             }
 
             //Aktuelles Objekt ist eine Stelle
@@ -198,28 +198,19 @@ public final class Adjazenzmatrix {
      */
     private void fuelleMatrix(ArrayListSearchID<Arc> arcList, ArrayListSearchID<IDBase> basisdaten) {
 
-        //Hilfsvariable while-Schleife
-        int i = 0;
-
         //Durchlaufe alle Pfeile in der Liste
-        while (i < arcList.size()) {
-
-            //Hol aktuellen Pfeil aus der Liste
-            Arc arc = arcList.get(i);
-
+        for (Arc x: arcList){
             try {
                 //Suche Source und Target in Basisdaten und ermittle interner ID´s
-                int sourceInt = basisdaten.sucheID(arc.gibSource()).gibInterneID();
-                int targetInt = basisdaten.sucheID(arc.gibTarget()).gibInterneID();
+                int sourceInt = basisdaten.sucheID(x.getSource()).getInterneID();
+                int targetInt = basisdaten.sucheID(x.getTarget()).getInterneID();
 
                 //Setzte Adjazenmatrix an passender Stelle auf true
                 //(Es gibt einen Weg von Source nach Target)
-                this.matrix[sourceInt][targetInt] = true;
+                matrix[sourceInt][targetInt] = true;
             } catch (Exception e) {
                 //throw new MatrixException();
             }
-            //Nächstes Objekt
-            i++;
         }
     }
 
@@ -262,7 +253,6 @@ public final class Adjazenzmatrix {
         this.matrix = null;
         this.besuchtePunkteHer = null;
         this.besuchtePunkteHin = null;
-
     }
 
     /**
@@ -277,32 +267,32 @@ public final class Adjazenzmatrix {
      *
      * @see java.util.ArrayList
      */
-    public ArrayList<Stellen> gibAnfang() {
+    public ArrayList<Stellen> getAnfang() {
 
         //Erstelle leere ArrayListe
         ArrayList<Stellen> moeglicheAnfangsstellen = new ArrayList<>();
 
         //Wenn es überhaupt Daten gibt prüfe diese, ansonsten gib leere Liste
-        if (this.gesamtZaehler <= 0) {
+        if (gesamtZaehler <= 0) {
             return moeglicheAnfangsstellen;
         } else {
             //Hilfsvariable 
             boolean flag;
 
             //Finde Stellen/Transitions ohne eigehende Pfeile
-            for (int i = 0; i < this.gesamtZaehler; i++) {
+            for (int i = 0; i < gesamtZaehler; i++) {
                 flag = false;
-                for (int j = 0; j < this.gesamtZaehler; j++) {
+                for (int j = 0; j < gesamtZaehler; j++) {
                     //Wenn es eingehenden Pfeile gibt, setzte flag
-                    if ((this.matrix[j][i])) {
+                    if ((matrix[j][i])) {
                         flag = true;
                     }
                 }
 
                 // Wenn keine eigehende Pfeile und Objekt ist eine Stelle
-                if (!flag && (gesamtListe.gibMitInternID(i) instanceof Stellen)) {
+                if (!flag && (gesamtListe.getMitInternID(i) instanceof Stellen)) {
                     //Füge es als mögliche Anfangsstelle hinzu
-                    moeglicheAnfangsstellen.add((Stellen) gesamtListe.gibMitInternID(i));
+                    moeglicheAnfangsstellen.add((Stellen) gesamtListe.getMitInternID(i));
                 }
             }
         }
@@ -322,32 +312,32 @@ public final class Adjazenzmatrix {
      *
      * @see java.util.ArrayList
      */
-    public ArrayList<Stellen> gibEnde() {
+    public ArrayList<Stellen> getEnde() {
 
         //Erstelle leere ArrayListe
         ArrayList<Stellen> moeglicheEndstellen = new ArrayList<>();
 
         //Wenn es überhaupt Daten gibt prüfe diese, ansonsten gib leere Liste
-        if (this.gesamtZaehler <= 0) {
+        if (gesamtZaehler <= 0) {
             return moeglicheEndstellen;
         } else {
             //Hilfsvariable 
             boolean flag;
 
             //Finde Stellen/Transitions ohne ausgehende Pfeile
-            for (int i = 0; i < this.gesamtZaehler; i++) {
+            for (int i = 0; i < gesamtZaehler; i++) {
                 flag = false;
-                for (int j = 0; j < this.gesamtZaehler; j++) {
+                for (int j = 0; j < gesamtZaehler; j++) {
                     //Wenn es ausgehende Pfeile gibt, setzte flag
-                    if ((this.matrix[i][j])) {
+                    if ((matrix[i][j])) {
                         flag = true;
                     }
                 }
                 // Wenn keine ausgehenden Pfeile und Objekt ist eine Stelle
-                if (!flag && (gesamtListe.gibMitInternID(i) instanceof Stellen)) {
+                if (!flag && (gesamtListe.getMitInternID(i) instanceof Stellen)) {
 
                     //Füge es als mögliche Endstelle hinzu
-                    moeglicheEndstellen.add((Stellen) gesamtListe.gibMitInternID(i));
+                    moeglicheEndstellen.add((Stellen) gesamtListe.getMitInternID(i));
                 }
             }
         }
@@ -395,8 +385,8 @@ public final class Adjazenzmatrix {
         ArrayList<Stellen> endstelle;
 
         //Hole mögliche End- und Anfangsstellen 
-        anfangsstelle = gibAnfang();
-        endstelle = gibEnde();
+        anfangsstelle = getAnfang();
+        endstelle = getEnde();
 
         //Prüfe: Keine Anfangsstelle?
         if (anfangsstelle.isEmpty()) {
@@ -423,8 +413,8 @@ public final class Adjazenzmatrix {
         Stellen ende = endstelle.get(0);
 
         //Ermittlung Interner ID der Anfangsstelle und Endstelle
-        int inIdAnfang = anfang.gibInterneID();
-        int inIdEnde = ende.gibInterneID();
+        int inIdAnfang = anfang.getInterneID();
+        int inIdEnde = ende.getInterneID();
 
         //Prüfe ob alle Objekte auf einem gerichteten Graphen liegen und....
         boolean hin = _pruefeWorkflownetzVorwaerts(inIdAnfang, inIdEnde, besuchtePunkteHin);
@@ -435,11 +425,11 @@ public final class Adjazenzmatrix {
         }
 
         //...wurden alle Objekte auf dem Hinweg und Rückweg besucht?
-        hin = (hin && besuchtePunkteHin.size() == (this.stellenZaehler + this.transitionZaehler));
-        zurueck = (zurueck && besuchtePunkteHer.size() == (this.stellenZaehler + this.transitionZaehler));
+        hin = (hin && besuchtePunkteHin.size() == (stellenZaehler + transitionZaehler));
+        zurueck = (zurueck && besuchtePunkteHer.size() == (stellenZaehler + transitionZaehler));
 
         if (!hin || !zurueck) {
-            throw new WorkflownetzException("Es liegen nicht alle Objekte auf einem gerichteten Graphen.");
+            throw new WorkflownetzException("Nicht alle Netzelemente liegen auf einem Pfad von Anfangs- zur Endstelle.");
         }
 
         //Prüfung erfolgreich
@@ -488,8 +478,8 @@ public final class Adjazenzmatrix {
         int countNachfolger = 0;
 
         //Gucke ob und wieviele Nachfolge aktuelles Objekt hat
-        for (int i = 0; i < this.gesamtZaehler; i++) {
-            if (this.matrix[anfangsID][i]) {
+        for (int i = 0; i < gesamtZaehler; i++) {
+            if (matrix[anfangsID][i]) {
                 countNachfolger++;
             }
         }
@@ -500,8 +490,8 @@ public final class Adjazenzmatrix {
 
             //Es gibt genau einen Nachfolger, dann rufe einmal rekursiv auf    
         } else if (countNachfolger == 1) {
-            for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[anfangsID][i]) {
+            for (int i = 0; i < gesamtZaehler; i++) {
+                if (matrix[anfangsID][i]) {
                     rueckgabeWert = _pruefeWorkflownetzVorwaerts(i, inIdEnde, besuchtePunkte);
                 }
             }
@@ -510,7 +500,7 @@ public final class Adjazenzmatrix {
         } else if (countNachfolger > 1) {
 
             //Initalisiere HilfsArrayListen
-            ArrayList<Integer> listeNachfolger = gibNachfolger(anfangsID);
+            ArrayList<Integer> listeNachfolger = getNachfolger(anfangsID);
             ArrayList<Boolean> listePruefungen = new ArrayList<>();
 
             //Durchlaufe alle Nachfolger und prüfe rekursiv die Nachfolger
@@ -563,7 +553,6 @@ public final class Adjazenzmatrix {
         while (iterator.hasNext()) {
             int temp = iterator.next();
             if (temp == anfangsID) {
-
                 return true;
             }
         }
@@ -583,8 +572,8 @@ public final class Adjazenzmatrix {
         int countVorgaenger = 0;
 
         //Gucke ob und wieviele Vorgänger aktuelles Objekt hat
-        for (int i = 0; i < this.gesamtZaehler; i++) {
-            if (this.matrix[i][anfangsID]) {
+        for (int i = 0; i < gesamtZaehler; i++) {
+            if (matrix[i][anfangsID]) {
                 countVorgaenger++;
             }
         }
@@ -595,8 +584,8 @@ public final class Adjazenzmatrix {
 
             //Es gibt genau einen Vorgänger, dann rufe einmal rekursiv auf 
         } else if (countVorgaenger == 1) {
-            for (int i = 0; i < this.gesamtZaehler; i++) {
-                if (this.matrix[i][anfangsID]) {
+            for (int i = 0; i < gesamtZaehler; i++) {
+                if (matrix[i][anfangsID]) {
                     rueckgabeWert = _pruefeWorkflownetzRuckwaerts(inIdAnfang, i, besuchtePunkte);
                 }
             }
@@ -605,7 +594,7 @@ public final class Adjazenzmatrix {
         } else if (countVorgaenger > 1) {
 
             //Initalisiere HilfsArrayListen
-            ArrayList<Integer> listeVorgaenger = gibVorgaenger(anfangsID);
+            ArrayList<Integer> listeVorgaenger = getVorgaenger(anfangsID);
             ArrayList<Boolean> listePruefungen = new ArrayList<>();
 
             //Durchlaufe alle Vorgänger und prüfe rekursiv die Vorgänger
@@ -644,10 +633,10 @@ public final class Adjazenzmatrix {
      *
      * @return Gibt eine ArrayList mit den internen IDs aller Nachfolger zurück.
      */
-    public ArrayList<Integer> gibNachfolger(int interneID) {
+    public ArrayList<Integer> getNachfolger(int interneID) {
         //Erzeuge neue ArrayList
         ArrayList<Integer> rueckgabe = new ArrayList<>();
-        if (gesamtListe.gibMitInternID(interneID) != null) {
+        if (gesamtListe.getMitInternID(interneID) != null) {
             //Durchlaufe Adjazenmatrixeinträge für alle ausgehenden Kanten
             for (int i = 0; i < gesamtZaehler; i++) {
                 if (matrix[interneID][i]) {
@@ -669,10 +658,10 @@ public final class Adjazenzmatrix {
      *
      * @return Gibt eine ArrayList mit den internen IDs aller Vorgänger zurück.
      */
-    public ArrayList<Integer> gibVorgaenger(int interneID) {
+    public ArrayList<Integer> getVorgaenger(int interneID) {
         //Erzeuge neue ArrayList
         ArrayList<Integer> rueckgabe = new ArrayList<>();
-        if (gesamtListe.gibMitInternID(interneID) != null) {
+        if (gesamtListe.getMitInternID(interneID) != null) {
             //Durchlaufe Adjazenmatrixeinträge für alle eingehenden Kanten
             for (int i = 0; i < gesamtZaehler; i++) {
                 if (matrix[i][interneID]) {

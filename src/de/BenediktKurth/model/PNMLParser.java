@@ -32,7 +32,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private final File pnmlDatei;
+    private final File                      pnmlDatei;
 
     /**
      * Dies ist eine Referenz zum XML Parser. Diese Referenz wird durch die
@@ -40,7 +40,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private XMLEventReader xmlParser = null;
+    private XMLEventReader                  xmlParser = null;
 
     /**
      * Diese Variable dient als Zwischenspeicher für die ID des zuletzt
@@ -48,7 +48,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private String lastId = null;
+    private String                          lastId = null;
 
     /**
      * Dieses Flag zeigt an, ob der Parser gerade innerhalb eines Token Elements
@@ -56,7 +56,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private boolean isToken = false;
+    private boolean                         isToken = false;
 
     /**
      * Dieses Flag zeigt an, ob der Parser gerade innerhalb eines Name Elements
@@ -64,7 +64,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private boolean isName = false;
+    private boolean                         isName = false;
 
     /**
      * Dieses Flag zeigt an, ob der Parser gerade innerhalb eines Value Elements
@@ -72,7 +72,7 @@ public final class PNMLParser {
      *
      * @since 1.0
      */
-    private boolean isValue = false;
+    private boolean                         isValue = false;
 
     /**
      * Liste mit allen Kanten,Stellen, Transistions.
@@ -105,10 +105,10 @@ public final class PNMLParser {
     public void initParser() throws DateiFehlerException {
         //Versuche Datei zu öffnen und versuche aus Datei zu lesen
         try {
-            InputStream dateiEingabeStrom = new FileInputStream(this.pnmlDatei);
+            InputStream dateiEingabeStrom = new FileInputStream(pnmlDatei);
             XMLInputFactory factory = XMLInputFactory.newInstance();
             xmlParser = factory.createXMLEventReader(dateiEingabeStrom);
-
+            
         } catch (XMLStreamException | FileNotFoundException e) {
             //Informiere Nutzer über fehlgeschlagenes laden.
             throw new DateiFehlerException("Datei konnte nicht geladen werden!");
@@ -163,6 +163,7 @@ public final class PNMLParser {
                         xmlParser.close();
                         break;
                     default:
+                        break;
                 }
             } catch (XMLStreamException e) {
                 //Informiere Nutzer über fehlgeschlagenes laden.
@@ -421,7 +422,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof PosNameBase) {
             PosNameBase temp;
             temp = (PosNameBase) gesuchtesObjekt;
-            temp.setzePositionfromString(x, y);
+            temp.setPositionfromString(x, y);
         }
     }
 
@@ -443,7 +444,7 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof PosNameBase) {
             PosNameBase temp;
             temp = (PosNameBase) gesuchtesObjekt;
-            temp.setzeLabel(name);
+            temp.setLabel(name);
         }
     }
 
@@ -466,10 +467,20 @@ public final class PNMLParser {
         if (gesuchtesObjekt instanceof Stellen) {
             Stellen temp;
             temp = (Stellen) gesuchtesObjekt;
-            temp.setzeInitialMarking(marking);
+            temp.setInitialMarking(marking);
         }
     }
 
+    /**
+     * Gibt das SpeicherArray mit den neuen Basisdaten zurück. Hilfsmethode.
+     * 
+     * @return  ArrayListSearchID mit allen Basisdaten.
+     * 
+     * @since 1.0
+     */
+    private ArrayListSearchID<IDBase> getSpeicherArray(){
+        return speicherArray;
+    }
     /**
      * Diese Methode ermöglicht es eine eine PNML-Datei mithile ihres
      * Quellverzeichnises aufzurufen. Die Methode liest den Inhalt der
@@ -521,6 +532,6 @@ public final class PNMLParser {
         }
 
         //Es wird das vollständige speicherArray mit allen Basisdaten der Datei zurückgegeben.
-        return pnmlParser.speicherArray;
+        return pnmlParser.getSpeicherArray();
     }
 }

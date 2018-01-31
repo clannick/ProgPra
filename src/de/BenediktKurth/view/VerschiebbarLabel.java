@@ -24,7 +24,7 @@ public abstract class VerschiebbarLabel extends BasisLabel{
      * 
      * @since 1.0
      */
-    protected Vector2D position;   
+    protected Vector2D      position;   
 
     /**
      * Vollständiger Konstruktor. Erhält Referenz des Basisdatenmodel (speichert
@@ -48,7 +48,7 @@ public abstract class VerschiebbarLabel extends BasisLabel{
         super(basis, controller, mother);
              
         //Setzte Position des Objektes
-        this.position = new Vector2D(basis.gibPosition().gibX(), basis.gibPosition().gibY());
+        this.position = new Vector2D(basis.getPosition().getX(), basis.getPosition().getY());
         
         
         //Füge MouseMotionListner hinzu für Drag-and-Drop Verschieben der Objekte

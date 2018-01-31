@@ -30,7 +30,7 @@ public class TransitionLabel extends VerschiebbarLabel {
      *
      * @since 1.0
      */
-    private final FarbenEnum meineFarbe;
+    private final FarbenEnum        meineFarbe;
 
     /**
      * Vollständiger Konstruktor. Erhält Referenz des Basisdatenmodel (speichert
@@ -52,21 +52,21 @@ public class TransitionLabel extends VerschiebbarLabel {
         super(basis, controller, mother);
 
         //Setzte Farbe
-        this.meineFarbe = basis.gibMeineFarbe();
+        this.meineFarbe = basis.getMeineFarbe();
 
         //Ermittle Größe und Position des Objektes
-        int size = IDBase.gibGroesse() + 21;
-        int posX = this.position.gibX() - (size / 2);
-        int posY = this.position.gibY() - ((size - 20) / 2);
+        int size = IDBase.getGroesse() + 21;
+        int posX = this.position.getX() - (size / 2);
+        int posY = this.position.getY() - ((size - 20) / 2);
 
-        if (basis.gibLabel().equals("null") || basis.gibLabel().isEmpty()) {
+        if (basis.getLabel().isEmpty()) {
             //Ohne Text
 
             //Setze Objektgröße und Position
             super.setBounds(posX, posY, size, size - 19);
 
             //Setze Mausover-Text
-            super.setToolTipText("Transition: " + basis.gibID());
+            super.setToolTipText("Transition: " + basis.getID());
 
         } else {
             //Mit Text
@@ -75,8 +75,8 @@ public class TransitionLabel extends VerschiebbarLabel {
             super.setBounds(posX, posY, size, size);
 
             //Setze Text der Transition und Mausover-Text
-            super.setText(basis.gibLabel());
-            super.setToolTipText("Transition: " + basis.gibID() + " Label: " + basis.gibLabel());
+            super.setText(basis.getLabel());
+            super.setToolTipText("Transition: " + basis.getID() + " Label: " + basis.getLabel());
 
             //Setze Ausrichtung innerhalb des Objektes
             super.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -122,11 +122,11 @@ public class TransitionLabel extends VerschiebbarLabel {
         }
 
         //Zeichne einen farbigen ausgefülltes Viereck
-        g.fillRect(10, 0, IDBase.gibGroesse(), IDBase.gibGroesse());
+        g.fillRect(10, 0, IDBase.getGroesse(), IDBase.getGroesse());
 
         //Setze Farbe auf Schwarz und zeichne einen leeres Viereck
         g.setColor(Color.black);
-        g.drawRect(10, 0, IDBase.gibGroesse(), IDBase.gibGroesse());
+        g.drawRect(10, 0, IDBase.getGroesse(), IDBase.getGroesse());
 
         //Vernichte Grafik
         g.dispose();

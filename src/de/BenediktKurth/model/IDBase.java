@@ -58,7 +58,7 @@ public abstract class IDBase {
      * @since 1.0
      */
     public IDBase () {
-        Integer temp = gibIdCounter();
+        Integer temp = getIdCounter();
         this.id = temp.toString();
         this.interneID = temp;
     }
@@ -72,7 +72,7 @@ public abstract class IDBase {
      */
     public IDBase(String id) {
         this.id = id;
-        this.interneID = gibIdCounter();
+        this.interneID = getIdCounter();
     }
     
     /**
@@ -92,7 +92,7 @@ public abstract class IDBase {
      * 
      * @param faktor Faktor mit dem miltipliziert werden soll ( x * 50 )
      */
-    public static void setzeGroesse(int faktor){
+    public static void setGroesse(int faktor){
         float temp = faktor/100.0f;
         IDBase.groesse = (int)(50 * temp);
     }
@@ -107,7 +107,7 @@ public abstract class IDBase {
      * 
      * @see FarbenEnum
      */
-    public void setzeMeineFarbe(FarbenEnum meineFarbe) {
+    public void setMeineFarbe(FarbenEnum meineFarbe) {
         this.meineFarbe = meineFarbe;
     }
     
@@ -120,7 +120,7 @@ public abstract class IDBase {
      * 
      * @see FarbenEnum
      */
-    public FarbenEnum gibMeineFarbe() {
+    public FarbenEnum getMeineFarbe() {
         return meineFarbe;
     }
 
@@ -131,7 +131,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die Größe der Darstellung.
      */
-    public static int gibGroesse(){
+    public static int getGroesse(){
         return IDBase.groesse;
     }
     
@@ -142,7 +142,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */
-    public int gibInterneID(){
+    public int getInterneID(){
         return this.interneID;
     }   
 
@@ -154,7 +154,7 @@ public abstract class IDBase {
      * 
      * @return Integer-Wert für die interne ID.
      */    
-    public String gibID() {
+    public String getID() {
         return id;
     }
 
@@ -166,7 +166,7 @@ public abstract class IDBase {
      * 
      * @return int   IdCounter der Struktur
      */
-    public static int gibIdCounter() {
+    public static int getIdCounter() {
         int temp = IDBase.idCounter++;
         
         return temp;
@@ -179,7 +179,7 @@ public abstract class IDBase {
      * 
      * @return int   IdCounter der Struktur
      */
-    public static int gibIdCounterOhneHochzaehlen() {
+    public static int getIdCounterOhneHochzaehlen() {
         return IDBase.idCounter;
     }
     
@@ -191,7 +191,7 @@ public abstract class IDBase {
      * 
      * @since 1.0
      */
-    public static void setzteIDCounter(int iDCounter) {
+    public static void setIDCounter(int iDCounter) {
         IDBase.idCounter = iDCounter;
     }
 }

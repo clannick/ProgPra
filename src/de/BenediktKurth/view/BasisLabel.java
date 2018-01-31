@@ -33,7 +33,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @since 1.0
      */
-    protected final int interneID;
+    protected final int                 interneID;
 
     /**
      * Referenz auf HauptFenster das dieses Objekt aufgerufen hat. Wird benötigt
@@ -41,7 +41,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @since 1.0
      */
-    private HauptFenster mother;
+    private HauptFenster                mother;
 
     /**
      * Referenz auf Kontroller das dieses Objekt aufgerufen hat. Wird benötigt
@@ -49,7 +49,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @since 1.0
      */
-    protected MainWindowController controller;
+    protected MainWindowController      controller;
 
     /**
      * Art und Farbe des Marierktrahmens (FocusOn).
@@ -58,14 +58,14 @@ public abstract class BasisLabel extends JLabel {
      *
      * @see BorderFactory
      */
-    private Border markiertUmrandung = BorderFactory.createLineBorder(Color.yellow);
+    private Border                      markiertUmrandung = BorderFactory.createLineBorder(Color.yellow);
 
     /**
      * Statusanzeige, ob das Objekt markiert ist (Focus).
      *
      * @since 1.0
      */
-    protected boolean isMarkiert;
+    protected boolean                   isMarkiert;
 
     /**
      * Wird als Referenzwert für VerschiebbareLabels benötigt. Da
@@ -77,7 +77,7 @@ public abstract class BasisLabel extends JLabel {
      *
      * @see Point
      */
-    protected volatile Point punkt;
+    protected Point            punkt;
 
     /**
      * Vollständiger Konstruktor mit Initalisierung. Erhält Referenz des Basisdatenmodel (speichert
@@ -95,7 +95,7 @@ public abstract class BasisLabel extends JLabel {
      */
     public BasisLabel(IDBase basis, MainWindowController controller, HauptFenster mother) {
         //Hole alle benötigten Basisdaten und setzte Referenzen.
-        this.interneID = basis.gibInterneID();
+        this.interneID = basis.getInterneID();
         this.controller = controller;
         this.mother = mother;
         
@@ -142,7 +142,7 @@ public abstract class BasisLabel extends JLabel {
                     //Wurde die rechte Maustaste gedrückt?  
                 } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     //Nutzer möchte Workflownetz simulieren
-                    controller.simuliereSicheresWorklflownetz(evt, gibInterneID());
+                    controller.simuliereSicheresWorklflownetz(evt, getInterneID());
                 }
             }
 
@@ -176,7 +176,7 @@ public abstract class BasisLabel extends JLabel {
      * 
      * @since 1.0
      */
-    public final int gibInterneID() {
+    public final int getInterneID() {
         return interneID;
     }
 }

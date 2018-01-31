@@ -91,8 +91,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
-            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
+            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).getPosition();
+            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).getPosition();
         } else {
             throw new ArcFehlerException("");
         }
@@ -126,8 +126,8 @@ public final class Arc extends IDBase {
             this.target = target;
 
             //Setze Positionen von Source und Target
-            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).gibPosition();
-            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).gibPosition();
+            this.positionSource = ((PosNameBase)tempListe.sucheID(source)).getPosition();
+            this.positionTarget = ((PosNameBase)tempListe.sucheID(target)).getPosition();
         } else {
             throw new ArcFehlerException("");
         }
@@ -181,7 +181,7 @@ public final class Arc extends IDBase {
      * 
      * @return Liefert den String mit der Quelle (Source) des Pfeils zurück.
      */
-    public String gibSource() {
+    public String getSource() {
         return source;
     }
 
@@ -192,7 +192,7 @@ public final class Arc extends IDBase {
      * 
      * @return Liefert den String mit dem Ziel (Target) des Pfeils zurück.
      */
-    public String gibTarget() {
+    public String getTarget() {
         return target;
     }
 
@@ -205,7 +205,7 @@ public final class Arc extends IDBase {
      * 
      * @see Vector2D
      */
-    public Vector2D gibPositionSource() {
+    public Vector2D getPositionSource() {
         return positionSource;
     }
 
@@ -218,7 +218,7 @@ public final class Arc extends IDBase {
      * 
      * @see Vector2D
      */
-    public Vector2D gibPositionTarget() {
+    public Vector2D getPositionTarget() {
         return positionTarget;
     }
 }

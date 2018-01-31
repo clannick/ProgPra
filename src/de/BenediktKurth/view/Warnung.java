@@ -3,7 +3,7 @@ package de.BenediktKurth.view;
 import de.BenediktKurth.control.MainWindowController;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 /**
  * Diese Klasse realisiert einen Nutzerdialog zum Umbenennen von Objekten. Der Nutzer
@@ -14,11 +14,11 @@ import javax.swing.JTextField;
  * 
  * @version 1.0
  * 
- * @since 1.0
+ * @since 1.1
  * 
  * @see JFrame
  */
-public class Umbenennen extends JFrame {
+public class Warnung extends JFrame {
 
     /**
      * Enthält den Controller für diese Klasse
@@ -28,14 +28,6 @@ public class Umbenennen extends JFrame {
      * @see MainWindowController
      */
     private final MainWindowController          controller;
-    
-    /**
-     * Interne ID des Objektes das umbennant werden soll.
-     *
-     * @since 1.0
-     * 
-     */
-    private final int                           interneID;
     
     /**
      * OK-Knopf als JButton für die Klasse.
@@ -50,38 +42,28 @@ public class Umbenennen extends JFrame {
      * @since 1.0
      */
     private JButton                             abbrechenKnopf;
-    
-    /**
-     * Einganefeld und Anzeigenfeld für das Label (Bez.) eines Obejktes.
-     * 
-     * @since 1.0
-     */
-    private JTextField                          textFeld;
 
     /**
      * Vollständiger Konstruktor. Der Konstruktor ruft die Methode setzteObjekteLayout.
      * 
-     * @param interneID     Referenz auf die interne ID des Objektes
-     * @param label         Neues Label für Objekt
      * @param controller    Referenz auf Controller
      * @param screenHeight  Dektophöhe
      * @param screenWidth   Desktopbreite
      * 
      * @since 1.0
      */
-    public Umbenennen(int interneID, String label, MainWindowController controller,int screenHeight, int screenWidth) {
+    public Warnung(MainWindowController controller,int screenHeight, int screenWidth) {
         this.controller = controller;
-        this.interneID = interneID;
-        
+                
         //Baue Dialog auf
         setzeObjekteLayout();
         
         //Setzte Position und Größe des Fensters
-        setBounds((screenWidth/2) - 125, (screenHeight/2) - 60, 250, 120);
+        setBounds((screenWidth/2) - 150, (screenHeight/2) - 60, 300, 120);
         
         //Setze Label (als Text und im Titel
-        textFeld.setText(label);
-        setTitle("Umbenennen: " + label);
+        
+        setTitle("Achtung!");
         
         //Zeige Fenster
         setVisible(true);
@@ -95,23 +77,22 @@ public class Umbenennen extends JFrame {
     private void setzeObjekteLayout() {
 
         //Instanziere Objekte für Dialog-Fenster
-        textFeld = new JTextField();
         okKnopf = new JButton();
         abbrechenKnopf = new JButton();
-
+        JTextArea nachricht = new JTextArea();
+        
         //Setzte Fenstereigenschaften
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(250, 120));
-        setMinimumSize(new java.awt.Dimension(250, 120));
-        setPreferredSize(new java.awt.Dimension(250, 120));
-        setSize(new java.awt.Dimension(250, 120));
+        setMaximumSize(new java.awt.Dimension(300, 120));
+        setMinimumSize(new java.awt.Dimension(300, 120));
+        setPreferredSize(new java.awt.Dimension(300, 120));
+        setSize(new java.awt.Dimension(300, 120));
         getContentPane().setLayout(new java.awt.FlowLayout());
         setResizable(false);
         
-        //Eigenschaften Textfeld & Anfügen
-        textFeld.setPreferredSize(new java.awt.Dimension(200, 30));
-        getContentPane().add(textFeld);
-
+        nachricht.setText("Achtung, die Änderungen wurden nicht gespeichert.");
+        getContentPane().add(nachricht);
+        
         //Eigenschaften OK-Knopf & Anfügen
         okKnopf.setText("OK");
         okKnopf.addActionListener(new java.awt.event.ActionListener() {
@@ -153,9 +134,7 @@ public class Umbenennen extends JFrame {
      * @param evt   NICHT VERWENDET 
      */
     private void bestaetigen(java.awt.event.ActionEvent evt) {                                         
-        String temp = textFeld.getText();
-        controller.umbenennenLabel(interneID, temp);
-        controller.neueDarstellungOhneTest();
+        controller.laden();
         this.dispose();
     }                                                       
 }

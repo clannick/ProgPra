@@ -41,7 +41,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D sourcePosition;
+    private final Vector2D              sourcePosition;
     
     /**
      * Referenz auf die Position das ZielObjektes als Vector2D.
@@ -50,7 +50,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D targetPosition;
+    private final Vector2D              targetPosition;
     
     /**
      * Kreisradius bzw. halbe Kantenlänge eines Quadrates der Objekte auf Basis der
@@ -60,7 +60,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see IDBase
      */
-    private final double RADIUSKREIS_GROESSE = IDBase.gibGroesse() / 2;
+    private final double                RADIUSKREIS_GROESSE = IDBase.getGroesse() / 2;
     
     /**
      * Pfeilgröße in relation zur Größe der Objekte.
@@ -69,7 +69,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @see IDBase
      */
-    private final double PFEIL_GROESSE = IDBase.gibGroesse() / 3;
+    private final double                PFEIL_GROESSE = IDBase.getGroesse() / 3;
     
     /**
      * Referenz auf Zeilobjekt. Wird benötigt da je nach Objekt eine andere Berechnung
@@ -77,7 +77,7 @@ public class PfeileDarstellung extends JLabel {
      * 
      * @since 1.0
      */
-    private final IDBase target;
+    private final IDBase                target;
 
     /**
      * Vollständigert Konstruktor. Erhält Referenzen auf "seine" Kante aus den Basisdaten
@@ -93,12 +93,12 @@ public class PfeileDarstellung extends JLabel {
         super();
         
         //Setzte Position und ermittle Target
-        this.sourcePosition = arc.gibPositionSource();
-        this.targetPosition = arc.gibPositionTarget();
-        this.target = controller.sucheMitID(arc.gibTarget());
+        this.sourcePosition = arc.getPositionSource();
+        this.targetPosition = arc.getPositionTarget();
+        this.target = controller.sucheMitID(arc.getTarget());
      
         //Setze Rahmen über gesamte Arbeitsflächengröße
-        super.setBounds(0, 0, controller.getZeichenflaecheGroesse().gibX(), controller.getZeichenflaecheGroesse().gibY());
+        super.setBounds(0, 0, controller.getZeichenflaecheGroesse().getX(), controller.getZeichenflaecheGroesse().getY());
     }
 
     /**
@@ -125,10 +125,10 @@ public class PfeileDarstellung extends JLabel {
         temp.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Hol x und y Werte
-        double xSource = sourcePosition.gibX();
-        double ySource = sourcePosition.gibY();
-        double xTarget = targetPosition.gibX();
-        double yTarget = targetPosition.gibY();
+        double xSource = sourcePosition.getX();
+        double ySource = sourcePosition.getY();
+        double xTarget = targetPosition.getX();
+        double yTarget = targetPosition.getY();
 
         //Berechne Winkel
         double phi = Math.atan((yTarget - ySource) / (xTarget - xSource));

@@ -26,182 +26,182 @@ public class HauptFenster extends JFrame {
      *
      * @see MainWindowController
      */
-    private final MainWindowController controller;
+    private final MainWindowController          controller;
 
     /**
      * ArrayList mit allen Darstellungen der Objekte.
      *
      * @since 1.0
      */
-    private ArrayList<JLabel> darstellungen = new ArrayList<>();
+    private ArrayList<JLabel>                   darstellungen = new ArrayList<>();
 
     /**
      * Int-Wert (Final) mit der Bildschirmhöhe des Nutzers.
      *
      * @since 1.0
      */
-    public final int screenHeight;
+    public final int                            screenHeight;
 
     /**
      * Int-Wert (Final) mit der Bildschirmbreite des Nutzers.
      *
      * @since 1.0
      */
-    public final int screenWidth;
+    public final int                            screenWidth;
 
     /**
      * ArrayList mit allen internen ID der markierten Objekten.
      *
      * @since 1.0
      */
-    private ArrayList<Integer> interneIDmarkierter = new ArrayList<>();
+    private ArrayList<Integer>                  interneIDmarkierter = new ArrayList<>();
 
     /**
      * Referenz auf das OS des Nutzers um Bildschirmgröße zu ermitteln.
      *
      * @since 1.0
      */
-    private final Toolkit desktop = Toolkit.getDefaultToolkit();
+    private final Toolkit                       desktop = Toolkit.getDefaultToolkit();
 
     /**
      * JLabel für den Beschreibungstext "Arbeitsfläche".
      *
      * @since 1.0
      */
-    private JLabel arbeitsflaecheText;
+    private JLabel                              arbeitsflaecheText;
 
     /**
      * JLabel für die Ausgabe über das evtl vorhanden sein eines Workflownetzes.
      *
      * @since 1.0
      */
-    private JLabel fehleranzeigeGross;
+    private JLabel                              fehleranzeigeGross;
 
     /**
      * JLabel für die Fehler-/Informationsausgabe.
      *
      * @since 1.0
      */
-    private JLabel fehleranzeigeText;
+    private JLabel                              fehleranzeigeText;
 
     /**
      * JLabel für den Beschreibungstext "Größe".
      *
      * @since 1.0
      */
-    private JLabel groessenText;
+    private JLabel                              groessenText;
 
     /**
      * JLabel für den Beschreibungstext "Höhe".
      *
      * @since 1.0
      */
-    private JLabel hoeheText;
+    private JLabel                              hoeheText;
 
     /**
      * JLabel für den Beschreibungstext "Breite".
      *
      * @since 1.0
      */
-    private JLabel breiteText;
+    private JLabel                              breiteText;
 
     /**
      * JSeparator zur optischen Abtrennung der oberen Fehleranzeige.
      *
      * @since 1.0
      */
-    private JSeparator obererTeiler;
+    private JSeparator                          obererTeiler;
 
     /**
      * JSeparator zur optischen Abtrennung der oberen Fehleranzeige.
      *
      * @since 1.0
      */
-    private JSeparator untererTeiler;
+    private JSeparator                          untererTeiler;
 
     /**
      * JSlider um die globale Größe von Objekten anpassen zu können.
      *
      * @since 1.0
      */
-    private JSlider groessenSchieber;
+    private JSlider                             groessenSchieber;
 
     /**
      * JButton für die Schaltfläche "Laden".
      *
      * @since 1.0
      */
-    private JButton ladenKnopf;
+    private JButton                             ladenKnopf;
 
     /**
      * JButton für die Schaltfläche "Löschen".
      *
      * @since 1.0
      */
-    private JButton loeschenKnopf;
+    private JButton                             loeschenKnopf;
 
     /**
      * JButton für die Schaltfläche "Neu".
      *
      * @since 1.0
      */
-    private JButton neuKnopf;
+    private JButton                             neuKnopf;
 
     /**
      * JButton für die Schaltfläche "Neue Stelle".
      *
      * @since 1.0
      */
-    private JButton neueStelleKnopf;
+    private JButton                             neueStelleKnopf;
 
     /**
      * JButton für die Schaltfläche "Neue Transition".
      *
      * @since 1.0
      */
-    private JButton neueTransitionKnopf;
+    private JButton                             neueTransitionKnopf;
 
     /**
      * JButton für die Schaltfläche "Neue Verdindung".
      *
      * @since 1.0
      */
-    private JButton neueVerbindungKnopf;
+    private JButton                             neueVerbindungKnopf;
 
     /**
      * JButton für die Schaltfläche "Simulation reset".
      *
      * @since 1.0
      */
-    private JButton simulationResetKnopf;
+    private JButton                             simulationResetKnopf;
 
     /**
      * JButton für die Schaltfläche "Speichern".
      *
      * @since 1.0
      */
-    private JButton speichernKnopf;
+    private JButton                             speichernKnopf;
 
     /**
      * JButton für die Schaltfläche "Umbenennen".
      *
      * @since 1.0
      */
-    private JButton umbenennenKnopf;
+    private JButton                             umbenennenKnopf;
     
     /**
      * JButton für die Schaltfläche "reserve". Diese wird aktuell nicht angezeigt!
      *
      * @since 1.0
      */
-    private JButton reserve;
+    private JButton                             reserve;
 
     /**
      * JScrollPane um das Scrollen für die Arbeitsfläche zu ermöglichen.
      *
      * @since 1.0
      */
-    private JScrollPane scrollFenster;
+    private JScrollPane                         scrollFenster;
 
     /**
      * JLayeredPane realisiert die eigentliche Arbeitsfläche auf der der Nutzer
@@ -209,21 +209,21 @@ public class HauptFenster extends JFrame {
      *
      * @since 1.0
      */
-    private JLayeredPane zeichenflaeche;
+    private JLayeredPane                        zeichenflaeche;
 
     /**
      * JTextField dient zur Eingabe und Anzeige der Arbeitsflächen Breite.
      *
      * @since 1.0
      */
-    private JTextField eingabeFeldBreite;
+    private JTextField                          eingabeFeldBreite;
 
     /**
      * JTextField dient zur Eingabe und Anzeige der Arbeitsflächen Höhe.
      *
      * @since 1.0
      */
-    private JTextField eingabeFeldHoehe;
+    private JTextField                          eingabeFeldHoehe;
 
     /**
      * Konstruktor mit übergabe des Kontrollers (MVC)
@@ -638,7 +638,7 @@ public class HauptFenster extends JFrame {
      * @param evt Info über Aktion des Nutzers (wird nicht verwendet)
      */
     private void ladenKnopf(java.awt.event.ActionEvent evt) {
-        controller.laden();
+        controller.testLaden();
         focusZuruecksetzen();
     }
 

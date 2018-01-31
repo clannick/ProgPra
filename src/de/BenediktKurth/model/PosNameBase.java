@@ -16,7 +16,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    private String label;
+    private String              label;
 
     /**
      * position enthält die Position des Objektes als Vector2D.
@@ -25,7 +25,7 @@ public abstract class PosNameBase extends IDBase {
      *
      * @see Vector2D
      */
-    private Vector2D position;
+    private Vector2D            position;
 
     /**
      * Leerer Konstruktor - Erzeugt ein leeres Objekt mit klarer ID Einträge
@@ -58,7 +58,7 @@ public abstract class PosNameBase extends IDBase {
     PosNameBase(String id, String label, String xPosition, String yPosition) {
         super(id);
         this.label = label;
-        setzePositionfromString(xPosition, yPosition);
+        setPositionfromString(xPosition, yPosition);
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final String gibLabel() {
+    public final String getLabel() {
         return label;
     }
 
@@ -80,7 +80,7 @@ public abstract class PosNameBase extends IDBase {
      * @since 1.0
      */
     public final String gibXPosition() {
-        String rueckgabe = "" + this.position.gibX();
+        String rueckgabe = "" + this.position.getX();
         return rueckgabe;
     }
 
@@ -92,7 +92,7 @@ public abstract class PosNameBase extends IDBase {
      * @since 1.0
      */
     public final String gibYPosition() {
-        String rueckgabe = "" + this.position.gibY();
+        String rueckgabe = "" + this.position.getY();
         return rueckgabe;
     }
     
@@ -105,7 +105,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @see Vector2D
      */
-    public final Vector2D gibPosition() {
+    public final Vector2D getPosition() {
         return this.position;
     }
     
@@ -116,7 +116,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final void setzeLabel(String label) {
+    public final void setLabel(String label) {
         this.label = label;
     }
 
@@ -131,18 +131,18 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @since 1.0
      */
-    public final void setzePosition(int x, int y) {
+    public final void setPosition(int x, int y) {
        
         if (x > 0) {
-                position.setzeX(x);
+                position.setX(x);
         } else {
-                position.setzeX(0);
+                position.setX(0);
             }
         
         if (y > 0) {
-                position.setzeY(y);
+                position.setY(y);
         } else {
-                position.setzeY(0);
+                position.setY(0);
             }
 
     }
@@ -161,7 +161,7 @@ public abstract class PosNameBase extends IDBase {
      * 
      * @see Vector2D
      */
-    public final void setzePositionfromString(String xPosition, String yPosition) {
+    public final void setPositionfromString(String xPosition, String yPosition) {
       
         //Erzeuge neuen Vector 2D
         this.position = new Vector2D(0, 0);
@@ -170,11 +170,11 @@ public abstract class PosNameBase extends IDBase {
         try {
             int x = Integer.parseInt(xPosition);
             int y = Integer.parseInt(yPosition);
-            setzePosition(x,y);
+            setPosition(x,y);
 
         } catch (NumberFormatException e) {
             //Wenn es nicht funktioniert setzte Position auf (100,100)
-            setzePosition(50,50);
+            setPosition(50,50);
         }
     }
 }

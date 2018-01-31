@@ -18,7 +18,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    private String markierungString;
+    private String                  markierungString;
     
     /**
      * Markierungs-Wert als boolean. 
@@ -28,7 +28,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    private Boolean markiert;
+    private Boolean                 markiert;
    
     /**
      * Leerer Konstruktor. Es wird eine ID vom Programm vergeben. Die Position, das 
@@ -67,7 +67,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public void setzeInitialMarking(String initialMarking) {
+    public void setInitialMarking(String initialMarking) {
         //Setzte neuen markierungsString
         this.markierungString = initialMarking;
         
@@ -85,7 +85,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public void setzeMarkiert(boolean flag){
+    public void setMarkiert(boolean flag){
         //Setzte markiert auf flag 
         this.markiert = flag;
         
@@ -105,7 +105,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @since 1.0
      */
-    public String gibMarkierungString() {
+    public String getMarkierungString() {
         return markierungString;
     } 
     
@@ -116,7 +116,7 @@ public final class Stellen extends PosNameBase{
      * 
      * @return  True: Stelle ist markiert. False: Stell ist nicht markiert.
      */
-    public Boolean gibMarkiert(){
+    public Boolean getMarkiert(){
         return markiert;
     }
 }

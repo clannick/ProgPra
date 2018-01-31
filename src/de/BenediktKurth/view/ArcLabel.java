@@ -34,7 +34,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D sourcePosition;
+    private final Vector2D          sourcePosition;
 
     /**
      * Enthält die Position des Zieles des Striches.
@@ -43,21 +43,21 @@ public class ArcLabel extends BasisLabel {
      * 
      * @see Vector2D
      */
-    private final Vector2D targetPosition;
+    private final Vector2D          targetPosition;
     
     /**
      * Enthält die Strecke (in pixel) zwischen zwei Objekten horizontal.
      * 
      * @since 1.0
      */
-    private int breite;
+    private int                     breite;
     
     /**
      * Enthält die Strecke (in pixel) zwischen zwei Objekten vertikal.
      * 
      * @since 1.0
      */
-    private int hoehe;
+    private int                     hoehe;
     
     /**
      * Enthält die horizontal Position des einzufügenden Striches.
@@ -65,7 +65,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private final int posX;
+    private final int               posX;
     
     /**
      * Enthält die vertikale Position des einzufügenden Striches.
@@ -73,7 +73,7 @@ public class ArcLabel extends BasisLabel {
      * 
      * @since 1.0
      */
-    private final int posY;
+    private final int               posY;
 
     /**
      * Vollstädiger Konstruktor der Klasse. 
@@ -96,20 +96,20 @@ public class ArcLabel extends BasisLabel {
         super(basis, controller, mother);
        
         //Hole Positionen von Source und Target Obejkten
-        this.sourcePosition = basis.gibPositionSource();
-        this.targetPosition = basis.gibPositionTarget();
+        this.sourcePosition = basis.getPositionSource();
+        this.targetPosition = basis.getPositionTarget();
        
         //Berechne Bereite und Höhe des Rahmens für den Strich
-        this.breite = Math.abs(sourcePosition.gibX() - targetPosition.gibX() )+ 2;
-        this.hoehe = Math.abs(sourcePosition.gibY() - targetPosition.gibY() )+ 2;
+        this.breite = Math.abs(sourcePosition.getX() - targetPosition.getX() )+ 2;
+        this.hoehe = Math.abs(sourcePosition.getY() - targetPosition.getY() )+ 2;
 
         //Berechne Position des Rahmens für den Strich (oberste linke Ecke)
-        this.posX = Math.min(sourcePosition.gibX(), targetPosition.gibX()) - 1;
-        this.posY = Math.min(sourcePosition.gibY(), targetPosition.gibY())- 1;
+        this.posX = Math.min(sourcePosition.getX(), targetPosition.getX()) - 1;
+        this.posY = Math.min(sourcePosition.getY(), targetPosition.getY())- 1;
 
         //Setzte Position, Größe und ToolTipText
         super.setBounds(posX, posY, breite, hoehe);
-        super.setToolTipText("Arc: Von " + basis.gibSource() + " nach " + basis.gibTarget() + ".");
+        super.setToolTipText("Arc: Von " + basis.getSource() + " nach " + basis.getTarget() + ".");
     }
 
     /**
@@ -164,19 +164,19 @@ public class ArcLabel extends BasisLabel {
 
         //Überprüfe ob es sich um eine Horizontale oder Vertikale Linie handelt, wenn ja mittig zeichnen
         if (this.getHeight()< 3 || this.getWidth() < 3) { 
-            if ( sourcePosition.gibX() < targetPosition.gibX()) {
+            if ( sourcePosition.getX() < targetPosition.getX()) {
                 //Von links nach rechts
                 g.drawLine(1, 1, this.getWidth()-1, this.getHeight() - 1);
               
-            } else if (sourcePosition.gibX() > targetPosition.gibX() ){
+            } else if (sourcePosition.getX() > targetPosition.getX() ){
                 //Von rechts nach links
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
                 
-            } else if (sourcePosition.gibY() < targetPosition.gibY() ){
+            } else if (sourcePosition.getY() < targetPosition.getY() ){
                 //Von oben nach unten 
                 g.drawLine(1, 1, this.getWidth() - 1, this.getHeight() - 1);
                 
-            } else if (sourcePosition.gibY() > targetPosition.gibY() ){
+            } else if (sourcePosition.getY() > targetPosition.getY() ){
                 //Von unten nach oben
                 g.drawLine(this.getWidth() - 1, this.getHeight() - 1, 1, 1);
             }
@@ -184,19 +184,19 @@ public class ArcLabel extends BasisLabel {
         } else {
            
             //Es ist keine gerade Linie, sondern eine Diagonale von A nach B
-            if ((sourcePosition.gibX() < targetPosition.gibX() && (sourcePosition.gibY() < targetPosition.gibY()))){
+            if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
                 //Von oben links nach unten rechts
                 g.drawLine(0, 0, breite, hoehe);
           
-            } else if ((sourcePosition.gibX() > targetPosition.gibX() && (sourcePosition.gibY() < targetPosition.gibY()))){
+            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() < targetPosition.getY()))){
                 //Von oben rechts nach unten links
                 g.drawLine(breite, 0, 0, hoehe);
 
-            } else if ((sourcePosition.gibX() < targetPosition.gibX() && (sourcePosition.gibY() > targetPosition.gibY()))){
+            } else if ((sourcePosition.getX() < targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
                 //Von unten links -> oben rechts
                 g.drawLine(0, hoehe, breite, 0);
 
-            } else if ((sourcePosition.gibX() > targetPosition.gibX() && (sourcePosition.gibY() > targetPosition.gibY()))){
+            } else if ((sourcePosition.getX() > targetPosition.getX() && (sourcePosition.getY() > targetPosition.getY()))){
                 //Von unten rechts -> oben links
                 g.drawLine(breite, hoehe, 0, 0);
             }
