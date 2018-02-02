@@ -15,7 +15,7 @@ import java.util.ListIterator;
  *
  * @since 1.0
  *
- * @version 1.0
+ * @version 1.1
  *
  * @see ArrayListSearchID
  * @see

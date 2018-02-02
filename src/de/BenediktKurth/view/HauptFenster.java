@@ -15,7 +15,7 @@ import javax.swing.*;
  *
  * @since 1.0
  *
- * @version 1.0
+ * @version 1.1
  */
 public class HauptFenster extends JFrame {
 
@@ -613,7 +613,7 @@ public class HauptFenster extends JFrame {
      * @param evt Info über Aktion des Nutzers (wird nicht verwendet)
      */
     private void neuKnopfActionPerformed(java.awt.event.ActionEvent evt) {
-        controller.neu();
+        WarnungNeu temp = new WarnungNeu(controller, screenHeight, screenWidth);
     }
 
     /**
@@ -863,6 +863,18 @@ public class HauptFenster extends JFrame {
      */
     public JLayeredPane getZeichenflaeche() {
         return zeichenflaeche;
+    }
+    
+    /**
+     * Hilfsmethode, die Methode übergibt eine Referenz auf die ScrollFläche
+     * des Programms.
+     *
+     * @return JScrollPane mit der Zeichenfläche des Programms.
+     *
+     * @since 1.1
+     */
+    public JScrollPane getScrollFlaeche() {
+        return scrollFenster;
     }
 
     /**

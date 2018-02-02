@@ -22,7 +22,7 @@ import de.BenediktKurth.view.StellenLabel;
 import de.BenediktKurth.view.TransitionLabel;
 import de.BenediktKurth.view.Umbenennen;
 import de.BenediktKurth.view.VerschiebbarLabel;
-import de.BenediktKurth.view.Warnung;
+import de.BenediktKurth.view.WarnungLaden;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
@@ -48,7 +48,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @since 1.0
  *
- * @version 1.0
+ * @version 1.1
  *
  * @see Adjazenzmatrix
  * @see Vector2D
@@ -634,7 +634,7 @@ public class MainWindowController {
                         //Wenn bereits markiert, dann Kontakt und alle bisher gesetzte Marken zurücknehmen.
                         if (temp.getMarkiert()) {
                             //Info an Nutzer und Transition rot einfärben
-                            fenster.getFehleranzeigeText().setText("Kontakt");
+                            fenster.getFehleranzeigeText().setText("Kontakt.");
                             objekt.setMeineFarbe(FarbenEnum.rot);
                             lagEinKontaktVor = true;
 
@@ -708,14 +708,16 @@ public class MainWindowController {
                             }
                         }
                     }
-
+                    
+                    boolean lagKontaktDeadlockVor = false;
                     //Prüfung auf Deadlocks (überschreibt "Keine Fehler") mit Kontakt direkt 
                     if (!gibtEsGrueneTransitions && lagEinKontaktVor) {
-                        fenster.getFehleranzeigeText().setText("Kontakt mit Deadlock");
+                        fenster.getFehleranzeigeText().setText("Kontakt mit Deadlock.");
                         adjazenzMatrix.getEnde().get(0).setMeineFarbe(FarbenEnum.rot);
+                        lagKontaktDeadlockVor = true;
                     } else if (!gibtEsGrueneTransitions && !adjazenzMatrix.getEnde().get(0).getMarkiert()) {
                         //Es gibt keine schaltbaren Transition und ende nicht markiert -> Deadlock!
-                        fenster.getFehleranzeigeText().setText("Deadlock");
+                        fenster.getFehleranzeigeText().setText("Deadlock.");
                         adjazenzMatrix.getEnde().get(0).setMeineFarbe(FarbenEnum.rot);
                     }
                     
@@ -737,15 +739,21 @@ public class MainWindowController {
                     
                     if ( (gibtEsNochMarkierungen && !gibtEsGrueneTransitions) && adjazenzMatrix.getEnde().get(0).getMarkiert()) {
                         //Es gibt keine gruenen also schaltbare Transitions und Ende wurde erreicht
-                        fenster.getFehleranzeigeText().setText("Deadlock");
+                        if (!lagKontaktDeadlockVor){
+                            fenster.getFehleranzeigeText().setText("Deadlock.");   
+                        }
+                        
                         adjazenzMatrix.getEnde().get(0).setMeineFarbe(FarbenEnum.rot);
                     } 
                     
+                    //Ende erreicht, aber noch schlatbare Transitionen
                     if (adjazenzMatrix.getEnde().get(0).getMarkiert() && gibtEsGrueneTransitions ){
                         fenster.getFehleranzeigeText().setText("Ende erreicht, aber noch schaltbare Transition.");
                     }
 
+                    //Setze Anfangsmarkierung gelb
                     adjazenzMatrix.getAnfang().get(0).setMeineFarbe(FarbenEnum.gelb);
+                    
                     //neue Darstellung, Test nicht notwendig!
                     neueDarstellungOhneTest();
                 }
@@ -890,6 +898,8 @@ public class MainWindowController {
                     if (nichtSchaltbar) {
                         fenster.getFehleranzeigeText().setText("Simulation konnte nicht fortgesetzt werden, bitte prüfen oder Simulation zurücksetzten.");
                         adjazenzMatrix.getEnde().get(0).setMeineFarbe(FarbenEnum.rot);
+                    } else {
+                        adjazenzMatrix.getAnfang().get(0).setMeineFarbe(FarbenEnum.gelb);
                     }
                 }
             }
@@ -935,7 +945,7 @@ public class MainWindowController {
     public void testLaden(){
     
         if (wurdeDateiGeandert) {
-            Warnung achtung = new Warnung(this, fenster.screenHeight, fenster.screenWidth);
+            WarnungLaden achtung = new WarnungLaden(this, fenster.screenHeight, fenster.screenWidth);
         } else {
             laden();
         }
@@ -1030,6 +1040,9 @@ public class MainWindowController {
                 fenster.getFehleranzeigeText().setText(e.getMessage());
             }
         }
+        
+        //Scroll Balken initalisieren
+        fenster.getScrollFlaeche().repaint();
     }
 
     /**

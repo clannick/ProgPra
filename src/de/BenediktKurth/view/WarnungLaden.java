@@ -2,13 +2,12 @@ package de.BenediktKurth.view;
 
 import de.BenediktKurth.control.MainWindowController;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 /**
- * Diese Klasse realisiert einen Nutzerdialog zum Umbenennen von Objekten. Der Nutzer
- * wird durch ein neues Frame aufgefordert einen neuen Namen (Label) für das Objekt zu vergeben.
- * Er kann jedoch die Aktion abbrechen, dann wird der Name (Label) nicht geändert.
+ * Diese Klasse realisiert einen Nutzerdialog beim Laden. Nutzer kann Auswahl abbrechen.
  * 
  * @author Benedikt Kurth
  * 
@@ -18,7 +17,7 @@ import javax.swing.JTextArea;
  * 
  * @see JFrame
  */
-public class Warnung extends JFrame {
+public class WarnungLaden extends JDialog{
 
     /**
      * Enthält den Controller für diese Klasse
@@ -44,7 +43,7 @@ public class Warnung extends JFrame {
     private JButton                             abbrechenKnopf;
 
     /**
-     * Vollständiger Konstruktor. Der Konstruktor ruft die Methode setzteObjekteLayout.
+     * Vollständiger Konstruktor. Der Konstruktor ruft die Methode setzteObjekteLayout auf.
      * 
      * @param controller    Referenz auf Controller
      * @param screenHeight  Dektophöhe
@@ -52,18 +51,17 @@ public class Warnung extends JFrame {
      * 
      * @since 1.0
      */
-    public Warnung(MainWindowController controller,int screenHeight, int screenWidth) {
+    public WarnungLaden(MainWindowController controller,int screenHeight, int screenWidth) {
         this.controller = controller;
                 
         //Baue Dialog auf
         setzeObjekteLayout();
         
+        //Setzte Dialog auf modal 
+        setModal(true);
+        
         //Setzte Position und Größe des Fensters
-        setBounds((screenWidth/2) - 150, (screenHeight/2) - 60, 300, 120);
-        
-        //Setze Label (als Text und im Titel
-        
-        setTitle("Achtung!");
+        setBounds((screenWidth/2) - 150, (screenHeight/2) - 50, 300, 100);
         
         //Zeige Fenster
         setVisible(true);
@@ -80,13 +78,16 @@ public class Warnung extends JFrame {
         okKnopf = new JButton();
         abbrechenKnopf = new JButton();
         JTextArea nachricht = new JTextArea();
+       
+        //Setze Label (als Text und im Titel
+        setTitle("Achtung!");
         
         //Setzte Fenstereigenschaften
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(300, 120));
-        setMinimumSize(new java.awt.Dimension(300, 120));
-        setPreferredSize(new java.awt.Dimension(300, 120));
-        setSize(new java.awt.Dimension(300, 120));
+        setMaximumSize(new java.awt.Dimension(300, 100));
+        setMinimumSize(new java.awt.Dimension(300, 100));
+        setPreferredSize(new java.awt.Dimension(300, 100));
+        setSize(new java.awt.Dimension(300, 100));
         getContentPane().setLayout(new java.awt.FlowLayout());
         setResizable(false);
         
